@@ -9,6 +9,7 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const DailyListAppbar(title: "가계부"),  // DailyListAppbar 설정
       body: DefaultTabController(
         length: 3,
@@ -16,6 +17,7 @@ class HistoryPage extends StatelessWidget {
           children: [
             CalendarWidget(),
             const TabBar(
+
               tabs: [
                 Tab(text: "일일"),
                 Tab(text: "달력"),
