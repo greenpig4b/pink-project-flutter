@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pink_project_flutter/ui/common/components/custom_bottom_navigation_bar.dart';
+import 'package:pink_project_flutter/ui/components/custom_bottom_navigation_bar.dart';
 
 import 'package:pink_project_flutter/ui/main/chart/chart_page.dart';
 import 'package:pink_project_flutter/ui/main/history/history_page.dart';
