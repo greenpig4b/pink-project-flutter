@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../data/history/ListDummy.dart';
 import '../../../../components/under_line_widget.dart';
+import '../history_write_page.dart';
 import 'history_list.dart';
 
 class HistoryRecordDetail extends StatelessWidget {
@@ -14,8 +15,8 @@ class HistoryRecordDetail extends StatelessWidget {
       // 원형 버튼
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.push(context,MaterialPageRoute(builder: (context) => RecordWritePage()),
-          // );
+          Navigator.push(context,MaterialPageRoute(builder: (context) => HistoryWritePage()),
+          );
         },
         child: Icon(Icons.add,color: Colors.white,),
         backgroundColor: Color(0xFFFF6254),
