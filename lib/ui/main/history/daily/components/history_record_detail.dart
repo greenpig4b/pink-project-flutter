@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../data/history/ListDummy.dart';
-import '../../../components/under_line_widget.dart';
+import '../../../../../data/history/ListDummy.dart';
+import '../../../../components/under_line_widget.dart';
 import 'history_list.dart';
 
 class HistoryRecordDetail extends StatelessWidget {

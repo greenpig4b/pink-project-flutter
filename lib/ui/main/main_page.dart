@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/main/history/components/daily_list_appbar.dart';
 import 'package:pinkpig_project_flutter/ui/main/result/result_page.dart';
 
 import '../components/custom_bottom_navigation_bar.dart';
 import 'chart/chart_page.dart';
+import 'history/_components/daily_list_appbar.dart';
 import 'history/history_page.dart';
 
 
