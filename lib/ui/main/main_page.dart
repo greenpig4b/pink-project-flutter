@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinkpig_project_flutter/ui/main/history/components/daily_list_appbar.dart';
 import 'package:pinkpig_project_flutter/ui/main/result/result_page.dart';
 
 import '../components/custom_bottom_navigation_bar.dart';
@@ -7,18 +8,14 @@ import 'history/history_page.dart';
 
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
-  _MainPageState createState() => _MainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-
-  final List<Widget> _widgetOptions = <Widget>[
-    HistoryPage(),
-    ChartPage(),
-    ResultPage()
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -29,8 +26,14 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      appBar: DailyListAppbar(title: "가계부"), // CustomAppBar 사용
+      body: IndexedStack(
+        index: _selectedIndex,
+        children:  [
+          HistoryPage(),
+          ChartPage(),
+          ResultPage()
+        ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
