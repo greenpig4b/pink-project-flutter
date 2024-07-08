@@ -22,7 +22,6 @@ class _MainPageState extends State<MainPage> {
       _selectedIndex = index;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
