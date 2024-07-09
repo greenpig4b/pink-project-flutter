@@ -1,26 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionWriteModel {
+class TransactionTypeModel {
   final bool isIncomeSelected;
   final bool isExpenseSelected;
 
-  TransactionWriteModel(
+  TransactionTypeModel(
       {required this.isIncomeSelected, required this.isExpenseSelected});
 
 
-  TransactionWriteModel copyWith({
+  TransactionTypeModel copyWith({
     bool? isIncomeSelected,
     bool? isExpenseSelected,
   }) {
-    return TransactionWriteModel(
+    return TransactionTypeModel(
         isIncomeSelected: isIncomeSelected ?? this.isIncomeSelected,
         isExpenseSelected: isExpenseSelected ?? this.isExpenseSelected);
   }
 }
 
-class TransactionWriteViewmodel extends StateNotifier<TransactionWriteModel>{
+class TransactionTypeViewmodel extends StateNotifier<TransactionTypeModel>{
 
-  TransactionWriteViewmodel(): super(TransactionWriteModel(isIncomeSelected: false, isExpenseSelected: true));
+  TransactionTypeViewmodel(): super(TransactionTypeModel(isIncomeSelected: false, isExpenseSelected: true));
 
     void selectIncome(){
       state =state.copyWith(isIncomeSelected: true,isExpenseSelected: false);
@@ -30,6 +30,6 @@ class TransactionWriteViewmodel extends StateNotifier<TransactionWriteModel>{
     }
 }
 
-final transactionWriteProvider = StateNotifierProvider<TransactionWriteViewmodel,TransactionWriteModel>(
-    (ref) => TransactionWriteViewmodel(),
+final transactionTypeProvider = StateNotifierProvider<TransactionTypeViewmodel,TransactionTypeModel>(
+    (ref) => TransactionTypeViewmodel(),
 );

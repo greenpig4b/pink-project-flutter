@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/_components/assets_keyboard.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/history_write_viewmodel.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_type_viewmodel.dart';
+import '../../../../data/dtos/transaction/transaction_request.dart';
 import '../_components/category_in_keyboard.dart';
 import '../_components/category_out_keyboard.dart';
 import 'components/transaction_category_button.dart';
@@ -12,7 +13,7 @@ final selectedTimeProvider = StateProvider<TimeOfDay?>((ref) => null);
 
 class TransactionWritePage extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
-  final _account = TextEditingController();
+  final _amount = TextEditingController();
   final _categoryIn = TextEditingController();
   final _categoryOut = TextEditingController();
   final _assets = TextEditingController();
@@ -57,14 +58,14 @@ class TransactionWritePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(selectedDateProvider);
     final selectedTime = ref.watch(selectedTimeProvider);
-    final transactionType = ref.watch(transactionWriteProvider);
+    final transactionType = ref.watch(transactionTypeProvider);
 
     return Scaffold(
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
 
         child: Form(
-          key : _formKey,
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
@@ -77,7 +78,7 @@ class TransactionWritePage extends ConsumerWidget {
                       isSelected: transactionType.isIncomeSelected,
                       onTap: () {
                         ref
-                            .read(transactionWriteProvider.notifier)
+                            .read(transactionTypeProvider.notifier)
                             .selectIncome();
                       },
                     ),
@@ -86,7 +87,7 @@ class TransactionWritePage extends ConsumerWidget {
                       isSelected: transactionType.isExpenseSelected,
                       onTap: () {
                         ref
-                            .read(transactionWriteProvider.notifier)
+                            .read(transactionTypeProvider.notifier)
                             .selectExpense();
                       },
                     ),
@@ -95,7 +96,7 @@ class TransactionWritePage extends ConsumerWidget {
                 SizedBox(height: 10),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                   child: Row(
                     children: [
                       Container(
@@ -128,7 +129,9 @@ class TransactionWritePage extends ConsumerWidget {
                               },
                             );
                             if (picked != null && picked != selectedDate) {
-                              ref.read(selectedDateProvider.notifier).state =
+                              ref
+                                  .read(selectedDateProvider.notifier)
+                                  .state =
                                   picked;
                               _selectedDate = picked;
                               print("날짜 확인 : ${DateFormat('yyyy-MM-dd')
@@ -149,9 +152,9 @@ class TransactionWritePage extends ConsumerWidget {
                                 Text(
                                   selectedDate == null
                                       ? DateFormat('yyyy-MM-dd')
-                                          .format(DateTime.now())
+                                      .format(DateTime.now())
                                       : DateFormat('yyyy-MM-dd')
-                                          .format(selectedDate),
+                                      .format(selectedDate),
                                   style: const TextStyle(
                                       color: Colors.black54, fontSize: 16),
                                 ),
@@ -172,10 +175,13 @@ class TransactionWritePage extends ConsumerWidget {
                               initialTime: selectedTime ?? TimeOfDay.now(),
                             );
                             if (picked != null && picked != selectedTime) {
-                              ref.read(selectedTimeProvider.notifier).state =
+                              ref
+                                  .read(selectedTimeProvider.notifier)
+                                  .state =
                                   picked;
                               _selectedTime = picked;
-                              print("시간 확인 : ${_selectedTime?.format(context)}");
+                              print(
+                                  "시간 확인 : ${_selectedTime?.format(context)}");
                             }
                           },
                           child: Container(
@@ -210,7 +216,7 @@ class TransactionWritePage extends ConsumerWidget {
                 SizedBox(height: 10),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   child: Row(
                     children: [
                       Container(
@@ -222,7 +228,7 @@ class TransactionWritePage extends ConsumerWidget {
                       SizedBox(width: 15),
                       Expanded(
                         child: TextFormField(
-                          controller: _account,
+                          controller: _amount,
                           decoration: InputDecoration(
                             hintText: '금액을 입력하세요',
                           ),
@@ -248,8 +254,10 @@ class TransactionWritePage extends ConsumerWidget {
                         Expanded(
                           child: TextFormField(
                             controller: _categoryIn,
-                            readOnly: true, // 기본 키보드 비활성화
-                            onTap: () => _categoryInKeyboard(context), // 커스텀 키보드 표시
+                            readOnly: true,
+                            // 기본 키보드 비활성화
+                            onTap: () => _categoryInKeyboard(context),
+                            // 커스텀 키보드 표시
                             decoration: InputDecoration(
                               hintText: '분류를 선택하세요',
                             ),
@@ -274,8 +282,10 @@ class TransactionWritePage extends ConsumerWidget {
                         Expanded(
                           child: TextFormField(
                             controller: _categoryOut,
-                            readOnly: true, // 기본 키보드 비활성화
-                            onTap: () => _categoryOutKeyboard(context), // 커스텀 키보드 표시
+                            readOnly: true,
+                            // 기본 키보드 비활성화
+                            onTap: () => _categoryOutKeyboard(context),
+                            // 커스텀 키보드 표시
                             decoration: InputDecoration(
                               hintText: '분류를 선택하세요',
                             ),
@@ -287,7 +297,7 @@ class TransactionWritePage extends ConsumerWidget {
                 SizedBox(height: 10),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   child: Row(
                     children: [
                       Container(
@@ -313,7 +323,7 @@ class TransactionWritePage extends ConsumerWidget {
                 SizedBox(height: 10),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                   child: Row(
                     children: [
                       Container(
@@ -337,12 +347,35 @@ class TransactionWritePage extends ConsumerWidget {
                 SizedBox(height: 30),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                  const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                   child: SizedBox(
                     width: double.infinity,
                     // Set the button width to full width of the container
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (transactionType.isIncomeSelected) {
+                          TransactionSaveDTO requestDTO = TransactionSaveDTO(
+                              amount: _amount.text.trim(),
+                              assets: _assets.text.trim(),
+                              categoryIn: _categoryIn.text.trim(),
+                              description: _description.text.trim(),
+                              yearMonthDate: _selectedDate,
+                              time: _selectedTime,
+                              transactionType : "수입"
+                          );
+                        }else{
+                          TransactionSaveDTO requestDTO = TransactionSaveDTO(
+                              amount: _amount,
+                              assets: _assets,
+                              categoryOut: _categoryOut,
+                              description: _description,
+                              yearMonthDate: _selectedDate,
+                              time: _selectedTime,
+                              transactionType : "지출"
+                          );
+
+                        }
+                      },
                       child: Text(
                         '저장하기',
                         style: TextStyle(color: Colors.white),
