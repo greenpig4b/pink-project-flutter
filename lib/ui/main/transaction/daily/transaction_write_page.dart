@@ -17,7 +17,7 @@ class TransactionWritePage extends ConsumerWidget {
   final _categoryOut = TextEditingController();
   final _assets = TextEditingController();
   final _description = TextEditingController();
-  final _accountType = TextEditingController();
+  final _transactionType = TextEditingController();
 
   // var _dateTime;
   TimeOfDay? _selectedTime; // 시간을 저장할 변수
