@@ -6,8 +6,8 @@ import 'memo_write_button.dart';
 
 List<Map<String, dynamic>> recordList = [];
 
-class MemoDetail extends StatelessWidget {
-  const MemoDetail({super.key});
+class MemoMain extends StatelessWidget {
+  const MemoMain({super.key});
 
   @override
   Widget build(BuildContext context) {
