@@ -8,7 +8,7 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko', null); // 로케일 데이터 초기화
-
+  initializeDateFormatting().then((_) => runApp(MyApp()));
   runApp(ProviderScope(child: const MyApp()));
 }
 
