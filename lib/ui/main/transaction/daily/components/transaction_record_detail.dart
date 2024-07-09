@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../data/transaction/ListDummy.dart';
+import '../../../../../data/dtos/transaction/ListDummy.dart';
 import '../../../../components/under_line_widget.dart';
 import '../transaction_write_page.dart';
 import 'transaction_list.dart';
