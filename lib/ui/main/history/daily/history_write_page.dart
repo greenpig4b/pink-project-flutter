@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/ui/main/history/daily/viewmodel/history_write_viewmodel.dart';
 
 import 'components/history_category.dart';
+import 'components/history_category_button.dart';
 
 final selectedDateProvider = StateProvider<DateTime?>((ref) => null);
 final selectedTimeProvider = StateProvider<TimeOfDay?>((ref) => null);
@@ -19,6 +21,7 @@ class HistoryWritePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(selectedDateProvider);
     final selectedTime = ref.watch(selectedTimeProvider);
+    final historyWriteModel = ref.watch(historyWriteProvider);
 
     return Scaffold(
       appBar: _buildAppBar(context),
@@ -27,7 +30,28 @@ class HistoryWritePage extends ConsumerWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              HistoryTypeSection(),
+              // HistoryTypeSection(),
+
+            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              HistoryTypeButton(
+                text: "수입",
+                isSelected: historyWriteModel.isIncomeSelected,
+                onTap: () {
+                  ref.read(historyWriteProvider.notifier).selectIncome();
+                },
+              ),
+              HistoryTypeButton(
+                text: "지출",
+                isSelected: historyWriteModel.isExpenseSelected,
+                onTap: () {
+                  ref.read(historyWriteProvider.notifier).selectExpense();
+                },
+              ),
+            ],
+          ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(
