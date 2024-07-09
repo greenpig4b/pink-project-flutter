@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
-import 'components/history_category.dart';
+import 'components/transaction_category.dart';
 
 final selectedDateProvider = StateProvider<DateTime?>((ref) => null);
 final selectedTimeProvider = StateProvider<TimeOfDay?>((ref) => null);
 
-class HistoryWritePage extends ConsumerWidget {
+class TransactionWritePage extends ConsumerWidget {
   final _accountdController = TextEditingController();
 
   var _dateTime;
   TimeOfDay? _selectedTime; // 시간을 저장할 변수
 
-  HistoryWritePage({super.key});
+  TransactionWritePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +26,7 @@ class HistoryWritePage extends ConsumerWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              HistoryTypeSection(),
+              TransactionCategory(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(

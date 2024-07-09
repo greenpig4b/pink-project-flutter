@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/main/history/calender/history_calender_page.dart';
+
 import '_components/calender_widget.dart';
 import '_components/daily_list_appbar.dart';
-import 'daily/history_daily_page.dart';
-import 'memo/history_memo_page.dart';
+import 'calender/transaction_calender_page.dart';
+import 'daily/transaction_daily_page.dart';
+import 'memo/transaction_memo_page.dart';
 
-class HistoryPage extends StatelessWidget {
+class TransactionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +28,9 @@ class HistoryPage extends StatelessWidget {
             const Expanded(
               child: TabBarView(
                 children: [
-                  HistoryDailyPage(),
-                  HistoryCalenderPage(),
-                  HistoryMemoPage(),
+                  TransactionDailyPage(),
+                  TransactionCalenderPage(),
+                  TransactionMemoPage(),
                 ],
               ),
             ),

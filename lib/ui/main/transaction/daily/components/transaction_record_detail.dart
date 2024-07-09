@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../data/history/ListDummy.dart';
 import '../../../../components/under_line_widget.dart';
-import '../history_write_page.dart';
-import 'history_list.dart';
+import '../transaction_write_page.dart';
+import 'transaction_list.dart';
 
-class HistoryRecordDetail extends StatelessWidget {
-  const HistoryRecordDetail({super.key});
+class TransactionRecordDetail extends StatelessWidget {
+  const TransactionRecordDetail({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class HistoryRecordDetail extends StatelessWidget {
       // 원형 버튼
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,MaterialPageRoute(builder: (context) => HistoryWritePage()),
+          Navigator.push(context,MaterialPageRoute(builder: (context) => TransactionWritePage()),
           );
         },
         child: Icon(Icons.add,color: Colors.white,),
@@ -56,7 +55,7 @@ class HistoryRecordDetail extends StatelessWidget {
                         ),
                       ),
                       UnderLineWidget(),
-                      HistoryList(items: record['records']),
+                      TransactionList(items: record['records']),
                       SizedBox(
                         height: 8,
                         child: Container(

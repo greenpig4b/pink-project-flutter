@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HistoryTypeButton extends StatelessWidget {
+class TransactionCategoryButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
 
-  const HistoryTypeButton({
+  const TransactionCategoryButton({
     required this.text,
     required this.onTap,
     super.key,
