@@ -5,7 +5,7 @@ class ResponseDTO {
   dynamic response;
 
 
-  ResponseDTO(this.success, this.status, this.errorMessage, this.response);
+  ResponseDTO({this.success, this.status, this.errorMessage, this.response});
 
   ResponseDTO.fromJson(Map<String, dynamic> json)
       : status = json["status"],

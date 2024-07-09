@@ -1,4 +1,5 @@
 class TransactionRequestDTO {
+  final userId;
   final transactionType;
   final yearMonthDate;
   final time;
@@ -8,7 +9,9 @@ class TransactionRequestDTO {
   final assets;
   final description;
 
-  TransactionRequestDTO({this.transactionType,
+  TransactionRequestDTO({
+    this.userId,
+    this.transactionType,
     this.yearMonthDate,
     this.time,
     this.amount,
@@ -19,6 +22,7 @@ class TransactionRequestDTO {
 
   Map<String, dynamic> toJson() =>
       {
+        "userId": userId,
         "transactionType": transactionType,
         "yearMonthDate": yearMonthDate,
         "time": time,
