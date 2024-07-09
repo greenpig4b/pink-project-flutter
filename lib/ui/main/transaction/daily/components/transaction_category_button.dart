@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class TransactionCategoryButton extends StatelessWidget {
+  final bool isSelected;
   final String text;
   final VoidCallback onTap;
 
-  const TransactionCategoryButton({
+  TransactionCategoryButton({
     required this.text,
+    required this.isSelected,
     required this.onTap,
-    super.key,
   });
 
   @override

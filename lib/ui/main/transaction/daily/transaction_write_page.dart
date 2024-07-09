@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/history_write_viewmodel.dart';
 import 'components/transaction_category.dart';
+import 'components/transaction_category_button.dart';
 
 final selectedDateProvider = StateProvider<DateTime?>((ref) => null);
 final selectedTimeProvider = StateProvider<TimeOfDay?>((ref) => null);
@@ -18,6 +20,7 @@ class TransactionWritePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(selectedDateProvider);
     final selectedTime = ref.watch(selectedTimeProvider);
+    final transactionType = ref.watch(transactionWriteProvider);
 
     return Scaffold(
       appBar: _buildAppBar(context),
@@ -26,7 +29,26 @@ class TransactionWritePage extends ConsumerWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              TransactionCategory(),
+            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TransactionCategoryButton(
+                text: "수입",
+                isSelected: transactionType.isIncomeSelected,
+                onTap: () {
+                  ref.read(transactionWriteProvider.notifier).selectIncome();
+                },
+              ),
+              TransactionCategoryButton(
+                text: "지출",
+                isSelected: transactionType.isExpenseSelected,
+                onTap: () {
+                  ref.read(transactionWriteProvider.notifier).selectExpense();
+                },
+              ),
+            ],
+          ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(
