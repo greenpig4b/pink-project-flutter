@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class HistoryList extends StatelessWidget {
+class TransactionList extends StatelessWidget {
   final List<Map<String, String>> items;
 
-  const HistoryList({Key? key, required this.items}) : super(key: key);
+  const TransactionList({Key? key, required this.items}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

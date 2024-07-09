@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pinkpig_project_flutter/ui/main/history/daily/viewmodel/history_write_viewmodel.dart';
-
-import 'components/history_category_button.dart';
+import 'components/transaction_category.dart';
 
 final selectedDateProvider = StateProvider<DateTime?>((ref) => null);
 final selectedTimeProvider = StateProvider<TimeOfDay?>((ref) => null);
 
-class HistoryWritePage extends ConsumerWidget {
+class TransactionWritePage extends ConsumerWidget {
   final _accountdController = TextEditingController();
 
   var _dateTime;
   TimeOfDay? _selectedTime; // 시간을 저장할 변수
 
-  HistoryWritePage({super.key});
+  TransactionWritePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(selectedDateProvider);
     final selectedTime = ref.watch(selectedTimeProvider);
-    final historyWriteModel = ref.watch(historyWriteProvider);
 
     return Scaffold(
       appBar: _buildAppBar(context),
@@ -29,31 +26,9 @@ class HistoryWritePage extends ConsumerWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-
-              // 수입 지출 버튼 부분
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  HistoryTypeButton(
-                    text: "수입",
-                    isSelected: historyWriteModel.isIncomeSelected,
-                    onTap: () {
-                      ref.read(historyWriteProvider.notifier).selectIncome();
-                    },
-                  ),
-                  HistoryTypeButton(
-                    text: "지출",
-                    isSelected: historyWriteModel.isExpenseSelected,
-                    onTap: () {
-                      ref.read(historyWriteProvider.notifier).selectExpense();
-                    },
-                  ),
-                ],
-              ),
-
+              TransactionCategory(),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(
                   children: [
                     Container(

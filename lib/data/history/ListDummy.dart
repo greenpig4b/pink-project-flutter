@@ -1,4 +1,4 @@
-const List<Map<String, dynamic>> historyList = [
+const List<Map<String, dynamic>> transactionList = [
   {
     "date": "07",
     "income": "10000",

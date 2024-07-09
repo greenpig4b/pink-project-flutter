@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HistoryTotalAccount extends StatelessWidget {
-  const HistoryTotalAccount({super.key});
+class TransactionTotalAccount extends StatelessWidget {
+  const TransactionTotalAccount({super.key});
 
   @override
   Widget build(BuildContext context) {

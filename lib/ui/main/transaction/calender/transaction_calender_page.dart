@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../components/under_line_widget.dart';
-import '../daily/components/history_record_detail.dart';
-import '../daily/components/history_total_account.dart';
+import '../daily/components/transaction_total_account.dart';
 
-class HistoryCalenderPage extends StatelessWidget {
-  const HistoryCalenderPage({super.key});
+class TransactionCalenderPage extends StatelessWidget {
+  const TransactionCalenderPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class HistoryCalenderPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          HistoryTotalAccount(),
+          TransactionTotalAccount(),
           UnderLineWidget(),
           TableCalendar(
             focusedDay: DateTime.now(), firstDay: DateTime(2024), lastDay: DateTime(2027),
