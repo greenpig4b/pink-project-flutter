@@ -80,6 +80,14 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
               calendarStyle: CalendarStyle(
                 defaultTextStyle: TextStyle(color: Colors.black87),
                 weekendTextStyle: TextStyle(color: Colors.redAccent),
+                todayDecoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFFFC7C9A).withOpacity(0.7), // 오늘 날짜 동그라미 색상을 여기서 설정
+                ),
+                selectedDecoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey.withOpacity(0.7), // 선택된 날짜의 동그라미 색상을 여기서 설정
+                ),
               ),
               rowHeight: 45,
             ),
