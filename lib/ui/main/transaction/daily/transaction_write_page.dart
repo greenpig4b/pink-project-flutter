@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/_components/assets_keyboard.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/history_write_viewmodel.dart';
 import '../_components/category_in_keyboard.dart';
 import '../_components/category_out_keyboard.dart';
@@ -12,6 +13,7 @@ final selectedTimeProvider = StateProvider<TimeOfDay?>((ref) => null);
 class TransactionWritePage extends ConsumerWidget {
   final _accountdController = TextEditingController();
   final _categoryController = TextEditingController();
+  final _assetsController = TextEditingController();
 
   var _dateTime;
   TimeOfDay? _selectedTime; // 시간을 저장할 변수
@@ -32,6 +34,15 @@ class TransactionWritePage extends ConsumerWidget {
       context: context,
       builder: (context) {
         return CategoryInKeyboard(controller: _categoryController);
+      },
+    );
+  }
+
+  void _assetsKeyboard(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return AssetsKeyboard(controller: _assetsController);
       },
     );
   }
@@ -227,9 +238,10 @@ class TransactionWritePage extends ConsumerWidget {
                       Expanded(
                         child: TextFormField(
                           controller: _categoryController,
+                          readOnly: true, // 기본 키보드 비활성화
                           onTap: () => _categoryInKeyboard(context), // 커스텀 키보드 표시
                           decoration: InputDecoration(
-                            hintText: '수입을 입력하세요',
+                            hintText: '분류를 선택하세요',
                           ),
                         ),
                       ),
@@ -252,9 +264,10 @@ class TransactionWritePage extends ConsumerWidget {
                       Expanded(
                         child: TextFormField(
                           controller: _categoryController,
+                          readOnly: true, // 기본 키보드 비활성화
                           onTap: () => _categoryOutKeyboard(context), // 커스텀 키보드 표시
                           decoration: InputDecoration(
-                            hintText: '지출을 입력하세요',
+                            hintText: '분류를 선택하세요',
                           ),
                         ),
                       ),
@@ -276,6 +289,9 @@ class TransactionWritePage extends ConsumerWidget {
                     SizedBox(width: 15),
                     Expanded(
                       child: TextFormField(
+                        controller: _assetsController,
+                        readOnly: true, // 기본 키보드 비활성화
+                        onTap: () => _assetsKeyboard(context), // 커스텀 키보드 표시
                         decoration: InputDecoration(
                           hintText: '자산을 입력하세요',
                         ),
