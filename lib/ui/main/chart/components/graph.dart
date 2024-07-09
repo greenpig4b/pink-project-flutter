@@ -1,179 +1,150 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class PieChartSample3 extends StatefulWidget {
-  const PieChartSample3({super.key});
+class TodayNutritionInfo extends StatelessWidget {
+  final double totalCarbo;
+  final double totalProtein;
+  final double totalFat;
+  final double targetCarbo;
+  final double targetProtein;
+  final double targetFat;
+  final double totalCalories;
+  final double targetCalories;
 
-  @override
-  State<StatefulWidget> createState() => PieChartSample3State();
-}
-
-class PieChartSample3State extends State<PieChartSample3> {
-  int touchedIndex = -1;
+  const TodayNutritionInfo({
+    Key? key,
+    required this.totalCarbo,
+    required this.totalProtein,
+    required this.totalFat,
+    required this.targetCarbo,
+    required this.targetProtein,
+    required this.targetFat,
+    required this.totalCalories,
+    required this.targetCalories,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: PieChart(
-          PieChartData(
-            pieTouchData: PieTouchData(
-              touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                setState(() {
-                  if (!event.isInterestedForInteractions ||
-                      pieTouchResponse == null ||
-                      pieTouchResponse.touchedSection == null) {
-                    touchedIndex = -1;
-                    return;
-                  }
-                  touchedIndex =
-                      pieTouchResponse.touchedSection!.touchedSectionIndex;
-                });
-              },
-            ),
-            borderData: FlBorderData(
-              show: false,
-            ),
-            sectionsSpace: 0,
-            centerSpaceRadius: 0,
-            sections: showingSections(),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 5,
+            spreadRadius: 2,
+            offset: Offset(0, 2),
           ),
-        ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '오늘의 영양',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Divider(),
+          Row(
+            children: [
+              Container(
+                height: 170,
+                width: 170,
+                child: Stack(
+                  children: [
+                    PieChart(
+                      PieChartData(
+                        sections: [
+                          PieChartSectionData(
+                            color: Colors.deepOrange[200],
+                            value: totalCarbo / targetCarbo * 100,
+                            title: '${(totalCarbo / targetCarbo * 100).toStringAsFixed(1)}%',
+                            radius: 50,
+                            titleStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          PieChartSectionData(
+                            color: Colors.cyanAccent,
+                            value: totalProtein / targetProtein * 100,
+                            title: '${(totalProtein / targetProtein * 100).toStringAsFixed(1)}%',
+                            radius: 40,
+                            titleStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          PieChartSectionData(
+                            color: Colors.greenAccent,
+                            value: totalFat / targetFat * 100,
+                            title: '${(totalFat / targetFat * 100).toStringAsFixed(1)}%',
+                            radius: 30,
+                            titleStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 40,
+                      ),
+                    ),
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${totalCalories.toStringAsFixed(0)}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            '/${targetCalories.toStringAsFixed(0)} kcal',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildNutrientInfo('탄수화물', totalCarbo, targetCarbo, 'g', Colors.deepOrange[200]!),
+                  SizedBox(height: 5),
+                  _buildNutrientInfo('단백질', totalProtein, targetProtein, 'g', Colors.cyanAccent),
+                  SizedBox(height: 5),
+                  _buildNutrientInfo('지방', totalFat, targetFat, 'g', Colors.greenAccent),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 20.0 : 16.0;
-      final radius = isTouched ? 110.0 : 100.0;
-      final widgetSize = isTouched ? 55.0 : 40.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Colors.amber,
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xffffffff),
-              shadows: shadows,
-            ),
-            badgeWidget: _Badge(
-              'assets/icons/ophthalmology-svgrepo-com.svg',
-              size: widgetSize,
-              borderColor: Colors.pink,
-            ),
-            badgePositionPercentageOffset: .98,
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.black45,
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xffffffff),
-              shadows: shadows,
-            ),
-            badgeWidget: _Badge(
-              'assets/icons/librarian-svgrepo-com.svg',
-              size: widgetSize,
-              borderColor: Colors.black45,
-            ),
-            badgePositionPercentageOffset: .98,
-          );
-        case 2:
-          return PieChartSectionData(
-            color: Colors.black45,
-            value: 16,
-            title: '16%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xffffffff),
-              shadows: shadows,
-            ),
-            badgeWidget: _Badge(
-              'assets/icons/fitness-svgrepo-com.svg',
-              size: widgetSize,
-              borderColor: Colors.black45,
-            ),
-            badgePositionPercentageOffset: .98,
-          );
-        case 3:
-          return PieChartSectionData(
-            color: Colors.black45,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xffffffff),
-              shadows: shadows,
-            ),
-            badgeWidget: _Badge(
-              'assets/icons/worker-svgrepo-com.svg',
-              size: widgetSize,
-              borderColor: Colors.black45,
-            ),
-            badgePositionPercentageOffset: .98,
-          );
-        default:
-          throw Exception('Oh no');
-      }
-    });
-  }
-}
-
-class _Badge extends StatelessWidget {
-  const _Badge(
-      this.svgAsset, {
-        required this.size,
-        required this.borderColor,
-      });
-  final String svgAsset;
-  final double size;
-  final Color borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: PieChart.defaultDuration,
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: borderColor,
-          width: 2,
+  Widget _buildNutrientInfo(String nutrient, double amount, double target, String unit, Color color) {
+    return Row(
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          color: color,
         ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withOpacity(.5),
-            offset: const Offset(3, 3),
-            blurRadius: 3,
-          ),
-        ],
-      ),
-      padding: EdgeInsets.all(size * .15),
-      // child: Center(
-      //   child: SvgPicture.asset(
-      //     svgAsset,
-      //   ),
-      // ),
+        SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(nutrient, style: TextStyle(fontSize: 10)),
+            Text('${amount.toStringAsFixed(1)} / ${target.toStringAsFixed(1)} $unit', style: TextStyle(fontSize: 10)),
+          ],
+        ),
+      ],
     );
   }
 }
