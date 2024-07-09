@@ -61,12 +61,14 @@ class TransactionWritePage extends ConsumerWidget {
                             },
                           );
                           if (picked != null && picked != selectedDate) {
-                            ref.read(selectedDateProvider.notifier).state = picked;
+                            ref.read(selectedDateProvider.notifier).state =
+                                picked;
                             _dateTime = picked.toIso8601String();
                           }
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 20.0),
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(color: Colors.grey),
@@ -77,12 +79,16 @@ class TransactionWritePage extends ConsumerWidget {
                             children: [
                               Text(
                                 selectedDate == null
-                                    ? DateFormat('yyyy-MM-dd').format(DateTime.now())
-                                    : DateFormat('yyyy-MM-dd').format(selectedDate),
-                                style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                    ? DateFormat('yyyy-MM-dd')
+                                        .format(DateTime.now())
+                                    : DateFormat('yyyy-MM-dd')
+                                        .format(selectedDate),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 16),
                               ),
                               SizedBox(width: 10),
-                              const Icon(Icons.calendar_today, color: Colors.black),
+                              const Icon(Icons.calendar_today,
+                                  color: Colors.black),
                             ],
                           ),
                         ),
@@ -97,13 +103,15 @@ class TransactionWritePage extends ConsumerWidget {
                             initialTime: selectedTime ?? TimeOfDay.now(),
                           );
                           if (picked != null && picked != selectedTime) {
-                            ref.read(selectedTimeProvider.notifier).state = picked;
+                            ref.read(selectedTimeProvider.notifier).state =
+                                picked;
                             _selectedTime = picked;
                             print("시간 확인 : ${_selectedTime?.format(context)}");
                           }
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 20.0),
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(color: Colors.grey),
@@ -116,10 +124,12 @@ class TransactionWritePage extends ConsumerWidget {
                                 selectedTime == null
                                     ? TimeOfDay.now().format(context)
                                     : '${selectedTime.format(context)}',
-                                style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 16),
                               ),
                               SizedBox(width: 10),
-                              const Icon(Icons.access_time, color: Colors.black),
+                              const Icon(Icons.access_time,
+                                  color: Colors.black),
                             ],
                           ),
                         ),
@@ -129,7 +139,8 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 child: Row(
                   children: [
                     Container(
@@ -152,7 +163,8 @@ class TransactionWritePage extends ConsumerWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 child: Row(
                   children: [
                     Container(
@@ -174,7 +186,8 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 child: Row(
                   children: [
                     Container(
@@ -195,7 +208,8 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(
                   children: [
                     Container(
@@ -216,14 +230,17 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                 child: SizedBox(
                   width: double.infinity,
                   // Set the button width to full width of the container
                   child: ElevatedButton(
-                    onPressed: () {
-                    },
-                    child: Text('저장하기',style: TextStyle(color: Colors.white),),
+                    onPressed: () {},
+                    child: Text(
+                      '저장하기',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFFC7C9A),
                       foregroundColor: Color(0xFFFC7C9A),
@@ -239,7 +256,6 @@ class TransactionWritePage extends ConsumerWidget {
                   ),
                 ),
               )
-
             ],
           ),
         ),
@@ -255,7 +271,8 @@ class TransactionWritePage extends ConsumerWidget {
         icon: Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () => Navigator.pop(context),
       ),
-      title: Text("기록", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      title: Text("기록",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       centerTitle: true,
       actions: [
         Padding(

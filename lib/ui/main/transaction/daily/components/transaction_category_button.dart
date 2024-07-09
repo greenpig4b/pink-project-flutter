@@ -21,15 +21,15 @@ class TransactionCategoryButton extends StatelessWidget {
           width: 150,
           padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isSelected ? Colors. white : Colors.white12,
             borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(color: Color(0xFFFC7C9A)),
+            border: isSelected ? Border.all(color: Color(0xFFFC7C9A)) : Border.all(color: Colors.grey),
           ),
           child: Center(
             child: Text(
               text,
               style: TextStyle(
-                color: Color(0xFFFC7C9A),
+                color: isSelected ? Color(0xFFFC7C9A) : Colors.grey,
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
