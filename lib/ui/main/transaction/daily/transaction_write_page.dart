@@ -184,29 +184,55 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
               ),
 
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                child: Row(
-                  children: [
-                    Container(
-                      child: Text(
-                        "분류",
-                        style: TextStyle(fontSize: 20, color: Colors.grey),
-                      ),
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _accountdController,
-                        decoration: InputDecoration(
-                          hintText: '분류을 입력하세요',
+              if(transactionType.isIncomeSelected)
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          "분류",
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: TextFormField(
+                          controller: _accountdController,
+                          decoration: InputDecoration(
+                            hintText: '수입을 입력하세요',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          "분류",
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: TextFormField(
+                          controller: _accountdController,
+                          decoration: InputDecoration(
+                            hintText: '지출을 입력하세요',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
