@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pinkpig_project_flutter/ui/main/history/daily/viewmodel/history_write_viewmodel.dart';
 
-import 'components/history_category.dart';
 import 'components/history_category_button.dart';
 
 final selectedDateProvider = StateProvider<DateTime?>((ref) => null);
@@ -30,30 +29,31 @@ class HistoryWritePage extends ConsumerWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              // HistoryTypeSection(),
 
-            Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              HistoryTypeButton(
-                text: "수입",
-                isSelected: historyWriteModel.isIncomeSelected,
-                onTap: () {
-                  ref.read(historyWriteProvider.notifier).selectIncome();
-                },
+              // 수입 지출 버튼 부분
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  HistoryTypeButton(
+                    text: "수입",
+                    isSelected: historyWriteModel.isIncomeSelected,
+                    onTap: () {
+                      ref.read(historyWriteProvider.notifier).selectIncome();
+                    },
+                  ),
+                  HistoryTypeButton(
+                    text: "지출",
+                    isSelected: historyWriteModel.isExpenseSelected,
+                    onTap: () {
+                      ref.read(historyWriteProvider.notifier).selectExpense();
+                    },
+                  ),
+                ],
               ),
-              HistoryTypeButton(
-                text: "지출",
-                isSelected: historyWriteModel.isExpenseSelected,
-                onTap: () {
-                  ref.read(historyWriteProvider.notifier).selectExpense();
-                },
-              ),
-            ],
-          ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(
                   children: [
                     Container(
@@ -86,12 +86,14 @@ class HistoryWritePage extends ConsumerWidget {
                             },
                           );
                           if (picked != null && picked != selectedDate) {
-                            ref.read(selectedDateProvider.notifier).state = picked;
+                            ref.read(selectedDateProvider.notifier).state =
+                                picked;
                             _dateTime = picked.toIso8601String();
                           }
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 20.0),
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(color: Colors.grey),
@@ -102,12 +104,16 @@ class HistoryWritePage extends ConsumerWidget {
                             children: [
                               Text(
                                 selectedDate == null
-                                    ? DateFormat('yyyy-MM-dd').format(DateTime.now())
-                                    : DateFormat('yyyy-MM-dd').format(selectedDate),
-                                style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                    ? DateFormat('yyyy-MM-dd')
+                                        .format(DateTime.now())
+                                    : DateFormat('yyyy-MM-dd')
+                                        .format(selectedDate),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 16),
                               ),
                               SizedBox(width: 10),
-                              const Icon(Icons.calendar_today, color: Colors.black),
+                              const Icon(Icons.calendar_today,
+                                  color: Colors.black),
                             ],
                           ),
                         ),
@@ -122,13 +128,15 @@ class HistoryWritePage extends ConsumerWidget {
                             initialTime: selectedTime ?? TimeOfDay.now(),
                           );
                           if (picked != null && picked != selectedTime) {
-                            ref.read(selectedTimeProvider.notifier).state = picked;
+                            ref.read(selectedTimeProvider.notifier).state =
+                                picked;
                             _selectedTime = picked;
                             print("시간 확인 : ${_selectedTime?.format(context)}");
                           }
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 20.0),
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(color: Colors.grey),
@@ -141,10 +149,12 @@ class HistoryWritePage extends ConsumerWidget {
                                 selectedTime == null
                                     ? TimeOfDay.now().format(context)
                                     : '${selectedTime.format(context)}',
-                                style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 16),
                               ),
                               SizedBox(width: 10),
-                              const Icon(Icons.access_time, color: Colors.black),
+                              const Icon(Icons.access_time,
+                                  color: Colors.black),
                             ],
                           ),
                         ),
@@ -154,7 +164,8 @@ class HistoryWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 child: Row(
                   children: [
                     Container(
@@ -177,7 +188,8 @@ class HistoryWritePage extends ConsumerWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 child: Row(
                   children: [
                     Container(
@@ -199,7 +211,8 @@ class HistoryWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 child: Row(
                   children: [
                     Container(
@@ -220,7 +233,8 @@ class HistoryWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(
                   children: [
                     Container(
@@ -241,14 +255,17 @@ class HistoryWritePage extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                 child: SizedBox(
                   width: double.infinity,
                   // Set the button width to full width of the container
                   child: ElevatedButton(
-                    onPressed: () {
-                    },
-                    child: Text('저장하기',style: TextStyle(color: Colors.white),),
+                    onPressed: () {},
+                    child: Text(
+                      '저장하기',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFFC7C9A),
                       foregroundColor: Color(0xFFFC7C9A),
@@ -264,7 +281,6 @@ class HistoryWritePage extends ConsumerWidget {
                   ),
                 ),
               )
-
             ],
           ),
         ),
@@ -280,7 +296,8 @@ class HistoryWritePage extends ConsumerWidget {
         icon: Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () => Navigator.pop(context),
       ),
-      title: Text("기록", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      title: Text("기록",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       centerTitle: true,
       actions: [
         Padding(
