@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/history_write_viewmodel.dart';
-import 'components/transaction_category.dart';
+import '../_components/category_in_keyboard.dart';
+import '../_components/category_out_keyboard.dart';
 import 'components/transaction_category_button.dart';
 
 final selectedDateProvider = StateProvider<DateTime?>((ref) => null);
@@ -10,11 +11,31 @@ final selectedTimeProvider = StateProvider<TimeOfDay?>((ref) => null);
 
 class TransactionWritePage extends ConsumerWidget {
   final _accountdController = TextEditingController();
+  final _categoryController = TextEditingController();
 
   var _dateTime;
   TimeOfDay? _selectedTime; // 시간을 저장할 변수
 
   TransactionWritePage({super.key});
+
+  void _categoryOutKeyboard(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return CategoryOutKeyboard(controller: _categoryController);
+      },
+    );
+  }
+
+  void _categoryInKeyboard(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return CategoryInKeyboard(controller: _categoryController);
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,31 +47,36 @@ class TransactionWritePage extends ConsumerWidget {
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: [
-            Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TransactionCategoryButton(
-                text: "수입",
-                isSelected: transactionType.isIncomeSelected,
-                onTap: () {
-                  ref.read(transactionWriteProvider.notifier).selectIncome();
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TransactionCategoryButton(
+                    text: "수입",
+                    isSelected: transactionType.isIncomeSelected,
+                    onTap: () {
+                      ref
+                          .read(transactionWriteProvider.notifier)
+                          .selectIncome();
+                    },
+                  ),
+                  TransactionCategoryButton(
+                    text: "지출",
+                    isSelected: transactionType.isExpenseSelected,
+                    onTap: () {
+                      ref
+                          .read(transactionWriteProvider.notifier)
+                          .selectExpense();
+                    },
+                  ),
+                ],
               ),
-              TransactionCategoryButton(
-                text: "지출",
-                isSelected: transactionType.isExpenseSelected,
-                onTap: () {
-                  ref.read(transactionWriteProvider.notifier).selectExpense();
-                },
-              ),
-            ],
-          ),
-
+              SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                 child: Row(
                   children: [
                     Container(
@@ -160,6 +186,7 @@ class TransactionWritePage extends ConsumerWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 10),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -183,11 +210,11 @@ class TransactionWritePage extends ConsumerWidget {
                   ],
                 ),
               ),
-
-              if(transactionType.isIncomeSelected)
+              SizedBox(height: 10),
+              if (transactionType.isIncomeSelected)
                 Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
                   child: Row(
                     children: [
                       Container(
@@ -199,7 +226,8 @@ class TransactionWritePage extends ConsumerWidget {
                       SizedBox(width: 15),
                       Expanded(
                         child: TextFormField(
-                          controller: _accountdController,
+                          controller: _categoryController,
+                          onTap: () => _categoryInKeyboard(context), // 커스텀 키보드 표시
                           decoration: InputDecoration(
                             hintText: '수입을 입력하세요',
                           ),
@@ -210,8 +238,8 @@ class TransactionWritePage extends ConsumerWidget {
                 )
               else
                 Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
                   child: Row(
                     children: [
                       Container(
@@ -223,7 +251,8 @@ class TransactionWritePage extends ConsumerWidget {
                       SizedBox(width: 15),
                       Expanded(
                         child: TextFormField(
-                          controller: _accountdController,
+                          controller: _categoryController,
+                          onTap: () => _categoryOutKeyboard(context), // 커스텀 키보드 표시
                           decoration: InputDecoration(
                             hintText: '지출을 입력하세요',
                           ),
@@ -232,7 +261,7 @@ class TransactionWritePage extends ConsumerWidget {
                     ],
                   ),
                 ),
-
+              SizedBox(height: 10),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -255,6 +284,7 @@ class TransactionWritePage extends ConsumerWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 10),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
@@ -277,6 +307,7 @@ class TransactionWritePage extends ConsumerWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 30),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
