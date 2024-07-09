@@ -1,26 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HistoryWriteModel {
+class TransactionWriteModel {
   final bool isIncomeSelected;
   final bool isExpenseSelected;
 
-  HistoryWriteModel(
+  TransactionWriteModel(
       {required this.isIncomeSelected, required this.isExpenseSelected});
 
 
-  HistoryWriteModel copyWith({
+  TransactionWriteModel copyWith({
     bool? isIncomeSelected,
     bool? isExpenseSelected,
   }) {
-    return HistoryWriteModel(
+    return TransactionWriteModel(
         isIncomeSelected: isIncomeSelected ?? this.isIncomeSelected,
         isExpenseSelected: isExpenseSelected ?? this.isExpenseSelected);
   }
 }
 
-class HistoryWriteViewmodel extends StateNotifier<HistoryWriteModel>{
+class TransactionWriteViewmodel extends StateNotifier<TransactionWriteModel>{
 
-    HistoryWriteViewmodel(): super(HistoryWriteModel(isIncomeSelected: false, isExpenseSelected: true));
+  TransactionWriteViewmodel(): super(TransactionWriteModel(isIncomeSelected: false, isExpenseSelected: true));
 
     void selectIncome(){
       state =state.copyWith(isIncomeSelected: true,isExpenseSelected: false);
@@ -30,6 +30,6 @@ class HistoryWriteViewmodel extends StateNotifier<HistoryWriteModel>{
     }
 }
 
-final historyWriteProvider = StateNotifierProvider<HistoryWriteViewmodel,HistoryWriteModel>(
-    (ref) => HistoryWriteViewmodel(),
+final transactionWriteProvider = StateNotifierProvider<TransactionWriteViewmodel,TransactionWriteModel>(
+    (ref) => TransactionWriteViewmodel(),
 );
