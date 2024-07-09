@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinkpig_project_flutter/ui/main/result/result_page.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/history_page.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/transaction_page.dart';
 import '../components/custom_bottom_navigation_bar.dart';
 import 'chart/chart_page.dart';
 

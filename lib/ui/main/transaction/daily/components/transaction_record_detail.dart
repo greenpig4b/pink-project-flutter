@@ -26,9 +26,9 @@ class TransactionRecordDetail extends StatelessWidget {
           return <Widget>[];
         },
         body: ListView.builder(
-          itemCount: historyList.length,
+          itemCount: transactionList.length,
           itemBuilder: (BuildContext context, int index) {
-            final record = historyList[index];
+            final record = transactionList[index];
             return Column(
               children: [
                 Container(
