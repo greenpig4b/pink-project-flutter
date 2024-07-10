@@ -12,13 +12,13 @@ class TransactionDailyPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(calendarProvider);
-    ref.watch(transactionListProvider(selectedDate.toString()).notifier);
+    final model = ref.watch(transactionListProvider(selectedDate.toString()));
 
     return Column(
       children: [
-        TransactionTotalAccount(),
+        TransactionTotalAccount(model: model),
         UnderLineWidget(),
-        Expanded(child: TransactionRecordDetail()),
+        Expanded(child: TransactionRecordDetail(model: model)),
       ],
     );
   }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_list_viewmodel.dart';
 
 class TransactionTotalAccount extends StatelessWidget {
-  const TransactionTotalAccount({super.key});
+  final TransactionListModel? model;
+
+  const TransactionTotalAccount({super.key, this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +24,11 @@ class TransactionTotalAccount extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("10,000원", style: TextStyle(color: Colors.blue),
+            Text("${model?.totalTransactionDTO?.monthlyIncome}원", style: TextStyle(color: Colors.blue),
             ),
-            Text("1,000원", style: TextStyle(color: Colors.redAccent),
+            Text("${model?.totalTransactionDTO?.monthlyExpense}원", style: TextStyle(color: Colors.redAccent),
             ),
-            Text("9,000원"),
+            Text("${model?.totalTransactionDTO?.monthlyTotalAmount}원"),
           ],
         ),
       ],
