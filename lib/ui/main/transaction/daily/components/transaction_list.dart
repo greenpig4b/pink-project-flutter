@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../../../../data/dtos/transaction/transaction_response.dart';
 
 class TransactionList extends StatelessWidget {
-  final List<Map<String, String>> items;
+  final List<DailyTransactionDetailDTO> dailyTransactionDetailDTO;
 
-  const TransactionList({Key? key, required this.items}) : super(key: key);
+  const TransactionList({Key? key, required this.dailyTransactionDetailDTO}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: items.map((item) {
+      children: dailyTransactionDetailDTO.map((item) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Row(
@@ -16,19 +17,26 @@ class TransactionList extends StatelessWidget {
             children: [
               Expanded(
                 flex: 2,
-                child: Text(item["category"]!),
+                child: Text(
+                  item.transactionType == "EXPENSE"
+                      ? item.categoryOut ?? ''
+                      : item.categoryIn ?? '',
+                  style: TextStyle(
+                    color: Colors.black54,
+                  ),
+                ),
               ),
               Expanded(
                 flex: 4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item["description"]!),
+                    Text(item.description),
                     Row(
                       children: [
-                        Text(item["time"]!),
+                        Text(item.time),
                         SizedBox(width: 10),
-                        Text(item["pay"]!)
+                        Text(item.assets),
                       ],
                     ),
                   ],
@@ -37,8 +45,8 @@ class TransactionList extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  item["amount"]!,
-                  style: const TextStyle(color: Colors.red),
+                  item.amount,
+                  style:  TextStyle(color: item.transactionType == "EXPENSE" ? Colors.red : Colors.blue),
                   textAlign: TextAlign.end,
                 ),
               ),

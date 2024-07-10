@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_list_viewmodel.dart';
 import '../../../../../data/dtos/transaction/ListDummy.dart';
 import '../../../../components/under_line_widget.dart';
 import '../transaction_write_page.dart';
 import 'transaction_list.dart';
 
 class TransactionRecordDetail extends StatelessWidget {
-  const TransactionRecordDetail({super.key});
+  final TransactionListModel? model;
+
+  const TransactionRecordDetail({super.key, this.model});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       // 원형 버튼
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -26,9 +31,11 @@ class TransactionRecordDetail extends StatelessWidget {
           return <Widget>[];
         },
         body: ListView.builder(
-          itemCount: transactionList.length,
+          itemCount: model?.dailyTransactionDTO?.length,
           itemBuilder: (BuildContext context, int index) {
-            final record = transactionList[index];
+
+            final dailyTransaction = model!.dailyTransactionDTO?[index] ;
+
             return Column(
               children: [
                 Container(
@@ -41,21 +48,21 @@ class TransactionRecordDetail extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "${record['date']}일",
+                              "${dailyTransaction?.date}",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text("${record['income']}원", style: TextStyle(color: Colors.blue)),
+                            Text("${dailyTransaction?.dailyIncome}", style: TextStyle(color: Colors.blue)),
                             Text(
-                              "${record['outgo']}원",
+                              "${dailyTransaction?.dailyExpense}",
                               style: TextStyle(color: Colors.red),
                             ),
                           ],
                         ),
                       ),
                       UnderLineWidget(),
-                      TransactionList(items: record['records']),
+                      TransactionList(dailyTransactionDetailDTO: dailyTransaction!.dailyTransactionDetailDTO),
                       SizedBox(
                         height: 8,
                         child: Container(

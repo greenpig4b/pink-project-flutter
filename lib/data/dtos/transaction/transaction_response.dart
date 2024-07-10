@@ -1,64 +1,98 @@
-class DailyRecordDTO {
+class TotalTransactionDTO {
+  final int userId;
+  final String year;
+  final String month;
+  final String monthlyIncome;
+  final String monthlyExpense;
+  final String monthlyTotalAmount;
+  final List<DailyTransactionDTO> dailyTransactionRecord;
+
+  TotalTransactionDTO({
+    required this.userId,
+    required this.year,
+    required this.month,
+    required this.monthlyIncome,
+    required this.monthlyExpense,
+    required this.monthlyTotalAmount,
+    required this.dailyTransactionRecord,
+  });
+
+  factory TotalTransactionDTO.fromJson(Map<String, dynamic> json) {
+    var list = json['dailyTransactionRecord'] as List;
+    List<DailyTransactionDTO> recordList = list.map((i) => DailyTransactionDTO.fromJson(i)).toList();
+
+    return TotalTransactionDTO(
+      userId: json['userId'],
+      year: json['year'],
+      month: json['month'],
+      monthlyIncome: json['monthlyIncome'],
+      monthlyExpense: json['monthlyExpense'],
+      monthlyTotalAmount: json['monthlyTotalAmount'],
+      dailyTransactionRecord: recordList,
+    );
+  }
+}
+
+class DailyTransactionDTO {
   final String date;
   final String dailyIncome;
   final String dailyExpense;
   final String dailyTotalAmount;
-  List<DailyTransactionDetailDTO> dailyTransactionDetailDTO;
+  final List<DailyTransactionDetailDTO> dailyTransactionDetailDTO;
 
-  DailyRecordDTO(
-      this.date,
-      this.dailyIncome,
-      this.dailyExpense,
-      this.dailyTotalAmount,
-      this.dailyTransactionDetailDTO,
-      );
+  DailyTransactionDTO({
+    required this.date,
+    required this.dailyIncome,
+    required this.dailyExpense,
+    required this.dailyTotalAmount,
+    required this.dailyTransactionDetailDTO,
+  });
 
-  factory DailyRecordDTO.fromJson(Map<String, dynamic> json) {
-    var list = json['dailyTransactionDetailDTO'] as List;
-    List<DailyTransactionDetailDTO> detailList =
-    list.map((i) => DailyTransactionDetailDTO.fromJson(i)).toList();
+  factory DailyTransactionDTO.fromJson(Map<String, dynamic> json) {
+    var list = json['dailyTransactionDetailRecord'] as List;
+    List<DailyTransactionDetailDTO> detailList = list.map((i) => DailyTransactionDetailDTO.fromJson(i)).toList();
 
-    return DailyRecordDTO(
-      json['date'],
-      json['dailyIncome'],
-      json['dailyExpense'],
-      json['dailyTotalAmount'],
-      detailList,
+    return DailyTransactionDTO(
+      date: json['date'],
+      dailyIncome: json['dailyIncome'],
+      dailyExpense: json['dailyExpense'],
+      dailyTotalAmount: json['dailyTotalAmount'],
+      dailyTransactionDetailDTO: detailList,
     );
   }
 }
 
 class DailyTransactionDetailDTO {
-  final int id ;
+  final int id;
   final String transactionType;
-  final String categoryIn;
-  final String categoryOut;
+  final String? categoryIn;
+  final String? categoryOut;
   final String description;
   final String time;
   final String assets;
   final String amount;
 
-  DailyTransactionDetailDTO(
-      this.id,
-      this.transactionType,
-      this.categoryIn,
-      this.categoryOut,
-      this.description,
-      this.time,
-      this.assets,
-      this.amount,
-      );
+  DailyTransactionDetailDTO({
+    required this.id,
+    required this.transactionType,
+    this.categoryIn,
+    this.categoryOut,
+    required this.description,
+    required this.time,
+    required this.assets,
+    required this.amount,
+  });
 
   factory DailyTransactionDetailDTO.fromJson(Map<String, dynamic> json) {
     return DailyTransactionDetailDTO(
-      json['id'],
-      json['transactionType'],
-      json['categoryIn'],
-      json['categoryOut'],
-      json['description'],
-      json['time'],
-      json['assets'],
-      json['amount']
+      id: json['id'],
+      transactionType: json['transactionType'],
+      categoryIn: json['categoryIn'],
+      categoryOut: json['categoryOut'],
+      description: json['description'],
+      time: json['time'],
+      assets: json['assets'],
+      amount: json['amount'],
     );
   }
 }
