@@ -16,6 +16,7 @@ class MemoWrite extends StatelessWidget {
     });
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: MemoWriteAppBar(title: "메모"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
