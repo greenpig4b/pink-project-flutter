@@ -10,7 +10,7 @@ class MemoList extends StatelessWidget {
     return ListView.builder(
       itemCount: transactionList.length,
       itemBuilder: (context, index) {
-        final record = transactionList[index];
+        final transaction = transactionList[index];
         return GestureDetector(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -22,20 +22,20 @@ class MemoList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      record['date'],
+                      transaction['date'],
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(height: 8),
-                    ...record['memo'].map<Widget>((memo) {
+                    ...transaction['memo'].map<Widget>((memo) {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MemoEdit(memo: memo),
+                              builder: (context) => MemoEdit(memo: memo, date: transaction['date']),
                             ),
                           );
                         },
