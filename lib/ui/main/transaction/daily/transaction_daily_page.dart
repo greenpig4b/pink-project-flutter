@@ -14,12 +14,18 @@ class TransactionDailyPage extends ConsumerWidget {
     final selectedDate = ref.watch(calendarProvider);
     final model = ref.watch(transactionListProvider(selectedDate.toString()));
 
-    return Column(
-      children: [
-        TransactionTotalAccount(model: model),
-        UnderLineWidget(),
-        Expanded(child: TransactionRecordDetail(model: model)),
-      ],
-    );
+    if (model == null) {
+      return Center(child: CircularProgressIndicator(color: Color(0xFFFC7C9A)));
+    } else {
+      return Scaffold(
+        body: Column(
+          children: [
+            TransactionTotalAccount(model: model),
+            UnderLineWidget(),
+            Expanded(child: TransactionRecordDetail(model: model)),
+          ],
+        ),
+      );
+    }
   }
 }
