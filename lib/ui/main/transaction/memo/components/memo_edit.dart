@@ -1,46 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_write_app_bar.dart';
 
-import 'memo_write_app_bar.dart';
+class MemoEdit extends StatelessWidget {
+  final Map<String, String> memo;
+  final String date;
 
-class MemoWrite extends StatelessWidget {
-  MemoWrite({super.key});
-
+  MemoEdit({Key? key, required this.memo, required this.date}) : super(key: key);
   final FocusNode _titleFocusNode = FocusNode();
-  final DateTime currentDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_titleFocusNode);
     });
+    TextEditingController _titleController = TextEditingController(text: memo['title']);
+    TextEditingController _commentController = TextEditingController(text: memo['comment']);
 
     return Scaffold(
-      appBar: MemoWriteAppBar(title: "메모"),
+      appBar: MemoWriteAppBar(title: date),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(Icons.calendar_today),
-                SizedBox(width: 8),
-                Text(
-                  DateFormat('MM월 dd일 (E)', 'ko_KR').format(currentDate),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
             TextField(
               focusNode: _titleFocusNode,
+              controller: _titleController,
               decoration: InputDecoration(
-                labelText: '제목을 입력하세요.',
+                labelText: '제목',
                 labelStyle: TextStyle(color: Color(0xFF7C7C7C)),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -59,8 +46,9 @@ class MemoWrite extends StatelessWidget {
             ),
             SizedBox(height: 16),
             TextField(
+              controller: _commentController,
               decoration: InputDecoration(
-                labelText: '내용을 입력하세요.',
+                labelText: '내용',
                 labelStyle: TextStyle(color: Color(0xFF7C7C7C)),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
