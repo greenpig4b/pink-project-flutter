@@ -1,4 +1,4 @@
-const List<Map<String, dynamic>> recordList = [
+const List<Map<String, dynamic>> transactionList = [
   {
     "date": "07.04(목)",
     "memo": [
