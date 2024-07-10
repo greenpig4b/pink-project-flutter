@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'expense_section.dart';
-import 'income_section.dart';
+import 'package:intl/intl.dart';  // intl 패키지 임포트
 
+import '../data/model/graphdummy.dart';
+import 'income_section.dart';
+import 'expense_section.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -14,7 +16,25 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   DateTime _selectedDate = DateTime.now();
   late TabController _tabController;
   bool _mounted = true;
-  int touchedIndex = -1;
+  int touchedIncomeIndex = -1;
+  int touchedExpenseIndex = -1;
+
+  // 더미 데이터를 사용하도록 설정합니다.
+  final List<TransactionIncome> incomeList = TransactionIncomeList;
+  final List<TransactionOutGoing> expenseList = TransactionOutGoingList;
+
+  double getTotalAmount(List<TransactionIncome> incomes) {
+    return incomes.fold(0, (sum, item) => sum + int.parse(item.amount.replaceAll(',', '')));
+  }
+
+  double getTotalExpense(List<TransactionOutGoing> expenses) {
+    return expenses.fold(0, (sum, item) => sum + int.parse(item.amount.replaceAll(',', '')));
+  }
+
+  String formatCurrency(double amount) {
+    final formatter = NumberFormat('#,##0', 'en_US');  // 금액 포맷 설정
+    return formatter.format(amount);
+  }
 
   void _nextMonth() {
     if (_mounted) {
@@ -57,6 +77,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    double totalIncome = getTotalAmount(incomeList);
+    double totalExpense = getTotalExpense(expenseList);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -136,8 +159,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               }
             },
             tabs: [
-              Tab(text: '수입 7,000원'),
-              Tab(text: '지출 7,582원'),
+              Tab(text: '수입 ${formatCurrency(totalIncome)}원'),
+              Tab(text: '지출 ${formatCurrency(totalExpense)}원'),
             ],
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,
@@ -161,16 +184,26 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             controller: _tabController,
             physics: NeverScrollableScrollPhysics(),
             children: [
-              IncomeSection(touchedIndex: touchedIndex, onTouch: (index) {
-                setState(() {
-                  touchedIndex = index;
-                });
-              }),
-              ExpenseSection(touchedIndex: touchedIndex, onTouch: (index) {
-                setState(() {
-                  touchedIndex = index;
-                });
-              }),
+              IncomeSection(
+                touchedIndex: touchedIncomeIndex,
+                onTouch: (index) {
+                  setState(() {
+                    touchedIncomeIndex = index;
+                  });
+                },
+                incomes: incomeList, // 데이터를 전달
+                selectedDate: _selectedDate,
+              ),
+              ExpenseSection(
+                touchedIndex: touchedExpenseIndex,
+                onTouch: (index) {
+                  setState(() {
+                    touchedExpenseIndex = index;
+                  });
+                },
+                expenses: expenseList, // 데이터를 전달
+                selectedDate: _selectedDate,
+              ),
             ],
           ),
         ),
