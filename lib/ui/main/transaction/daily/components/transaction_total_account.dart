@@ -24,11 +24,11 @@ class TransactionTotalAccount extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("${model?.totalTransactionDTO?.monthlyIncome}원", style: TextStyle(color: Colors.blue),
+            Text("${model?.totalTransactionDTO?.monthlyIncome}", style: TextStyle(color: Colors.blue),
             ),
-            Text("${model?.totalTransactionDTO?.monthlyExpense}원", style: TextStyle(color: Colors.redAccent),
+            Text("${model?.totalTransactionDTO?.monthlyExpense}", style: TextStyle(color: Colors.redAccent),
             ),
-            Text("${model?.totalTransactionDTO?.monthlyTotalAmount}원"),
+            Text("${model?.totalTransactionDTO?.monthlyTotalAmount}"),
           ],
         ),
       ],

@@ -48,14 +48,14 @@ class TransactionRecordDetail extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "${dailyTransaction?.date}일",
+                              "${dailyTransaction?.date}",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text("${dailyTransaction?.dailyIncome}원", style: TextStyle(color: Colors.blue)),
+                            Text("${dailyTransaction?.dailyIncome}", style: TextStyle(color: Colors.blue)),
                             Text(
-                              "${dailyTransaction?.dailyExpense}원",
+                              "${dailyTransaction?.dailyExpense}",
                               style: TextStyle(color: Colors.red),
                             ),
                           ],

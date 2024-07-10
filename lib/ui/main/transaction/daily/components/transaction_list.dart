@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../../data/dtos/transaction/transaction_response.dart';
 
 class TransactionList extends StatelessWidget {
@@ -18,7 +17,14 @@ class TransactionList extends StatelessWidget {
             children: [
               Expanded(
                 flex: 2,
-                child: Text(item.transactionType),
+                child: Text(
+                  item.transactionType == "EXPENSE"
+                      ? item.categoryOut ?? ''
+                      : item.categoryIn ?? '',
+                  style: TextStyle(
+                    color: Colors.black54,
+                  ),
+                ),
               ),
               Expanded(
                 flex: 4,
@@ -30,7 +36,7 @@ class TransactionList extends StatelessWidget {
                       children: [
                         Text(item.time),
                         SizedBox(width: 10),
-                        Text(item.assets)
+                        Text(item.assets),
                       ],
                     ),
                   ],
@@ -40,7 +46,7 @@ class TransactionList extends StatelessWidget {
                 flex: 2,
                 child: Text(
                   item.amount,
-                  style: const TextStyle(color: Colors.red),
+                  style:  TextStyle(color: item.transactionType == "EXPENSE" ? Colors.red : Colors.blue),
                   textAlign: TextAlign.end,
                 ),
               ),
