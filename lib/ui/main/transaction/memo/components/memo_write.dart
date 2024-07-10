@@ -1,33 +1,20 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_write_form.dart';
+
+import 'memo_write_app_bar.dart';
 
 class MemoWrite extends StatelessWidget {
-  const MemoWrite({super.key});
+  MemoWrite({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    String formattedDate = DateFormat('MM월 dd일 (E)', 'ko_KR').format(DateTime.now());
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('07월 08일 (월)'),
-        backgroundColor: Color(0xFFFC7C9A),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: '제목을 입력하세요.'),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(labelText: '내용을 입력하세요.'),
-              maxLines: 5,
-            ),
-            SizedBox(height: 16),
-          ],
-        ),
-      ),
+      appBar: MemoWriteAppBar(title: formattedDate),
+      body: MemoWriteForm(),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '_components/calender_widget.dart';
 import '_components/daily_list_appbar.dart';
 import 'calender/transaction_calender_page.dart';
@@ -9,6 +9,8 @@ import 'memo/transaction_memo_page.dart';
 class TransactionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const DailyListAppbar(title: "가계부"),  // DailyListAppbar 설정
@@ -17,15 +19,21 @@ class TransactionPage extends StatelessWidget {
         child: Column(
           children: [
             CalendarWidget(),
-            const TabBar(
-
-              tabs: [
-                Tab(text: "일일"),
-                Tab(text: "달력"),
-                Tab(text: "메모")
-              ],
+            Container(
+              color: Color(0xFFFC7C9A),
+              child: const TabBar(
+                indicatorColor: Colors.white,
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white60,
+                tabs: [
+                  Tab(text: "일일"),
+                  Tab(text: "달력"),
+                  Tab(text: "메모")
+                ],
+              ),
             ),
-            const Expanded(
+            Expanded(
               child: TabBarView(
                 children: [
                   TransactionDailyPage(),
