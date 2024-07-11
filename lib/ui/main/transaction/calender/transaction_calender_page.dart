@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../components/under_line_widget.dart';
@@ -159,37 +160,50 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
         body: ListView(children: [
           if (_selectedYear.isNotEmpty && _selectedMonth.isNotEmpty && _selectedDayNum.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+              padding: const EdgeInsets.only(right: 20.0, left: 20.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "$_selectedDayNum",
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  Container(
+                    child: Row(
+                      children: [
+                        Text(
+                          "$_selectedDayNum",
+                          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 10,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "$_selectedYear. $_selectedMonth.",
+                              style: TextStyle(fontSize: 13),
+                            ),
+                            Container(
+                              width: 45,
+                              height: 22,
+                              decoration: BoxDecoration(
+                                color: Color(0xB6B7B7B7),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "$_selectedWeekday",
+                                  style: TextStyle(fontSize: 13, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(width: 10,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "$_selectedYear. $_selectedMonth.",
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      Container(
-                        width: 45,
-                        height: 22,
-                        decoration: BoxDecoration(
-                          color: Color(0xB6B7B7B7),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "$_selectedWeekday",
-                            style: TextStyle(fontSize: 13, color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
+
+                  SvgPicture.asset(
+                    'assets/icons/heart-regular.svg',
+                    width: 20,
+                    height: 20,
                   ),
                 ],
               ),
