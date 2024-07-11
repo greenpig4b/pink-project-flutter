@@ -114,7 +114,8 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
                   ),
                   selectedDecoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: DateTime.now().toString().split(' ')[0] != _focusedDay.toString().split(' ')[0]
+                    color: DateTime.now().toString().split(' ')[0] !=
+                            _focusedDay.toString().split(' ')[0]
                         ? Colors.grey.withOpacity(0.7)
                         : Color(0xFFFC7C9A)
                             .withOpacity(0.7), // 선택된 날짜의 동그라미 색상을 여기서 설정
@@ -128,40 +129,46 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
             child: UnderLineWidget(),
           ),
         ],
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: [
-              Text(
-                _selectedDateInfo,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              if (_selectedDateInfo.isNotEmpty) ...[
-                TransactionDetail(
-                  category: "기타",
-                  content: "옷사기",
-                  property: "카드",
-                  price: "30000원",
-                ),
-                UnderLineWidget(),
-                TransactionDetail(
-                  category: "식비",
-                  content: "밥",
-                  property: "현금",
-                  price: "9000원",
-                ),
-                UnderLineWidget(),
-                TransactionDetail(
-                  category: "용돈",
-                  content: "용돈",
-                  property: "계좌",
-                  price: "300000원",
-                ),
-                UnderLineWidget(),
-              ],
-            ],
+        body: ListView(children: [
+          Text(
+            _selectedDateInfo,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-        ),
+          UnderLineWidget(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                if (_selectedDateInfo.isNotEmpty) ...[
+                  TransactionDetail(
+                    category: "기타",
+                    content: "옷사기",
+                    property: "카드",
+                    price: "30000원",
+                    isIncome: false,
+                  ),
+                  UnderLineWidget(),
+                  TransactionDetail(
+                    category: "식비",
+                    content: "밥",
+                    property: "현금",
+                    price: "9000원",
+                    isIncome: false,
+                  ),
+                  UnderLineWidget(),
+                  TransactionDetail(
+                    category: "용돈",
+                    content: "용돈",
+                    property: "계좌",
+                    price: "300000원",
+                    isIncome: true,
+                  ),
+                  UnderLineWidget(),
+                ],
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }
