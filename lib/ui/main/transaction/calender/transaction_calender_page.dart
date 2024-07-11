@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../components/under_line_widget.dart';
 import '../daily/components/transaction_total_account.dart';
 import 'components/transaction_detail.dart';
+import 'components/transaction_detail_memo.dart';
 
 class TransactionCalenderPage extends StatefulWidget {
   @override
@@ -214,6 +215,9 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
             child: Column(
               children: [
                 if (_selectedYear.isNotEmpty && _selectedMonth.isNotEmpty && _selectedDayNum.isNotEmpty) ...[
+                  TransactionDetailMemo(title: "메모1",),
+                  TransactionDetailMemo(title: "메모2",),
+                  UnderLineWidget(),
                   TransactionDetail(
                     category: "기타",
                     content: "옷사기",
@@ -247,3 +251,5 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
     );
   }
 }
+
+
