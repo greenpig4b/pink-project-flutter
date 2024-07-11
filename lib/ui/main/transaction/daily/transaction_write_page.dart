@@ -59,8 +59,8 @@ class TransactionWritePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedDate = ref.watch(selectedDateProvider);
-    final selectedTime = ref.watch(selectedTimeProvider);
+    final selectedDate = ref.watch(selectedDateProvider) ?? DateTime.now();
+    final selectedTime = ref.watch(selectedTimeProvider) ?? TimeOfDay.now();
     final transactionType = ref.watch(transactionTypeProvider);
 
     return Scaffold(
@@ -79,21 +79,26 @@ class TransactionWritePage extends ConsumerWidget {
                       text: "수입",
                       isSelected: transactionType.isIncomeSelected,
                       onTap: () {
-                        ref.read(transactionTypeProvider.notifier).selectIncome();
+                        ref
+                            .read(transactionTypeProvider.notifier)
+                            .selectIncome();
                       },
                     ),
                     TransactionCategoryButton(
                       text: "지출",
                       isSelected: transactionType.isExpenseSelected,
                       onTap: () {
-                        ref.read(transactionTypeProvider.notifier).selectExpense();
+                        ref
+                            .read(transactionTypeProvider.notifier)
+                            .selectExpense();
                       },
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 0.0),
                   child: Row(
                     children: [
                       Container(
@@ -108,7 +113,7 @@ class TransactionWritePage extends ConsumerWidget {
                           onTap: () async {
                             final DateTime? picked = await showDatePicker(
                               context: context,
-                              initialDate: selectedDate ?? DateTime.now(),
+                              initialDate: selectedDate,
                               firstDate: DateTime(1900),
                               lastDate: DateTime.now(),
                               builder: (context, child) {
@@ -126,13 +131,18 @@ class TransactionWritePage extends ConsumerWidget {
                               },
                             );
                             if (picked != null && picked != selectedDate) {
-                              ref.read(selectedDateProvider.notifier).state = picked;
+                              ref.read(selectedDateProvider.notifier).state =
+                                  picked;
                               _selectedDate = picked;
-                              print("날짜 확인 : ${DateFormat('yyyy-MM-dd').format(_selectedDate!)}");
+                              print(
+                                  "날짜 확인 : ${DateFormat('yyyy-MM-dd').format(_selectedDate!)}");
+                            } else {
+                              _selectedDate = DateTime.now();
                             }
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 20.0),
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(color: Colors.grey),
@@ -142,13 +152,13 @@ class TransactionWritePage extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  selectedDate == null
-                                      ? DateFormat('yyyy-MM-dd').format(DateTime.now())
-                                      : DateFormat('yyyy-MM-dd').format(selectedDate),
-                                  style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                  DateFormat('yyyy-MM-dd').format(selectedDate),
+                                  style: const TextStyle(
+                                      color: Colors.black54, fontSize: 16),
                                 ),
                                 SizedBox(width: 10),
-                                const Icon(Icons.calendar_today, color: Colors.black),
+                                const Icon(Icons.calendar_today,
+                                    color: Colors.black),
                               ],
                             ),
                           ),
@@ -160,16 +170,21 @@ class TransactionWritePage extends ConsumerWidget {
                           onTap: () async {
                             final TimeOfDay? picked = await showTimePicker(
                               context: context,
-                              initialTime: selectedTime ?? TimeOfDay.now(),
+                              initialTime: selectedTime,
                             );
                             if (picked != null && picked != selectedTime) {
-                              ref.read(selectedTimeProvider.notifier).state = picked;
+                              ref.read(selectedTimeProvider.notifier).state =
+                                  picked;
                               _selectedTime = picked;
-                              print("시간 확인 : ${_selectedTime?.format(context)}");
+                              print(
+                                  "시간 확인 : ${_selectedTime?.format(context)}");
+                            } else {
+                              _selectedTime = TimeOfDay.now();
                             }
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 20.0),
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(color: Colors.grey),
@@ -179,13 +194,13 @@ class TransactionWritePage extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  selectedTime == null
-                                      ? TimeOfDay.now().format(context)
-                                      : '${selectedTime.format(context)}',
-                                  style: const TextStyle(color: Colors.black54, fontSize: 16),
+                                  selectedTime.format(context),
+                                  style: const TextStyle(
+                                      color: Colors.black54, fontSize: 16),
                                 ),
                                 SizedBox(width: 10),
-                                const Icon(Icons.access_time, color: Colors.black),
+                                const Icon(Icons.access_time,
+                                    color: Colors.black),
                               ],
                             ),
                           ),
@@ -196,7 +211,8 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
                 SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
                   child: Row(
                     children: [
                       Container(
@@ -211,6 +227,10 @@ class TransactionWritePage extends ConsumerWidget {
                           controller: _amount,
                           decoration: InputDecoration(
                             hintText: '금액을 입력하세요',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFFFC7C9A), width: 2.0),
+                            ),
                           ),
                         ),
                       ),
@@ -220,7 +240,8 @@ class TransactionWritePage extends ConsumerWidget {
                 SizedBox(height: 10),
                 if (transactionType.isIncomeSelected)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 5.0),
                     child: Row(
                       children: [
                         Container(
@@ -237,6 +258,10 @@ class TransactionWritePage extends ConsumerWidget {
                             onTap: () => _categoryInKeyboard(context),
                             decoration: InputDecoration(
                               hintText: '분류를 선택하세요',
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xFFFC7C9A), width: 2.0),
+                              ),
                             ),
                           ),
                         ),
@@ -245,7 +270,8 @@ class TransactionWritePage extends ConsumerWidget {
                   )
                 else
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 5.0),
                     child: Row(
                       children: [
                         Container(
@@ -262,6 +288,10 @@ class TransactionWritePage extends ConsumerWidget {
                             onTap: () => _categoryOutKeyboard(context),
                             decoration: InputDecoration(
                               hintText: '분류를 선택하세요',
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xFFFC7C9A), width: 2.0),
+                              ),
                             ),
                           ),
                         ),
@@ -270,7 +300,8 @@ class TransactionWritePage extends ConsumerWidget {
                   ),
                 SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
                   child: Row(
                     children: [
                       Container(
@@ -287,6 +318,10 @@ class TransactionWritePage extends ConsumerWidget {
                           onTap: () => _assetsKeyboard(context),
                           decoration: InputDecoration(
                             hintText: '자산을 입력하세요',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFFFC7C9A), width: 2.0),
+                            ),
                           ),
                         ),
                       ),
@@ -295,7 +330,8 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
                 SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 0.0),
                   child: Row(
                     children: [
                       Container(
@@ -310,6 +346,10 @@ class TransactionWritePage extends ConsumerWidget {
                           controller: _description,
                           decoration: InputDecoration(
                             hintText: '내용을 입력하세요',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFFFC7C9A), width: 2.0),
+                            ),
                           ),
                         ),
                       ),
@@ -318,64 +358,101 @@ class TransactionWritePage extends ConsumerWidget {
                 ),
                 SizedBox(height: 30),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
                         if (transactionType.isIncomeSelected) {
-                          String categoryInText = _categoryIn.text.split(' ').skip(1).join(' ').trim();
-                          CategoryInEnum? categoryInEnum = getCategoryInEnum(categoryInText);
+                          String categoryInText = _categoryIn.text
+                              .split(' ')
+                              .skip(1)
+                              .join(' ')
+                              .trim();
+                          CategoryInEnum? categoryInEnum =
+                              getCategoryInEnum(categoryInText);
 
-                          String assetsText = _assets.text.split(' ').skip(1).join(' ').trim();
+                          String assetsText =
+                              _assets.text.split(' ').skip(1).join(' ').trim();
                           AssetsEnum? assetsEnum = getAssetsEnum(assetsText);
 
                           if (categoryInEnum != null && assetsEnum != null) {
                             TransactionSaveDTO requestDTO = TransactionSaveDTO(
                               amount: _amount.text.trim(),
-                              assets: assetsEnum.toString().split('.').last, // enum 값을 문자열로 변환
-                              categoryIn: categoryInEnum.toString().split('.').last, // enum 값을 문자열로 변환
+                              assets: assetsEnum.toString().split('.').last,
+                              // enum 값을 문자열로 변환
+                              categoryIn:
+                                  categoryInEnum.toString().split('.').last,
+                              // enum 값을 문자열로 변환
                               description: _description.text.trim(),
-                              yearMonthDate: DateFormat('yyyy-MM-dd').format(selectedDate!),
-                              time: formatTimeOfDay(_selectedTime!), // 변경된 부분
+                              yearMonthDate:
+                                  DateFormat('yyyy-MM-dd').format(selectedDate),
+                              time: formatTimeOfDay(selectedTime),
+                              // 변경된 부분
                               transactionType: "INCOME",
                             );
 
-                            ref.read(transactionListProvider(_selectedDate.toString()).notifier).notifySave(requestDTO);
+                            ref
+                                .read(transactionListProvider(
+                                        selectedDate.toString())
+                                    .notifier)
+                                .notifySave(requestDTO);
 
-                            print("자산 확인 : ${assetsEnum.toString().split('.').last}");
-                            print("카테고리 확인 : ${categoryInEnum.toString().split('.').last}");
+                            print(
+                                "자산 확인 : ${assetsEnum.toString().split('.').last}");
+                            print(
+                                "카테고리 확인 : ${categoryInEnum.toString().split('.').last}");
                           } else {
-                            print("유효하지 않은 카테고리 또는 자산: $categoryInText, $assetsText");
+                            print(
+                                "유효하지 않은 카테고리 또는 자산: $categoryInText, $assetsText");
                           }
                         } else {
-                          String categoryOutText = _categoryOut.text.split(' ').skip(1).join(' ').trim();
-                          CategoryOutEnum? categoryOutEnum = getCategoryOutEnum(categoryOutText);
+                          String categoryOutText = _categoryOut.text
+                              .split(' ')
+                              .skip(1)
+                              .join(' ')
+                              .trim();
+                          CategoryOutEnum? categoryOutEnum =
+                              getCategoryOutEnum(categoryOutText);
 
-                          String assetsText = _assets.text.split(' ').skip(1).join(' ').trim();
+                          String assetsText =
+                              _assets.text.split(' ').skip(1).join(' ').trim();
                           AssetsEnum? assetsEnum = getAssetsEnum(assetsText);
 
                           if (categoryOutEnum != null && assetsEnum != null) {
                             TransactionSaveDTO requestDTO = TransactionSaveDTO(
                               amount: _amount.text.trim(),
-                              assets: assetsEnum.toString().split('.').last, // enum 값을 문자열로 변환
-                              categoryOut: categoryOutEnum.toString().split('.').last, // enum 값을 문자열로 변환
+                              assets: assetsEnum.toString().split('.').last,
+                              // enum 값을 문자열로 변환
+                              categoryOut:
+                                  categoryOutEnum.toString().split('.').last,
+                              // enum 값을 문자열로 변환
                               description: _description.text.trim(),
-                              yearMonthDate: DateFormat('yyyy-MM-dd').format(selectedDate!),
-                              time: formatTimeOfDay(_selectedTime!), // 변경된 부분
+                              yearMonthDate:
+                                  DateFormat('yyyy-MM-dd').format(selectedDate),
+                              time: formatTimeOfDay(selectedTime),
+                              // 변경된 부분
                               transactionType: "EXPENSE",
                             );
 
-                            print("세이브 날짜 확인 : ${_selectedDate}");
-                            print("세이브 시간 확인 : ${_selectedTime?.format(context)}");
+                            print("세이브 날짜 확인 : ${selectedDate}");
+                            print(
+                                "세이브 시간 확인 : ${selectedTime.format(context)}");
 
+                            ref
+                                .read(transactionListProvider(
+                                        selectedDate.toString())
+                                    .notifier)
+                                .notifySave(requestDTO);
 
-                            ref.read(transactionListProvider(_selectedDate.toString()).notifier).notifySave(requestDTO);
-
-                            print("자산 확인 : ${assetsEnum.toString().split('.').last}");
-                            print("카테고리 확인 : ${categoryOutEnum.toString().split('.').last}");
+                            print(
+                                "자산 확인 : ${assetsEnum.toString().split('.').last}");
+                            print(
+                                "카테고리 확인 : ${categoryOutEnum.toString().split('.').last}");
                           } else {
-                            print("유효하지 않은 카테고리 또는 자산: $categoryOutText, $assetsText");
+                            print(
+                                "유효하지 않은 카테고리 또는 자산: $categoryOutText, $assetsText");
                           }
                         }
                       },
@@ -391,8 +468,7 @@ class TransactionWritePage extends ConsumerWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        textStyle: TextStyle(
-                            fontSize: 16),
+                        textStyle: TextStyle(fontSize: 16),
                       ),
                     ),
                   ),
@@ -413,7 +489,8 @@ class TransactionWritePage extends ConsumerWidget {
         icon: Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () => Navigator.pop(context),
       ),
-      title: Text("기록", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      title: Text("기록",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       centerTitle: true,
       actions: [
         Padding(
