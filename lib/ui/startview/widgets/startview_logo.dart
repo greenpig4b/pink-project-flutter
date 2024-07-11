@@ -7,12 +7,14 @@ class StartviewLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-
-      child: Image.asset(
-        'assets/images/main.png',
-        fit: BoxFit.contain,
-        height: 300,
+    return Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Center(
+        child: Image.asset(
+          'assets/images/main.png',
+          fit: BoxFit.contain,
+          height: 250,
+        ),
       ),
     );
   }

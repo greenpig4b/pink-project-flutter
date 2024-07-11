@@ -12,20 +12,24 @@ class StartviewLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0xfffc7c9a), // 버튼 배경색
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50), // 둥근 테두리
+    return Container(
+      margin: EdgeInsets.only(top:50),
+      width: double.infinity, // 너비를 100%로 설정
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xfffc7c9a), // 버튼 배경색
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50), // 둥근 테두리
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15), // 버튼 내부 여백
         ),
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15), // 버튼 내부 여백
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 18, // 폰트 크기
-          color: Colors.white, // 텍스트 색상
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 18, // 폰트 크기
+            color: Colors.white, // 텍스트 색상
+          ),
         ),
       ),
     );
