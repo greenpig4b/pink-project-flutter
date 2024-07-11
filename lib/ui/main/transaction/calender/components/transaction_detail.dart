@@ -7,13 +7,14 @@ class TransactionDetail extends StatelessWidget {
   final content;
   final property;
   final price;
+  final isIncome; // true : 수입 false : 지출
 
-  TransactionDetail({required this.category, required this.content, required this.property, required this.price});
+  TransactionDetail({required this.category, required this.content, required this.property, required this.price, required this.isIncome});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10, top: 10),
+      padding: const EdgeInsets.only(bottom: 5, top: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -54,7 +55,15 @@ class TransactionDetail extends StatelessWidget {
               ],
             ),
           ),
-          Text(price),
+
+          Text(
+            price,
+            style: TextStyle(
+              color: isIncome
+                  ? Colors.blue
+                  : Colors.redAccent
+            ),
+          ),
         ],
       ),
     );
