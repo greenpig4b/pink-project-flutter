@@ -29,10 +29,8 @@ class AssetsKeyboard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Container(
-          // margin: EdgeInsets.all(2),
           decoration: BoxDecoration(
-            // border: Border.all(color: Color(0xFFE6E6E6)),
-            borderRadius: BorderRadius.circular(7) ,
+            borderRadius: BorderRadius.circular(7),
           ),
           child: Center(
             child: Column(

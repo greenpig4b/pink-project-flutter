@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/_core/enum/category_in_enum.dart';
+import 'package:pinkpig_project_flutter/_core/enum/category_out_enum.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/_components/assets_keyboard.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_list_viewmodel.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_type_viewmodel.dart';
+import '../../../../_core/enum/assets_enum.dart';
+import '../../../../_core/util/time_of_dat_format.dart';
 import '../../../../data/dtos/transaction/transaction_request.dart';
 import '../_components/category_in_keyboard.dart';
 import '../_components/category_out_keyboard.dart';
@@ -20,8 +25,7 @@ class TransactionWritePage extends ConsumerWidget {
   final _description = TextEditingController();
   final _transactionType = TextEditingController();
 
-  // var _dateTime;
-  TimeOfDay? _selectedTime; // 시간을 저장할 변수
+  TimeOfDay? _selectedTime;
   DateTime? _selectedDate;
 
   TransactionWritePage({super.key});
@@ -230,9 +234,7 @@ class TransactionWritePage extends ConsumerWidget {
                           child: TextFormField(
                             controller: _categoryIn,
                             readOnly: true,
-                            // 기본 키보드 비활성화
                             onTap: () => _categoryInKeyboard(context),
-                            // 커스텀 키보드 표시
                             decoration: InputDecoration(
                               hintText: '분류를 선택하세요',
                             ),
@@ -257,9 +259,7 @@ class TransactionWritePage extends ConsumerWidget {
                           child: TextFormField(
                             controller: _categoryOut,
                             readOnly: true,
-                            // 기본 키보드 비활성화
                             onTap: () => _categoryOutKeyboard(context),
-                            // 커스텀 키보드 표시
                             decoration: InputDecoration(
                               hintText: '분류를 선택하세요',
                             ),
@@ -283,8 +283,8 @@ class TransactionWritePage extends ConsumerWidget {
                       Expanded(
                         child: TextFormField(
                           controller: _assets,
-                          readOnly: true, // 기본 키보드 비활성화
-                          onTap: () => _assetsKeyboard(context), // 커스텀 키보드 표시
+                          readOnly: true,
+                          onTap: () => _assetsKeyboard(context),
                           decoration: InputDecoration(
                             hintText: '자산을 입력하세요',
                           ),
@@ -321,34 +321,62 @@ class TransactionWritePage extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                   child: SizedBox(
                     width: double.infinity,
-                    // Set the button width to full width of the container
                     child: ElevatedButton(
                       onPressed: () {
                         if (transactionType.isIncomeSelected) {
-                          TransactionSaveDTO requestDTO = TransactionSaveDTO(
-                            amount: _amount.text.trim(),
-                            assets: _assets.text.split(' ').skip(1).join(' ').trim(),
-                            categoryIn: _categoryIn.text.split(' ').skip(1).join(' ').trim(),
-                            description: _description.text.trim(),
-                            yearMonthDate: _selectedDate,
-                            time: _selectedTime,
-                            transactionType: "수입",
-                          );
+                          String categoryInText = _categoryIn.text.split(' ').skip(1).join(' ').trim();
+                          CategoryInEnum? categoryInEnum = getCategoryInEnum(categoryInText);
 
-                          print("자산 확인 : ${_assets.text.split(' ').skip(1).join(' ').trim()}");
-                          print("카테고리 확인 : ${_categoryIn.text.split(' ').skip(1).join(' ').trim()}");
+                          String assetsText = _assets.text.split(' ').skip(1).join(' ').trim();
+                          AssetsEnum? assetsEnum = getAssetsEnum(assetsText);
+
+                          if (categoryInEnum != null && assetsEnum != null) {
+                            TransactionSaveDTO requestDTO = TransactionSaveDTO(
+                              amount: _amount.text.trim(),
+                              assets: assetsEnum.toString().split('.').last, // enum 값을 문자열로 변환
+                              categoryIn: categoryInEnum.toString().split('.').last, // enum 값을 문자열로 변환
+                              description: _description.text.trim(),
+                              yearMonthDate: DateFormat('yyyy-MM-dd').format(selectedDate!),
+                              time: formatTimeOfDay(_selectedTime!), // 변경된 부분
+                              transactionType: "INCOME",
+                            );
+
+                            ref.read(transactionListProvider(_selectedDate.toString()).notifier).notifySave(requestDTO);
+
+                            print("자산 확인 : ${assetsEnum.toString().split('.').last}");
+                            print("카테고리 확인 : ${categoryInEnum.toString().split('.').last}");
+                          } else {
+                            print("유효하지 않은 카테고리 또는 자산: $categoryInText, $assetsText");
+                          }
                         } else {
-                          TransactionSaveDTO requestDTO = TransactionSaveDTO(
-                            amount: _amount.text.trim(),
-                            assets: _assets.text.split(' ').skip(1).join(' ').trim(),
-                            categoryOut: _categoryOut.text.split(' ').skip(1).join(' ').trim(),
-                            description: _description.text.trim(),
-                            yearMonthDate: _selectedDate,
-                            time: _selectedTime,
-                            transactionType: "지출",
-                          );
-                          print("자산 확인 : ${_assets.text.split(' ').skip(1).join(' ').trim()}");
-                          print("카테고리 확인 : ${_categoryOut.text.split(' ').skip(1).join(' ').trim()}");
+                          String categoryOutText = _categoryOut.text.split(' ').skip(1).join(' ').trim();
+                          CategoryOutEnum? categoryOutEnum = getCategoryOutEnum(categoryOutText);
+
+                          String assetsText = _assets.text.split(' ').skip(1).join(' ').trim();
+                          AssetsEnum? assetsEnum = getAssetsEnum(assetsText);
+
+                          if (categoryOutEnum != null && assetsEnum != null) {
+                            TransactionSaveDTO requestDTO = TransactionSaveDTO(
+                              amount: _amount.text.trim(),
+                              assets: assetsEnum.toString().split('.').last, // enum 값을 문자열로 변환
+                              categoryOut: categoryOutEnum.toString().split('.').last, // enum 값을 문자열로 변환
+                              description: _description.text.trim(),
+                              yearMonthDate: DateFormat('yyyy-MM-dd').format(selectedDate!),
+                              time: formatTimeOfDay(_selectedTime!), // 변경된 부분
+                              transactionType: "EXPENSE",
+                            );
+
+                            print("세이브 날짜 확인 : ${_selectedDate}");
+                            print("세이브 시간 확인 : ${_selectedTime?.format(context)}");
+
+
+                            ref.read(transactionListProvider(_selectedDate.toString()).notifier).notifySave(requestDTO);
+
+                            print("자산 확인 : ${assetsEnum.toString().split('.').last}");
+                            print("카테고리 확인 : ${categoryOutEnum.toString().split('.').last}");
+                          } else {
+                            print("유효하지 않은 카테고리 또는 자산: $categoryOutText, $assetsText");
+                          }
                         }
                       },
                       child: Text(
@@ -364,8 +392,7 @@ class TransactionWritePage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         textStyle: TextStyle(
-                          fontSize: 16,
-                        ),
+                            fontSize: 16),
                       ),
                     ),
                   ),
@@ -392,7 +419,7 @@ class TransactionWritePage extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
           child: Icon(Icons.settings, color: Colors.white),
-        )
+        ),
       ],
     );
   }

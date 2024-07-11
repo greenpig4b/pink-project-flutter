@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/response_dto.dart';
+import 'package:pinkpig_project_flutter/data/dtos/transaction/transaction_request.dart';
 import 'package:pinkpig_project_flutter/data/repository/transaction_repository.dart';
 
 import '../../../../../data/dtos/transaction/transaction_response.dart';
@@ -38,6 +39,10 @@ class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
     ScaffoldMessenger.of(mContext!).showSnackBar(
         SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
 
+  }
+
+  Future<void> notifySave(TransactionSaveDTO requestDTO) async {
+    ResponseDTO responseDTO = await TransactionRepository().saveTransaction(requestDTO);
   }
 }
 
