@@ -7,7 +7,7 @@ import '../dtos/transaction/transaction_response.dart';
 
 class TransactionRepository {
   Future<ResponseDTO> saveTransaction(TransactionSaveDTO requestDTO) async {
-    final response = await dio.get("/transactions", data: requestDTO.toJson());
+    final response = await dio.post("/transactions", data: requestDTO.toJson());
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     // if(responseDTO.status == 200){
     //
