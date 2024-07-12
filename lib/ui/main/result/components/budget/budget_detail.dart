@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinkpig_project_flutter/ui/main/result/components/budget/budget_app_bar.dart';
 import 'package:pinkpig_project_flutter/ui/main/result/components/budget/budget_detail_info.dart';
-
+import 'package:pinkpig_project_flutter/ui/main/result/components/budget/budget_edit.dart'; // BudgetEdit 페이지 import
 import '../../data/result_budget_dummy.dart';
 
 class BudgetDetail extends StatelessWidget {
@@ -43,7 +43,13 @@ class BudgetDetail extends StatelessWidget {
                               IconButton(
                                 icon: Icon(Icons.edit),
                                 onPressed: () {
-                                  // 수정 버튼을 눌렀을 때 동작할 코드 작성
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BudgetEdit(category: category),
+                                    ),
+                                  );
                                 },
                               ),
                             ],
