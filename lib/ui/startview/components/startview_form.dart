@@ -39,9 +39,7 @@ class _StartviewFormState extends State<StartviewForm> {
               FocusScope.of(context).requestFocus(passwordFocusNode);
             },
           ),
-          SizedBox(
-            height: 20,
-          ),
+
           CustomTextFormField(
             text: 'Password',
             focusNode: passwordFocusNode,
