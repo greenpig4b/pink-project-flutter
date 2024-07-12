@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pinkpig_project_flutter/ui/main/result/components/result_body_budget_edit.dart';
 
 class ResultBodyBudgetButton extends StatelessWidget {
-  const ResultBodyBudgetButton({super.key});
+  const ResultBodyBudgetButton({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,15 @@ class ResultBodyBudgetButton extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight, // 오른쪽 정렬
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigator를 통해 새로운 페이지로 이동
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultBodyBudgetEdit(), // ResultBodyBudgetEdit 페이지로 이동
+                    ),
+                  );
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min, // 최소 크기로 설정
                   children: [
