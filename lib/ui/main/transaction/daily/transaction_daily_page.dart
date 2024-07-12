@@ -18,6 +18,7 @@ class TransactionDailyPage extends ConsumerWidget {
       return Center(child: CircularProgressIndicator(color: Color(0xFFFC7C9A)));
     } else {
       return Scaffold(
+        backgroundColor: Colors.white,
         body: Column(
           children: [
             TransactionTotalAccount(model: model),

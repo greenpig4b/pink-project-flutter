@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../components/under_line_widget.dart';
 import '../daily/components/transaction_total_account.dart';
+import '../daily/transaction_write_page.dart';
 import 'components/transaction_detail.dart';
 import 'components/transaction_detail_memo.dart';
 
@@ -16,11 +17,17 @@ class TransactionCalenderPage extends StatefulWidget {
 class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month; // 달력의 기본 형식을 월별로 설정
   DateTime _focusedDay = DateTime.now(); // 현재 포커스된 날짜를 현재 날짜로 설정
-  DateTime? _selectedDay; // 선택된 날짜, 초기값은 null
-  String _selectedYear = ""; // 선택된 연도 저장
-  String _selectedMonth = ""; // 선택된 월 저장
-  String _selectedDayNum = ""; // 선택된 일 저장
+  DateTime? _selectedDay = DateTime.now(); // 선택된 날짜를 초기화
+  String _selectedYear = DateTime.now().year.toString(); // 초기 연도 설정
+  String _selectedMonth = DateTime.now().month.toString().padLeft(2, '0'); // 초기 월 설정
+  String _selectedDayNum = DateTime.now().day.toString().padLeft(2, '0'); // 초기 일 설정
   String _selectedWeekday = ""; // 선택된 요일 저장
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedWeekday = getWeekdayString(_selectedDay!.weekday); // 초기 요일 설정
+  }
 
   // 요일을 한글로 변환하는 함수
   String getWeekdayString(int weekday) {
@@ -48,6 +55,20 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TransactionWritePage()),
+          );
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: Color(0xFFFF6254),
+        shape: CircleBorder(),
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverToBoxAdapter(
@@ -79,10 +100,6 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
                       _selectedMonth = selectedDay.month.toString().padLeft(2, '0'); // 선택된 월 업데이트
                       _selectedDayNum = selectedDay.day.toString().padLeft(2, '0'); // 선택된 일 업데이트
                       _selectedWeekday = getWeekdayString(selectedDay.weekday); // 선택된 요일 업데이트
-
-                      print('${_selectedDay} 선택된 날짜');
-                      print('${_focusedDay} 포커스된 날짜');
-                      print('${DateTime.now()} 오늘 날짜');
                     });
                   }
                 },
@@ -159,7 +176,9 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
           ),
         ],
         body: ListView(children: [
-          if (_selectedYear.isNotEmpty && _selectedMonth.isNotEmpty && _selectedDayNum.isNotEmpty)
+          if (_selectedYear.isNotEmpty &&
+              _selectedMonth.isNotEmpty &&
+              _selectedDayNum.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 20.0),
               child: Row(
@@ -170,9 +189,12 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
                       children: [
                         Text(
                           "$_selectedDayNum",
-                          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 40, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -191,7 +213,8 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
                               child: Center(
                                 child: Text(
                                   "$_selectedWeekday",
-                                  style: TextStyle(fontSize: 13, color: Colors.white),
+                                  style: TextStyle(
+                                      fontSize: 13, color: Colors.white),
                                 ),
                               ),
                             ),
@@ -200,7 +223,6 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
                       ],
                     ),
                   ),
-
                   SvgPicture.asset(
                     'assets/icons/heart-regular.svg',
                     width: 20,
@@ -214,9 +236,15 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Column(
               children: [
-                if (_selectedYear.isNotEmpty && _selectedMonth.isNotEmpty && _selectedDayNum.isNotEmpty) ...[
-                  TransactionDetailMemo(title: "메모1",),
-                  TransactionDetailMemo(title: "메모2",),
+                if (_selectedYear.isNotEmpty &&
+                    _selectedMonth.isNotEmpty &&
+                    _selectedDayNum.isNotEmpty) ...[
+                  TransactionDetailMemo(
+                    title: "메모1",
+                  ),
+                  TransactionDetailMemo(
+                    title: "메모2",
+                  ),
                   UnderLineWidget(),
                   TransactionDetail(
                     category: "기타",
@@ -251,5 +279,3 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
     );
   }
 }
-
-
