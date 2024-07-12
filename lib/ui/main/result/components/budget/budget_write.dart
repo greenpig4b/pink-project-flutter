@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ResultBodyBudgetWrite extends StatelessWidget {
-  const ResultBodyBudgetWrite({super.key});
+class BudgetWrite extends StatelessWidget {
+  const BudgetWrite({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/main/result/components/result_body_budget_edit.dart';
+import 'package:pinkpig_project_flutter/ui/main/result/components/budget/budget_edit.dart';
 
 class ResultBodyBudgetButton extends StatelessWidget {
   const ResultBodyBudgetButton({Key? key});
@@ -26,7 +26,7 @@ class ResultBodyBudgetButton extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ResultBodyBudgetEdit(), // ResultBodyBudgetEdit 페이지로 이동
+                      builder: (context) => BudgetEdit(), // ResultBodyBudgetEdit 페이지로 이동
                     ),
                   );
                 },

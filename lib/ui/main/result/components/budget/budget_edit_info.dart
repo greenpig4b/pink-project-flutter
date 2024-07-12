@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/main/result/components/result_body_budget_app_bar.dart';
+import 'package:pinkpig_project_flutter/ui/main/result/components/budget/budget_app_bar.dart';
 
-class ResultBodyBudgetEditInfo extends StatelessWidget {
-  const ResultBodyBudgetEditInfo({Key? key});
+class BudgetEditInfo extends StatelessWidget {
+  const BudgetEditInfo({Key? key});
 
   @override
   Widget build(BuildContext context) {

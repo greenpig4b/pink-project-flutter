@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ResultBodyBudgetAppBar extends StatelessWidget implements PreferredSizeWidget{
+class BudgetAppBar extends StatelessWidget implements PreferredSizeWidget{
   final String title;
-  const ResultBodyBudgetAppBar({super.key, required this.title});
+  const BudgetAppBar({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
