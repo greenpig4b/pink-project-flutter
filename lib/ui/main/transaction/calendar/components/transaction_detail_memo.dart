@@ -10,7 +10,7 @@ class TransactionDetailMemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
       child: Row(
         children: [
           Container(
