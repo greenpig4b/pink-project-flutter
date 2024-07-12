@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/startview/widgets/custom_text_form_field.dart';
+
+import 'custom_text_form_field.dart';
+
 
 class StartviewForm extends StatelessWidget {
 

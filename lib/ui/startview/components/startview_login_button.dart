@@ -13,7 +13,7 @@ class StartviewLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top:50),
+      margin: EdgeInsets.only(top:30),
       width: double.infinity, // 너비를 100%로 설정
       child: ElevatedButton(
         onPressed: onPressed,
@@ -30,8 +30,8 @@ class StartviewLoginButton extends StatelessWidget {
             fontSize: 18, // 폰트 크기
             color: Colors.white, // 텍스트 색상
           ),
-        ),
-      ),
+        )
+      )
     );
   }
 }

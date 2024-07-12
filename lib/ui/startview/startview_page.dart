@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pinkpig_project_flutter/ui/main/main_page.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/daily/transaction_daily_page.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/transaction_page.dart';
-import 'package:pinkpig_project_flutter/ui/startview/widgets/startview_login_button.dart';
-import 'package:pinkpig_project_flutter/ui/startview/widgets/startview_ouath.dart';
-import 'widgets/startview_logo.dart';
-import 'widgets/startview_sign_in.dart';
+
+import 'components/startview_login_button.dart';
+import 'components/startview_logo.dart';
+import 'components/startview_ouath.dart';
+import 'components/startview_sign_in.dart';
+
 
 class StartviewPage extends StatelessWidget {
   @override
