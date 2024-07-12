@@ -8,7 +8,7 @@ class StartviewOuath extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 20),
+        SizedBox(height: 15),
         Stack(
           alignment: Alignment.center,
           children: [
@@ -24,14 +24,14 @@ class StartviewOuath extends StatelessWidget {
               child: Text(
                 "sns 계정으로 간편하게 로그인",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.grey,
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

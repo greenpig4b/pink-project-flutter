@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinkpig_project_flutter/ui/main/main_page.dart';
+import 'package:pinkpig_project_flutter/ui/startview/components/startview_sign_up_and_find_password.dart';
 
 import 'components/startview_login_button.dart';
 import 'components/startview_logo.dart';
@@ -28,7 +29,8 @@ class StartviewPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => MainPage()), // 새로운 페이지로 네비게이트
                 );
               },
-            )
+            ),
+            StartviewSignUpAndFindPassword(),
           ],
         ),
       ),

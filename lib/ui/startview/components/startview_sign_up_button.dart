@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pinkpig_project_flutter/ui/startview/startview_page.dart';
 
-class StartviewLoginButton extends StatelessWidget {
+class StartviewSignUpButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
 
-  const StartviewLoginButton({
+  const StartviewSignUpButton({
     Key? key,
     required this.text,
-    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -27,7 +26,13 @@ class StartviewLoginButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(50), // 둥근 테두리
       ),
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => StartviewPage()),
+                (Route<dynamic> route) => false,
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xfffc7c9a), // 버튼 배경색
           shape: RoundedRectangleBorder(
