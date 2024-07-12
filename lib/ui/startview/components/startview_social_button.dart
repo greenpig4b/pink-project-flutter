@@ -15,8 +15,8 @@ class StartviewSocialButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 45,
-        height: 45,
+        width: 50,
+        height: 50,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white,
@@ -32,8 +32,8 @@ class StartviewSocialButton extends StatelessWidget {
         child: Center(
           child: Image.asset(
             assetName,
-            width: 45,
-            height: 45,
+            width: 50,
+            height: 50,
           ),
         ),
       ),
