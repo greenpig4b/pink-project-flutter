@@ -8,7 +8,7 @@ class ResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: ResultAppBar(),
+      appBar: ResultAppBar(),
       body: ResultBody(),
     );
   }
