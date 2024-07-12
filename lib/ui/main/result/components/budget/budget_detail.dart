@@ -26,17 +26,39 @@ class BudgetDetail extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = budgetData[index]["category"];
                 final budget = budgetData[index]["budget"];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(category, style: TextStyle(fontSize: 16.0)),
-                      Text("${budget.toStringAsFixed(0)}원",
-                          style: TextStyle(fontSize: 16.0)),
-                    ],
-                  ),
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(category, style: TextStyle(fontSize: 16.0)),
+                          Row(
+                            children: [
+                              Text("${budget.toStringAsFixed(0)}원",
+                                  style: TextStyle(fontSize: 16.0)),
+                              SizedBox(width: 10),
+                              IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  // 수정 버튼을 눌렀을 때 동작할 코드 작성
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      height: 0.5,
+                      thickness: 0.5,
+                      indent: 16,
+                      endIndent: 16,
+                    ),
+                  ],
                 );
               },
             ),
