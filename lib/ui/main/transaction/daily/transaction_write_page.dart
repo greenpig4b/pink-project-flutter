@@ -394,7 +394,7 @@ class TransactionWritePage extends ConsumerWidget {
                               transactionType: "INCOME",
                             );
 
-                            ref.read(transactionWriteProvider.notifier).notifySave(requestDTO);
+                            ref.read(transactionListProvider(selectedDate.toString()).notifier).notifySave(requestDTO);
 
                             print(
                                 "자산 확인 : ${assetsEnum.toString().split('.').last}");
@@ -433,16 +433,9 @@ class TransactionWritePage extends ConsumerWidget {
                               transactionType: "EXPENSE",
                             );
 
-                            print("세이브 날짜 확인 : ${selectedDate}");
-                            print(
-                                "세이브 시간 확인 : ${selectedTime.format(context)}");
 
-                            ref.read(transactionWriteProvider.notifier).notifySave(requestDTO);
+                            ref.read(transactionListProvider(selectedDate.toString()).notifier).notifySave(requestDTO);
 
-                            print(
-                                "자산 확인 : ${assetsEnum.toString().split('.').last}");
-                            print(
-                                "카테고리 확인 : ${categoryOutEnum.toString().split('.').last}");
                           } else {
                             print(
                                 "유효하지 않은 카테고리 또는 자산: $categoryOutText, $assetsText");

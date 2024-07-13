@@ -12,14 +12,16 @@ class TransactionListModel {
   List<DailyTransactionDTO>? dailyTransactionDTO;
   List<DailyTransactionDetailDTO>? dailyTransactionDetailDTO;
 
+  // 가계부 작성 시 응답 dto
+  TransactionSaveRespDTO? transactionSaveRespDTO;
+
   TransactionListModel({this.totalTransactionDTO, this.dailyTransactionDTO,
-      this.dailyTransactionDetailDTO});
+      this.dailyTransactionDetailDTO, this.transactionSaveRespDTO});
 }
 
 class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
   final mContext = navigatorKey.currentContext;
-  final Ref ref;
-
+  Ref ref;
   TransactionListViewmodel(super.state, this.ref);
 
   Future<void> notifyInit(String selectedDate) async {
@@ -40,6 +42,26 @@ class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
         SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
 
   }
+
+
+  Future<void> notifySave(TransactionSaveDTO requestDTO) async {
+    ResponseDTO responseDTO = await TransactionRepository().saveTransaction(requestDTO);
+
+    Navigator.pop(mContext!);
+    // if(responseDTO.status == 200){
+    //
+    //
+    //
+    // }else{
+    //
+    //   ScaffoldMessenger.of(mContext!).showSnackBar(
+    //     SnackBar(content: Text("게시물 작성 실패 : ${responseDTO.errorMessage}")),
+    //   );
+    //
+    // }
+
+  }
+
 
 }
 

@@ -100,7 +100,7 @@ class DailyTransactionDetailDTO {
 }
 
 class TransactionSaveRespDTO {
-  final int id;
+  // final int id;
   final int userId;
   final String transactionType;
   final String? categoryIn;
@@ -111,7 +111,7 @@ class TransactionSaveRespDTO {
   final String amount;
 
   TransactionSaveRespDTO({
-    required this.id,
+    // required this.id,
     required this.userId,
     required this.transactionType,
     this.categoryIn,
@@ -123,7 +123,7 @@ class TransactionSaveRespDTO {
 
   factory TransactionSaveRespDTO.fromJson(Map<String, dynamic> json) {
     return TransactionSaveRespDTO(
-      id: json['id'],
+      // id: json['id'],
       userId:json['userId'],
       transactionType: json['transactionType'],
       categoryIn: json['categoryIn'],
