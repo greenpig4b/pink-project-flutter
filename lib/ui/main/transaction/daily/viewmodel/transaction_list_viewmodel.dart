@@ -41,9 +41,6 @@ class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
 
   }
 
-  Future<void> notifySave(TransactionSaveDTO requestDTO) async {
-    ResponseDTO responseDTO = await TransactionRepository().saveTransaction(requestDTO);
-  }
 }
 
 final transactionListProvider = StateNotifierProvider.family<

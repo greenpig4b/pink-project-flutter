@@ -6,6 +6,7 @@ import 'package:pinkpig_project_flutter/_core/enum/category_out_enum.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/_components/assets_keyboard.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_list_viewmodel.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_type_viewmodel.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_write_viewmodel.dart';
 import '../../../../_core/enum/assets_enum.dart';
 import '../../../../_core/util/time_of_dat_format.dart';
 import '../../../../data/dtos/transaction/transaction_request.dart';
@@ -393,11 +394,7 @@ class TransactionWritePage extends ConsumerWidget {
                               transactionType: "INCOME",
                             );
 
-                            ref
-                                .read(transactionListProvider(
-                                        selectedDate.toString())
-                                    .notifier)
-                                .notifySave(requestDTO);
+                            ref.read(transactionWriteProvider.notifier).notifySave(requestDTO);
 
                             print(
                                 "자산 확인 : ${assetsEnum.toString().split('.').last}");
@@ -440,11 +437,7 @@ class TransactionWritePage extends ConsumerWidget {
                             print(
                                 "세이브 시간 확인 : ${selectedTime.format(context)}");
 
-                            ref
-                                .read(transactionListProvider(
-                                        selectedDate.toString())
-                                    .notifier)
-                                .notifySave(requestDTO);
+                            ref.read(transactionWriteProvider.notifier).notifySave(requestDTO);
 
                             print(
                                 "자산 확인 : ${assetsEnum.toString().split('.').last}");

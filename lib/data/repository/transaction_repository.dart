@@ -9,9 +9,14 @@ class TransactionRepository {
   Future<ResponseDTO> saveTransaction(TransactionSaveDTO requestDTO) async {
     final response = await dio.post("/api/transactions", data: requestDTO.toJson());
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-    // if(responseDTO.status == 200){
-    //
-    // }
+    print("responseDTO : ${responseDTO.success}");
+    print("responseDTO : ${responseDTO.response}");
+    print("responseDTO : ${responseDTO.status}");
+
+    if(responseDTO.status == 200){
+      responseDTO.response = DailyTransactionDetailDTO.fromJson(responseDTO.response);
+
+    }
     return responseDTO;
   }
 
