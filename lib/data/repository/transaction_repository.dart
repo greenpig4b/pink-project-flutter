@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:pinkpig_project_flutter/_core/constants/http.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_list_viewmodel.dart';
 
@@ -15,8 +16,9 @@ class TransactionRepository {
     return responseDTO;
   }
 
-  Future<ResponseDTO> fetchTransactionList(int year, int month) async {
+  Future<ResponseDTO> fetchTransactionList(int year, int month,String accessToken) async {
     final response = await dio.get("/api/transactions/monthly",
+        options: Options(headers: {"Authorization": "${accessToken}"}),
         queryParameters: {'year': year, 'month': month});
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     if (responseDTO.status == 200) {
