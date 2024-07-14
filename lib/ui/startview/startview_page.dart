@@ -20,16 +20,8 @@ class StartviewPage extends StatelessWidget {
           children: [
             StartviewLogo(), // 수정된 위젯 이름 사용
             StartviewSignIn(),
-            StartviewOuath(),
-            StartviewLoginButton(
-                text: "로그인",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainPage()), // 새로운 페이지로 네비게이트
-                );
-              },
-            ),
+
+
             StartviewSignUpAndFindPassword(),
           ],
         ),

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String text;
-  final FocusNode focusNode;
-  final TextInputAction textInputAction;
-  final ValueChanged<String> onFieldSubmitted;
+  // final FocusNode focusNode;
+  // final TextInputAction textInputAction;
+  // final ValueChanged<String> onFieldSubmitted;
 
   const CustomTextFormField({
     Key? key,
     required this.text,
-    required this.focusNode,
-    required this.textInputAction,
-    required this.onFieldSubmitted,
+    // required this.focusNode,
+    // required this.textInputAction,
+    // required this.onFieldSubmitted,
   }) : super(key: key);
 
   @override
@@ -34,9 +34,9 @@ class CustomTextFormField extends StatelessWidget {
             ],
           ),
           child: TextFormField(
-            focusNode: focusNode,
-            textInputAction: textInputAction,
-            onFieldSubmitted: onFieldSubmitted,
+            // focusNode: focusNode,
+            // textInputAction: textInputAction,
+            // onFieldSubmitted: onFieldSubmitted,
             style: TextStyle(
               fontSize: 15, // 폰트사이즈
               color: Colors.black45,

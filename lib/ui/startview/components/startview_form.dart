@@ -33,20 +33,20 @@ class _StartviewFormState extends State<StartviewForm> {
         children: [
           CustomTextFormField(
             text: 'Email',
-            focusNode: emailFocusNode,
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(passwordFocusNode);
-            },
+            // focusNode: emailFocusNode,
+            // textInputAction: TextInputAction.next,
+            // onFieldSubmitted: (_) {
+            //   FocusScope.of(context).requestFocus(passwordFocusNode);
+            // },
           ),
 
           CustomTextFormField(
             text: 'Password',
-            focusNode: passwordFocusNode,
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(buttonFocusNode);
-            },
+            // focusNode: passwordFocusNode,
+            // textInputAction: TextInputAction.next,
+            // onFieldSubmitted: (_) {
+            //   FocusScope.of(context).requestFocus(buttonFocusNode);
+            // },
           ),
         ],
       ),
