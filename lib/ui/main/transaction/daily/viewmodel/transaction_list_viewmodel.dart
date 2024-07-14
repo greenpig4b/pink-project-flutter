@@ -5,6 +5,7 @@ import 'package:pinkpig_project_flutter/data/dtos/transaction/transaction_reques
 import 'package:pinkpig_project_flutter/data/repository/transaction_repository.dart';
 
 import '../../../../../data/dtos/transaction/transaction_response.dart';
+import '../../../../../data/store/session_store.dart';
 import '../../../../../main.dart';
 
 class TransactionListModel {
@@ -27,11 +28,15 @@ class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
     int year = parsedDate.year;
     int month = parsedDate.month;
 
+    SessionStore sessionStore = ref.read(sessionProvider);
+    String jwt = sessionStore.accessToken!;
+
+
     print("날짜 잘 들어왔나? : ${selectedDate}");
     print("년 잘 들어왔나? : ${year}");
     print("월 잘 들어왔나? : ${month}");
     ResponseDTO responseDTO =
-        await TransactionRepository().fetchTransactionList(year, month);
+        await TransactionRepository().fetchTransactionList(year, month,jwt);
 
     if(responseDTO.status == 200){
       state = responseDTO.response;

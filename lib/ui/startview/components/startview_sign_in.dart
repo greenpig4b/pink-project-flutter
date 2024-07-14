@@ -106,9 +106,9 @@ class StartviewSignIn extends ConsumerWidget {
                 StartviewLoginButton(
                   text: "로그인",
                   onPressed: () {
-                    bool isOk = _formKey.currentState!.validate();
-
-                    if (isOk) {
+                    // bool isOk = _formKey.currentState!.validate();
+                    //
+                    // if (isOk) {
                       String email = _email.text.trim();
                       String password = _password.text.trim();
 
@@ -119,7 +119,7 @@ class StartviewSignIn extends ConsumerWidget {
 
                       store.login(loginRequestDTO);
                     }
-                  },
+                  // },
                 ),
               ],
             ),
