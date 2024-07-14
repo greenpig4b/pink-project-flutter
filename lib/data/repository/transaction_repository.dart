@@ -7,7 +7,7 @@ import '../dtos/transaction/transaction_response.dart';
 
 class TransactionRepository {
   Future<ResponseDTO> saveTransaction(TransactionSaveDTO requestDTO) async {
-    final response = await dio.post("/transactions", data: requestDTO.toJson());
+    final response = await dio.post("/api/transactions", data: requestDTO.toJson());
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     // if(responseDTO.status == 200){
     //
@@ -16,7 +16,7 @@ class TransactionRepository {
   }
 
   Future<ResponseDTO> fetchTransactionList(int year, int month) async {
-    final response = await dio.get("/transactions/monthly",
+    final response = await dio.get("/api/transactions/monthly",
         queryParameters: {'year': year, 'month': month});
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     if (responseDTO.status == 200) {

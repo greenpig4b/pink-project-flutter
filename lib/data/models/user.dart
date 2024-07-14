@@ -1,19 +1,18 @@
 class User {
   final int id;
-  final String oauthProvider;
+  final String email;
+  final String password;
 
-  User({required this.id, required this.oauthProvider});
+  User(this.id, this.email, this.password);
 
-
-
-  // Map<String, dynamic> toJson() => {
-//   "id": id,
-// };
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "email": email,
+    "password": password,
+  };
 
   User.fromJson(Map<String, dynamic> json)
       : id = json["id"],
-        oauthProvider = json["oauthProvider"];
+        email = json["email"],
+        password = json["password"];
 }
-
-
-
