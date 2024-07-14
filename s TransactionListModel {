@@ -1,0 +1,556 @@
+[33mcommit 99136a0adfda35a00bfe70b6638709aff2f1b871[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mrjs/login/2[m[33m, [m[1;32mrjs/login/1[m[33m)[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Sat Jul 13 16:14:09 2024 +0900
+
+    api 주소 변경
+
+[33mcommit f68158dd10d34d8a5dc9d80a2514b8efd88dfa19[m[33m ([m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 44e0c3a 958f3df
+Author: hyeonnnit <153695703+hyeonnnit@users.noreply.github.com>
+Date:   Fri Jul 12 18:03:14 2024 +0900
+
+    Merge pull request #29 from greenpig4b/lsh/result/budget
+    
+    Lsh/result/budget
+
+[33mcommit 958f3df7ff61e700fd390e529ef9779061308fca[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 17:56:45 2024 +0900
+
+    result/budget/edit/appbar
+
+[33mcommit 44e0c3af5de8927f9827cc675c9bf1b0fc20e37b[m
+Merge: e853806 7ebee9d
+Author: greenpig4b <78337301+greenpig4b@users.noreply.github.com>
+Date:   Fri Jul 12 17:40:01 2024 +0900
+
+    Merge pull request #28 from greenpig4b/kjh/main/login
+    
+    Kjh/main/login
+
+[33mcommit 7ebee9df35af13570e268881f7f82bd18a788693[m
+Merge: 358037c e853806
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Fri Jul 12 17:39:19 2024 +0900
+
+    Merge branch 'refs/heads/dev' into kjh/main/login
+
+[33mcommit 358037ce2c65dddea505960c7f50de9126895b72[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Fri Jul 12 17:38:02 2024 +0900
+
+    백그라운드 추가
+
+[33mcommit e853806c2d9f0910277d6175b960c09e4b0aab70[m
+Merge: cc7becb 58596b8
+Author: greenpig4b <78337301+greenpig4b@users.noreply.github.com>
+Date:   Fri Jul 12 17:33:49 2024 +0900
+
+    Merge pull request #27 from greenpig4b/kjh/main/login
+    
+    Kjh/main/login
+
+[33mcommit 58596b8cfd2d03a4caea798f29ad12747588c78b[m
+Merge: 10f4f81 cc7becb
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Fri Jul 12 17:33:14 2024 +0900
+
+    Merge branch 'refs/heads/dev' into kjh/main/login
+
+[33mcommit 10f4f8198002a84978d9a894dddbfb09fb63dfc9[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Fri Jul 12 17:31:57 2024 +0900
+
+    글자간격 수정
+
+[33mcommit e3c21e9bb28f7a25f3164643d5c983030767cd0c[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 17:28:24 2024 +0900
+
+    result/budget/detail
+
+[33mcommit b786a4cd85e183f2ae0c4fc25ce74149a84adc33[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Fri Jul 12 17:18:30 2024 +0900
+
+    회원가입
+
+[33mcommit 54f897771e883cf7a136a3fbd4b0000957f7c97d[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 17:17:35 2024 +0900
+
+    budget_edit and budget_edit_info, change edit into detail
+
+[33mcommit cc7becbafe98a3127c08fc5d865ae0f48ab9ab99[m
+Merge: bcf29a5 9f1f8c8
+Author: yunchocopie <129649095+yunchocopie@users.noreply.github.com>
+Date:   Fri Jul 12 17:11:47 2024 +0900
+
+    Merge pull request #26 from greenpig4b/cyj/calendar/view/4
+    
+    Cyj/calendar/view/4
+
+[33mcommit 9f1f8c803174781d52376c9551cd81fef855b68b[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Fri Jul 12 17:08:49 2024 +0900
+
+    달력 페이지 컴포넌트 분리
+
+[33mcommit e3cc50e754ca9bc948c36a3f16f6a48201ccfbb7[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 16:48:27 2024 +0900
+
+    result/component refactoring
+
+[33mcommit 400620c3ba7de9d95205613844a4965c278aacd3[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 16:43:28 2024 +0900
+
+    result/budget/edit/info
+
+[33mcommit 7f2451bf7bc4ce09829fdfd7164cea09d5a0cd80[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Fri Jul 12 16:07:30 2024 +0900
+
+    파일명 수정
+
+[33mcommit ffe3258becee42ee94f229790c8d94535fe922fb[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 15:46:42 2024 +0900
+
+    result/budget/appbar
+
+[33mcommit 0f30984e838153e6f9104b75406b4a53cacf58fb[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Fri Jul 12 15:25:16 2024 +0900
+
+    메모 버튼, 오늘 날짜 가계부 표시
+
+[33mcommit 8fe2c5affefcd659f30bbe74193d6654ddc166da[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 15:17:58 2024 +0900
+
+    result/body/budget
+
+[33mcommit 1cb36b6836bc38355d6c5f61bfd6f23c285b14d8[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 14:19:24 2024 +0900
+
+    result/budget_button
+
+[33mcommit 471946b273bb32e011b232cc1863eeb507860584[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 12:27:25 2024 +0900
+
+    result appBar body Top
+
+[33mcommit 27dabfbe0e636b8b374f82388ea6752df76e0152[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Fri Jul 12 12:16:55 2024 +0900
+
+    result app bar
+
+[33mcommit c6d9e5b19fea7a0b70729dd939eb00e8efab3f81[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Fri Jul 12 12:00:05 2024 +0900
+
+     뷰 수정
+
+[33mcommit bcf29a5937c981da0398f226eda7b27803b8a0e3[m
+Merge: b8de328 994c6c0
+Author: coderyu5523 <153602328+coderyu5523@users.noreply.github.com>
+Date:   Thu Jul 11 21:30:51 2024 +0900
+
+    Merge pull request #25 from greenpig4b/rjs/transaction/write/5
+    
+    가계부 save 완료
+
+[33mcommit 994c6c03040e7c6269dcb5ef97d005ffc749d90e[m[33m ([m[1;31morigin/rjs/transaction/write/5[m[33m, [m[1;32mrjs/transaction/write/5[m[33m)[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Thu Jul 11 21:28:49 2024 +0900
+
+    [fix] selected date time
+
+[33mcommit 6e50a7c5eec30593704ca1a1e101ac0b8b3e38b7[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Thu Jul 11 20:45:53 2024 +0900
+
+    transaction insert 확인
+
+[33mcommit f3a73e6bafe2e26dc0e1b8b7e37a435d993e0379[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Thu Jul 11 19:04:37 2024 +0900
+
+    asset, category 이모지 파싱
+
+[33mcommit b8de32815d45f86ea1d6a7aedc8d8434a3881aee[m
+Merge: 69761f9 c024ed4
+Author: greenpig4b <78337301+greenpig4b@users.noreply.github.com>
+Date:   Thu Jul 11 18:15:59 2024 +0900
+
+    Merge pull request #24 from greenpig4b/kjh/main/login
+    
+    Kjh/main/login
+
+[33mcommit c024ed44c383793076862e91659163f0c28be34c[m
+Merge: 0f02539 69761f9
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Thu Jul 11 18:15:15 2024 +0900
+
+    Merge branch 'refs/heads/dev' into kjh/main/login
+
+[33mcommit 0f025393f0167ec97ce0de61d8f842d8cd57303b[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Thu Jul 11 18:11:00 2024 +0900
+
+    로그인 화면
+
+[33mcommit 69761f930509ca9a51bc12a9fb8738457578e9db[m
+Merge: d27343d a9927ce
+Author: yunchocopie <129649095+yunchocopie@users.noreply.github.com>
+Date:   Thu Jul 11 17:45:26 2024 +0900
+
+    Merge pull request #23 from greenpig4b/cyj/calendar/view/3
+    
+    Cyj/calendar/view/3
+
+[33mcommit a9927ceefceb5277fa777ef83df7ef590bcdfe82[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Thu Jul 11 17:19:16 2024 +0900
+
+    메모 부분
+
+[33mcommit ab2ee47f061aadac9ce489e9500b467dd9d4c223[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Thu Jul 11 16:57:40 2024 +0900
+
+    로그인 작업중
+
+[33mcommit eaa0c3686dfb1ea26297a77760f3630cfe2e30f4[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Thu Jul 11 16:40:33 2024 +0900
+
+    svg 파일 추가
+
+[33mcommit 86d3ff8016293e6028b718fa4e0281e646c03ac6[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Thu Jul 11 16:23:39 2024 +0900
+
+    상단 날짜, 요일 파싱
+
+[33mcommit 1f7c45265715178b2d8951d5b55045920d6ccac0[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Thu Jul 11 13:03:02 2024 +0900
+
+    수입/지출에 따라 금액 색상 변경
+
+[33mcommit 6c81171ed0832638021f7170459322e7a9cae29d[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Thu Jul 11 11:14:21 2024 +0900
+
+    로그인 화면 구상중
+
+[33mcommit d27343d6f3c274d1ff29d1f1a20e3d356941edb2[m
+Merge: 2acca31 eaca0d4
+Author: hyeonnnit <153695703+hyeonnnit@users.noreply.github.com>
+Date:   Wed Jul 10 23:58:45 2024 +0900
+
+    Merge pull request #22 from greenpig4b/lsh/main/result
+    
+    result/app_bar 수정중
+
+[33mcommit eaca0d462b4f30d9faf83a01ec7668e11849e376[m
+Author: hyeonnit <lhyeonnit@gmail.com>
+Date:   Wed Jul 10 23:58:12 2024 +0900
+
+    result/app_bar 수정중
+
+[33mcommit 2acca31c450199ef6a79cb5cab6ea61027a72035[m
+Merge: 941c072 e86f726
+Author: hyeonnnit <153695703+hyeonnnit@users.noreply.github.com>
+Date:   Wed Jul 10 22:51:20 2024 +0900
+
+    Merge pull request #21 from greenpig4b/lsh/transaction/memo
+    
+    Lsh/transaction/memo
+
+[33mcommit e86f7268c5f3cfb03db33964965e17f0b9f74f33[m
+Author: hyeonnit <lhyeonnit@gmail.com>
+Date:   Wed Jul 10 22:47:38 2024 +0900
+
+    memo/edit 완
+
+[33mcommit 0cb7d7a4189f8b7b9e6c7e3c565a7cfb287a3b11[m
+Author: hyeonnit <lhyeonnit@gmail.com>
+Date:   Wed Jul 10 22:13:57 2024 +0900
+
+    memo write 완
+
+[33mcommit 941c072164f3f44b7af93a333e1c3122a8ce42a4[m
+Merge: 177bd18 dfaf189
+Author: greenpig4b <78337301+greenpig4b@users.noreply.github.com>
+Date:   Wed Jul 10 18:25:11 2024 +0900
+
+    Merge pull request #20 from greenpig4b/kjh/chart/graph
+    
+    Kjh/chart/graph
+
+[33mcommit dfaf189cdbd30122e48c445612224e15a577cc3f[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Wed Jul 10 18:22:36 2024 +0900
+
+    그래프 더미 데이터
+
+[33mcommit 177bd18e0b91a91cb99f835f51855cdd14336620[m
+Merge: 57cca0d c121f90
+Author: yunchocopie <129649095+yunchocopie@users.noreply.github.com>
+Date:   Wed Jul 10 17:44:45 2024 +0900
+
+    Merge pull request #19 from greenpig4b/cyj/calendar/view/2
+    
+    Cyj/calendar/view/2
+
+[33mcommit c121f90f518946d91f78735e7c4c63d1da13ca10[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Wed Jul 10 17:17:07 2024 +0900
+
+    선택한 날짜가 오늘일 때는 분홍색으로 선택되게 수정
+
+[33mcommit c987587cbc05c7f53353ffe0ee7416b547e30283[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Wed Jul 10 17:16:38 2024 +0900
+
+    날짜별 가계부 리스트 목록
+
+[33mcommit 57cca0d6b48273eb7dd45f3c854e858d7f1ab6cd[m
+Merge: 442031b 7d9e653
+Author: coderyu5523 <153602328+coderyu5523@users.noreply.github.com>
+Date:   Wed Jul 10 17:32:18 2024 +0900
+
+    Merge pull request #18 from greenpig4b/rjs/transaction/list/1
+    
+    list 페이지 바인딩 완료
+
+[33mcommit 7d9e653e96c386def3249598ad49306fe11055b9[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Wed Jul 10 17:30:41 2024 +0900
+
+    CircularProgressIndicator 적용
+
+[33mcommit 375f4476c2c99c2e6633f1ba4f6ebfe853215da0[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Wed Jul 10 17:16:26 2024 +0900
+
+    [fix] daily page color
+
+[33mcommit a48361609bbe4f0e785d727bbc66331ffb0e8ff7[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Wed Jul 10 16:37:54 2024 +0900
+
+    바인딩 중
+
+[33mcommit 1d5c52bd2d0b0caf6a6f2fcb4427b0d31f9a54a2[m
+Merge: 196b6ab 442031b
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Wed Jul 10 12:40:25 2024 +0900
+
+    충돌해결
+
+[33mcommit 442031b52734266ce9e1f21bab47c2ed6ab5ba7b[m
+Merge: 844aa43 22dd1a9
+Author: coderyu5523 <153602328+coderyu5523@users.noreply.github.com>
+Date:   Tue Jul 9 22:00:45 2024 +0900
+
+    Merge pull request #17 from greenpig4b/rjs/transaction/write/4
+    
+    가계부 리스트 통신 확인
+
+[33mcommit 22dd1a9412b0fc0141bc585f8f9143196cb7878d[m[33m ([m[1;31morigin/rjs/transaction/write/4[m[33m, [m[1;32mrjs/transaction/write/4[m[33m)[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 21:59:32 2024 +0900
+
+    transaction list 통신 완료
+
+[33mcommit 6a2722eb8773297a922d8a258e40437eb0fa6f88[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 19:26:28 2024 +0900
+
+    data setting
+
+[33mcommit 196b6abb50397db928466e292c45454c99e11f42[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Tue Jul 9 17:58:27 2024 +0900
+
+    그래프 수정중
+
+[33mcommit 844aa43f2eb814821daa4b58e3fe9657be4a667c[m
+Merge: 199b09b 62e2794
+Author: coderyu5523 <153602328+coderyu5523@users.noreply.github.com>
+Date:   Tue Jul 9 17:56:21 2024 +0900
+
+    Merge pull request #16 from greenpig4b/rjs/transaction/write/2
+    
+    트랜잭선 dto 만드는 중
+
+[33mcommit 62e27947d8443ebb32f149d87827759f987ea25e[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 17:53:36 2024 +0900
+
+    write dto 진행중
+
+[33mcommit 199b09b38500443b9a19d90d5902cf0ba93af1c8[m
+Merge: 2e622ca 10974b1
+Author: yunchocopie <129649095+yunchocopie@users.noreply.github.com>
+Date:   Tue Jul 9 17:48:11 2024 +0900
+
+    Merge pull request #15 from greenpig4b/cyj/calendar/view/2
+    
+    Cyj/calendar/view/2
+
+[33mcommit 10974b18433c8dfdcc33154bbd48f99b997e228b[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Tue Jul 9 17:45:00 2024 +0900
+
+    오늘, 선택된 날짜 색깔 수정
+
+[33mcommit b604849431b4dc801100615d86149a3cc48e8b83[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Tue Jul 9 17:25:06 2024 +0900
+
+    TabBar 색깔 변경
+
+[33mcommit ffe07dee7d94c3f85863ac61e30761ae92af7b5c[m
+Author: yunchocopie <yunnn687@naver.com>
+Date:   Tue Jul 9 17:24:42 2024 +0900
+
+    history_calender_page -ing..
+
+[33mcommit 91468cd4ceab5a9757e5972a79fede69b2752c18[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 17:14:04 2024 +0900
+
+    response_dto
+
+[33mcommit 778c84c8e0c7f5c9607fdb82040eb329712eff02[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 16:49:23 2024 +0900
+
+    controller 변수설정
+
+[33mcommit 2fc9b51516d65f81350f553eb9d06e402295f542[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 16:28:47 2024 +0900
+
+    기본 키보드 read only
+
+[33mcommit db0239a487f237fb53b68f0be53f8fb6ca455388[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 16:09:20 2024 +0900
+
+    category button emogi
+
+[33mcommit 2e622caac7f683b2dc7b6b2f22c5418d802047b6[m
+Merge: 89eb572 29f85a4
+Author: hyeonnnit <153695703+hyeonnnit@users.noreply.github.com>
+Date:   Tue Jul 9 15:38:19 2024 +0900
+
+    Merge pull request #14 from greenpig4b/lsh/record_page/memo
+    
+    Lsh/record page/memo
+
+[33mcommit 29f85a479cb45b9cdba7775e34f3a988e0dbd46a[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Tue Jul 9 15:37:20 2024 +0900
+
+    memo/write refactoring
+
+[33mcommit e5905dcddfa97fa636dd993a5e968927dca1e7cc[m
+Author: lhyeonnit <lhyeonnit@gmail.com>
+Date:   Tue Jul 9 15:01:55 2024 +0900
+
+    memo/write
+
+[33mcommit e1f9593ba7b50153ab5252d44b353ab7acc74f90[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 14:19:50 2024 +0900
+
+    category button ã ã  if 처리
+
+[33mcommit 89eb572cf0409d83442d1176081a2910bf53ea89[m
+Merge: 2fbc530 73a81c2
+Author: coderyu5523 <153602328+coderyu5523@users.noreply.github.com>
+Date:   Tue Jul 9 14:09:29 2024 +0900
+
+    Merge pull request #13 from greenpig4b/rjs/transaction/write/1
+    
+    [fix] history 이름 몇개 수정
+
+[33mcommit 73a81c23b443cbc880f8663e559748022fa6c42c[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 14:08:25 2024 +0900
+
+    history 이름 몇개 수정
+
+[33mcommit 2fbc530893701fc5ae8d0ef991d0210f44b8d1a0[m
+Merge: 682d802 da9c04e
+Author: greenpig4b <78337301+greenpig4b@users.noreply.github.com>
+Date:   Tue Jul 9 13:51:48 2024 +0900
+
+    Merge pull request #12 from greenpig4b/kjh/chart/veiw
+    
+    Kjh/chart/veiw
+
+[33mcommit da9c04e5e7507bb50f6c7a88d2e30c6c1b075308[m
+Merge: 9e75711 682d802
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Tue Jul 9 13:51:02 2024 +0900
+
+    충돌해결
+
+[33mcommit 9e757113aeb2d1368efd1d512a7306187ae05555[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Tue Jul 9 13:48:39 2024 +0900
+
+    폴더구조 수정
+
+[33mcommit 1e5c5831c91127a785e99a617ddfbdf728d24821[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Tue Jul 9 13:32:58 2024 +0900
+
+    폴더명 변경
+
+[33mcommit 07340a1119268303843628e32033e93aa4707c14[m
+Author: kimjihun <greenpig4b@naver.com>
+Date:   Tue Jul 9 12:35:10 2024 +0900
+
+    history 이름 변경
+
+[33mcommit 682d8024d22dd16f10abde9e0aa92ff3ac46d5fb[m
+Merge: f54d031 3edc93c
+Author: coderyu5523 <153602328+coderyu5523@users.noreply.github.com>
+Date:   Tue Jul 9 12:34:48 2024 +0900
+
+    Merge pull request #11 from greenpig4b/rjs/history/write/6
+    
+    작성 페이지 버튼 진행중
+
+[33mcommit 3edc93c1c5047948217a35f5d3055e2291937120[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 12:32:01 2024 +0900
+
+    write page 버튼 진행중
+
+[33mcommit 26a2dbd628cd3130b26815f783cc2d2974f9aa29[m
+Author: coderyu5523 <coderyu5523@naver.com>
+Date:   Tue Jul 9 11:48:17 2024 +0900
+
+    write button
+
+[33mcommit f54d0312191836da6f7af90739cd32b460cee351[m
+Merge: 47f415e 6c42970
+Author: greenpig4b <78337301+greenpig4b@users.noreply.github.com>
+Date:   Tue Jul 9 09:06:22 2024 +0900
+
+    Merge pull request #10 from greenpig4b/kjh/chart/veiw
+    
+    Kjh/chart/veiw
