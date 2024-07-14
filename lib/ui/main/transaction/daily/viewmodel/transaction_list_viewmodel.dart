@@ -12,11 +12,8 @@ class TransactionListModel {
   List<DailyTransactionDTO>? dailyTransactionDTO;
   List<DailyTransactionDetailDTO>? dailyTransactionDetailDTO;
 
-  // 가계부 작성 시 응답 dto
-  TransactionSaveRespDTO? transactionSaveRespDTO;
-
   TransactionListModel({this.totalTransactionDTO, this.dailyTransactionDTO,
-      this.dailyTransactionDetailDTO, this.transactionSaveRespDTO});
+      this.dailyTransactionDetailDTO});
 }
 
 class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {

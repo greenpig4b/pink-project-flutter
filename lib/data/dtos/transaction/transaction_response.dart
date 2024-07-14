@@ -19,8 +19,7 @@ class TotalTransactionDTO {
 
   factory TotalTransactionDTO.fromJson(Map<String, dynamic> json) {
     var list = json['dailyTransactionRecord'] as List;
-    List<DailyTransactionDTO> recordList = list.map((i) =>
-        DailyTransactionDTO.fromJson(i)).toList();
+    List<DailyTransactionDTO> recordList = list.map((i) => DailyTransactionDTO.fromJson(i)).toList();
 
     return TotalTransactionDTO(
       userId: json['userId'],
@@ -51,8 +50,7 @@ class DailyTransactionDTO {
 
   factory DailyTransactionDTO.fromJson(Map<String, dynamic> json) {
     var list = json['dailyTransactionDetailRecord'] as List;
-    List<DailyTransactionDetailDTO> detailList = list.map((i) =>
-        DailyTransactionDetailDTO.fromJson(i)).toList();
+    List<DailyTransactionDetailDTO> detailList = list.map((i) => DailyTransactionDetailDTO.fromJson(i)).toList();
 
     return DailyTransactionDTO(
       date: json['date'],
@@ -88,43 +86,6 @@ class DailyTransactionDetailDTO {
   factory DailyTransactionDetailDTO.fromJson(Map<String, dynamic> json) {
     return DailyTransactionDetailDTO(
       id: json['id'],
-      transactionType: json['transactionType'],
-      categoryIn: json['categoryIn'],
-      categoryOut: json['categoryOut'],
-      description: json['description'],
-      time: json['time'],
-      assets: json['assets'],
-      amount: json['amount'],
-    );
-  }
-}
-
-class TransactionSaveRespDTO {
-  // final int id;
-  final int userId;
-  final String transactionType;
-  final String? categoryIn;
-  final String? categoryOut;
-  final String description;
-  final String time;
-  final String assets;
-  final String amount;
-
-  TransactionSaveRespDTO({
-    // required this.id,
-    required this.userId,
-    required this.transactionType,
-    this.categoryIn,
-    this.categoryOut,
-    required this.description,
-    required this.time,
-    required this.assets,
-    required this.amount});
-
-  factory TransactionSaveRespDTO.fromJson(Map<String, dynamic> json) {
-    return TransactionSaveRespDTO(
-      // id: json['id'],
-      userId:json['userId'],
       transactionType: json['transactionType'],
       categoryIn: json['categoryIn'],
       categoryOut: json['categoryOut'],
