@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pinkpig_project_flutter/data/dtos/response_dto.dart';
-import 'package:pinkpig_project_flutter/data/repository/transaction_repository.dart';
-import 'package:pinkpig_project_flutter/data/dtos/transaction/transaction_request.dart';
+import 'package:pinkpig_project_flutter/data/dtos/memo/memo_request.dart';
+import 'package:pinkpig_project_flutter/data/dtos/memo/memo_response.dart';
 
-import '../../../../../main.dart';
-import '../data/memo_provider.dart';
+import '../../../../../data/dtos/response_dto.dart';
+import '../../../../../data/repository/memo_repository.dart';
+
 
 class MemoListModel {
-  final List<Map<String, dynamic>> memoList;
+  MonthlyMemoDTO? monthlyMemoDTO;
+  List<DailyMemoListDTO>? dailyMemoListDTO;
+  List<DailyMemoDTO>? dailyMemoDetailDTO;
 
-  MemoListModel({required this.memoList});
+  MemoListModel({this.monthlyMemoDTO, this.dailyMemoListDTO,
+    this.dailyMemoDetailDTO});
 }
+
 
 class MemoListViewmodel extends StateNotifier<MemoListModel?> {
   final BuildContext context;
@@ -32,21 +36,19 @@ class MemoListViewmodel extends StateNotifier<MemoListModel?> {
     print("월 잘 들어왔나? : ${month}");
 
     ResponseDTO responseDTO =
-    await TransactionRepository().fetchTransactionList(year, month, jwt);
+    await MemoRepository().fetchMemoList(year, month, jwt);
 
     if (responseDTO.status == 200) {
-      state = MemoListModel(memoList: responseDTO.response.transactionList);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")),
-      );
+      state = responseDTO.response;
     }
+    ScaffoldMessenger.of(context!).showSnackBar(
+        SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
   }
+}
 
-  Future<void> notifySave(TransactionSaveDTO requestDTO) async {
-    ResponseDTO responseDTO = await TransactionRepository().saveTransaction(requestDTO);
-    // 필요에 따라 저장 응답 처리를 합니다
-  }
+Future<void> notifySave(MemoSaveDTO requestDTO) async {
+  ResponseDTO responseDTO = await MemoRepository().saveMemo(requestDTO);
+  // 필요에 따라 저장 응답 처리를 합니다
 }
 
 
