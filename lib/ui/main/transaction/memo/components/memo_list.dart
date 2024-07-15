@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_edit.dart';
-import 'memo_provider.dart';
+import '../data/memo_provider.dart';
 
 class MemoList extends ConsumerWidget {
   const MemoList({Key? key}) : super(key: key);

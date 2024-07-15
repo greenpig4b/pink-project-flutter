@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'memo_write_app_bar.dart';
-import 'memo_provider.dart';
+import '../data/memo_provider.dart';
 
 class MemoWrite extends ConsumerWidget {
   MemoWrite({Key? key}) : super(key: key);
@@ -20,14 +20,13 @@ class MemoWrite extends ConsumerWidget {
       backgroundColor: Colors.white,
       appBar: MemoWriteAppBar(title: "메모"),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                IconButton(
-                  icon: Icon(Icons.calendar_today),
+                TextButton(
                   onPressed: () async {
                     final pickedDate = await showDatePicker(
                       context: context,
@@ -36,22 +35,29 @@ class MemoWrite extends ConsumerWidget {
                       lastDate: DateTime(2100),
                     );
                     if (pickedDate != null) {
-                      ref.read(selectedDateProvider.notifier).updateDate(pickedDate);
+                      ref
+                          .read(selectedDateProvider.notifier)
+                          .updateDate(pickedDate);
                     }
                   },
-                ),
-                SizedBox(width: 8),
-                Text(
-                  DateFormat('MM월 dd일 (E)', 'ko_KR').format(selectedDate),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_today, color: Colors.black,),
+                      SizedBox(width: 8),
+                      Text(
+                        DateFormat('MM월 dd일 (E)', 'ko_KR').format(selectedDate),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 10),
             TextField(
               focusNode: _titleFocusNode,
               decoration: InputDecoration(

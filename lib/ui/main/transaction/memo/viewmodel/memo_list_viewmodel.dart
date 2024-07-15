@@ -5,7 +5,7 @@ import 'package:pinkpig_project_flutter/data/repository/transaction_repository.d
 import 'package:pinkpig_project_flutter/data/dtos/transaction/transaction_request.dart';
 
 import '../../../../../main.dart';
-import '../components/memo_provider.dart';
+import '../data/memo_provider.dart';
 
 class MemoListModel {
   final List<Map<String, dynamic>> memoList;

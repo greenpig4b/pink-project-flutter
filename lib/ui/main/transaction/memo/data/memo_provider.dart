@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../_components/calender_widget.dart';
-import '../data/memo_dummy.dart';
+import 'memo_dummy.dart';
 
 // 제목 상태 관리
 final titleProvider = StateProvider<String>((ref) => '');

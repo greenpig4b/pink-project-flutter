@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart'; // intl 패키지 추가
 import '../data/memo_dummy.dart';
-import 'memo_provider.dart';
+import '../data/memo_provider.dart';
 import 'memo_write_app_bar.dart';
 
 class MemoEdit extends ConsumerWidget {
