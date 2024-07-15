@@ -28,22 +28,17 @@ class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
     int year = parsedDate.year;
     int month = parsedDate.month;
 
-    SessionStore sessionStore = ref.read(sessionProvider);
-    String jwt = sessionStore.accessToken!;
 
-
-    print("날짜 잘 들어왔나? : ${selectedDate}");
-    print("년 잘 들어왔나? : ${year}");
-    print("월 잘 들어왔나? : ${month}");
     ResponseDTO responseDTO =
-        await TransactionRepository().fetchTransactionList(year, month,jwt);
+        await TransactionRepository().fetchTransactionList(year, month);
 
     if(responseDTO.status == 200){
       state = responseDTO.response;
-    }
-    ScaffoldMessenger.of(mContext!).showSnackBar(
-        SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
+    }else{
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+          SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
 
+    }
   }
 
   Future<void> notifySave(TransactionSaveDTO requestDTO) async {
