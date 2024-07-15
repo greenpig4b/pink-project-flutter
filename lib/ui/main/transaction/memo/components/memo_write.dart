@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
 import 'memo_write_app_bar.dart';
+import '../data/memo_provider.dart';
 
-class MemoWrite extends StatelessWidget {
-  MemoWrite({super.key});
-
-  final FocusNode _titleFocusNode = FocusNode();
-  final DateTime currentDate = DateTime.now();
+class MemoWrite extends ConsumerWidget {
+  MemoWrite({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _titleFocusNode = FocusNode();
+    var selectedDate = ref.watch(selectedDateProvider);
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_titleFocusNode);
     });
 
@@ -19,25 +20,44 @@ class MemoWrite extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: MemoWriteAppBar(title: "메모"),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(Icons.calendar_today),
-                SizedBox(width: 8),
-                Text(
-                  DateFormat('MM월 dd일 (E)', 'ko_KR').format(currentDate),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                TextButton(
+                  onPressed: () async {
+                    final pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime(2100),
+                    );
+                    if (pickedDate != null) {
+                      ref
+                          .read(selectedDateProvider.notifier)
+                          .updateDate(pickedDate);
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_today, color: Colors.black,),
+                      SizedBox(width: 8),
+                      Text(
+                        DateFormat('MM월 dd일 (E)', 'ko_KR').format(selectedDate),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 10),
             TextField(
               focusNode: _titleFocusNode,
               decoration: InputDecoration(
@@ -57,6 +77,9 @@ class MemoWrite extends StatelessWidget {
                 ),
                 prefixIcon: Icon(Icons.title, color: Color(0xFFFC7C9A)),
               ),
+              // onChanged: (value) {
+              //   // ref.read(titleProvider).state = value;
+              // },
             ),
             SizedBox(height: 16),
             TextField(
@@ -78,6 +101,9 @@ class MemoWrite extends StatelessWidget {
                 prefixIcon: Icon(Icons.comment, color: Color(0xFFFC7C9A)),
               ),
               maxLines: 5,
+              // onChanged: (value) {
+              //   // ref.read(contentProvider).state = value;
+              // },
             ),
             SizedBox(height: 16),
           ],

@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_write_app_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart'; // intl 패키지 추가
+import '../data/memo_dummy.dart';
+import '../data/memo_provider.dart';
+import 'memo_write_app_bar.dart';
 
-class MemoEdit extends StatelessWidget {
-  final Map<String, String> memo;
+class MemoEdit extends ConsumerWidget {
+  final Memo memo;
   final String date;
 
-  MemoEdit({Key? key, required this.memo, required this.date}) : super(key: key);
-  final FocusNode _titleFocusNode = FocusNode();
+  MemoEdit({required this.memo, required this.date});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(_titleFocusNode);
+      ref.read(titleProvider.notifier).state = memo.title;
+      ref.read(contentProvider.notifier).state = memo.content;
     });
-    TextEditingController _titleController = TextEditingController(text: memo['title']);
-    TextEditingController _commentController = TextEditingController(text: memo['comment']);
+
+    TextEditingController _titleController = TextEditingController(text: memo.title);
+    TextEditingController _commentController = TextEditingController(text: memo.content);
+    String formattedDate = DateFormat('MM.dd').format(memo.createdDate);
 
     return Scaffold(
-      appBar: MemoWriteAppBar(title: date),
+      appBar: MemoWriteAppBar(title: formattedDate),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              focusNode: _titleFocusNode,
               controller: _titleController,
               decoration: InputDecoration(
                 labelText: '제목',
@@ -43,6 +49,9 @@ class MemoEdit extends StatelessWidget {
                 ),
                 prefixIcon: Icon(Icons.title, color: Color(0xFFFC7C9A)),
               ),
+              onChanged: (value) {
+                ref.read(titleProvider.notifier).state = value;
+              },
             ),
             SizedBox(height: 16),
             TextField(
@@ -65,6 +74,9 @@ class MemoEdit extends StatelessWidget {
                 prefixIcon: Icon(Icons.comment, color: Color(0xFFFC7C9A)),
               ),
               maxLines: 5,
+              onChanged: (value) {
+                ref.read(contentProvider.notifier).state = value;
+              },
             ),
             SizedBox(height: 16),
           ],
