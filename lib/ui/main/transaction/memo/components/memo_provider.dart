@@ -20,14 +20,13 @@ class SelectedDateNotifier extends StateNotifier<DateTime> {
 final selectedDateProvider = StateNotifierProvider<SelectedDateNotifier, DateTime>((ref) => SelectedDateNotifier());
 
 final selectedMonthProvider = StateProvider<DateTime>((ref) {
-  return DateTime(2024, 10);
+  return DateTime.now();
 });
 
 final memoListProvider = Provider<List<Memo>>((ref) {
-  final selectedMonth = ref.watch(selectedDateProvider);
+  final selectedMonth = ref.watch(selectedMonthProvider);
   return newMemoList.where((memo) {
-    DateTime date = memo.createdDate;
-    return date.year == selectedMonth.year && date.month == selectedMonth.month;
+    return memo.createdDate.year == selectedMonth.year && memo.createdDate.month == selectedMonth.month;
   }).toList();
 });
 

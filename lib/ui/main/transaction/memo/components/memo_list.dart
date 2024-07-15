@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; // intl 패키지 추가
 import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_edit.dart';
 import 'memo_provider.dart';
+
 class MemoList extends ConsumerWidget {
   const MemoList({Key? key}) : super(key: key);
 
@@ -18,7 +19,7 @@ class MemoList extends ConsumerWidget {
       itemCount: memoList.length,
       itemBuilder: (context, index) {
         final memo = memoList[index];
-        String formattedDate = DateFormat('MM.dd').format(memo.createdDate);
+        String formattedDate = DateFormat('MM.dd').format(memo.createdDate);  // MM.dd 형식으로 날짜 형식화
 
         return Padding(
           padding: const EdgeInsets.all(8.0),
