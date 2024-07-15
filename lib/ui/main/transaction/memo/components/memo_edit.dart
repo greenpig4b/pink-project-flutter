@@ -7,23 +7,27 @@ import 'memo_write_app_bar.dart';
 
 class MemoEdit extends ConsumerWidget {
   final Memo memo;
-  final String date;
 
-  MemoEdit({required this.memo, required this.date});
+  MemoEdit({required this.memo});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(titleProvider.notifier).state = memo.title;
-      ref.read(contentProvider.notifier).state = memo.content;
-    });
-
     TextEditingController _titleController = TextEditingController(text: memo.title);
     TextEditingController _commentController = TextEditingController(text: memo.content);
     String formattedDate = DateFormat('MM.dd').format(memo.createdDate);
 
+
     return Scaffold(
-      appBar: MemoWriteAppBar(title: formattedDate),
+      appBar: MemoWriteAppBar(
+        title: formattedDate,
+        onSave: () {
+          MemoUpdateDTO memoEditDTO = MemoUpdateDTO(
+            title: _titleController.text,
+            content: _commentController.text,
+          );
+          ref.read(memoSaveViewmodelProvider.notifier).saveMemo(context, memoEditDTO);
+        },
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -50,7 +54,7 @@ class MemoEdit extends ConsumerWidget {
                 prefixIcon: Icon(Icons.title, color: Color(0xFFFC7C9A)),
               ),
               onChanged: (value) {
-                ref.read(titleProvider.notifier).state = value;
+                // 필요한 경우 상태 업데이트
               },
             ),
             SizedBox(height: 16),
@@ -75,7 +79,7 @@ class MemoEdit extends ConsumerWidget {
               ),
               maxLines: 5,
               onChanged: (value) {
-                ref.read(contentProvider.notifier).state = value;
+                // 필요한 경우 상태 업데이트
               },
             ),
             SizedBox(height: 16),

@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pinkpig_project_flutter/data/dtos/memo/memo_request.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/memo/viewmodel/memo_list_viewmodel.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/memo/viewmodel/memo_save_viewmodel.dart';
 import '../../_components/calender_widget.dart';
 import 'memo_dummy.dart';
 
@@ -26,3 +29,11 @@ final memoListProvider = Provider<List<Memo>>((ref) {
     return memo.createdDate.year == selectedMonth.year && memo.createdDate.month == selectedMonth.month;
   }).toList();
 });
+
+
+final memoSaveViewmodelProvider = StateNotifierProvider<MemoSaveViewmodel, MemoSaveDTO>((ref) {
+  return MemoSaveViewmodel();
+});
+// final memoUpdateViewmodelProvider = StateNotifierProvider<MemoUpdateViewmodel, MemoUpdateDTO>((ref) {
+//   return MemoUpdateViewmodel();
+// });

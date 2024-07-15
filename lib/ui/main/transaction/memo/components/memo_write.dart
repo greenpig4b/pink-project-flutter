@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/data/dtos/memo/memo_request.dart';
+
+import '../data/memo_provider.dart'; // 이 곳에 있는 메모 프로바이더를 이용해야함
 import 'memo_write_app_bar.dart';
-import '../data/memo_provider.dart';
 
 class MemoWrite extends ConsumerWidget {
   MemoWrite({Key? key}) : super(key: key);
 
+  final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
+
+  late DateTime _selectedDate;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _titleFocusNode = FocusNode();
-    var selectedDate = ref.watch(selectedDateProvider);
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(_titleFocusNode);
-    });
+    _selectedDate = ref.watch(selectedDateProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: MemoWriteAppBar(title: "메모"),
+      appBar: MemoWriteAppBar(
+        title: "메모",
+        onSave: () {
+          MemoSaveDTO memoSaveDTO = MemoSaveDTO(
+            title: _titleController.text,
+            content: _contentController.text,
+            createdDate: _selectedDate,
+          );
+          ref.read(memoSaveViewmodelProvider.notifier).saveMemo(context, memoSaveDTO);
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
         child: Column(
@@ -30,14 +42,12 @@ class MemoWrite extends ConsumerWidget {
                   onPressed: () async {
                     final pickedDate = await showDatePicker(
                       context: context,
-                      initialDate: selectedDate,
+                      initialDate: _selectedDate,
                       firstDate: DateTime(2020),
                       lastDate: DateTime(2100),
                     );
                     if (pickedDate != null) {
-                      ref
-                          .read(selectedDateProvider.notifier)
-                          .updateDate(pickedDate);
+                      ref.read(selectedDateProvider.notifier).updateDate(pickedDate);
                     }
                   },
                   child: Row(
@@ -45,7 +55,7 @@ class MemoWrite extends ConsumerWidget {
                       Icon(Icons.calendar_today, color: Colors.black,),
                       SizedBox(width: 8),
                       Text(
-                        DateFormat('MM월 dd일 (E)', 'ko_KR').format(selectedDate),
+                        DateFormat('MM월 dd일 (E)', 'ko_KR').format(_selectedDate),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -59,7 +69,7 @@ class MemoWrite extends ConsumerWidget {
             ),
             SizedBox(height: 10),
             TextField(
-              focusNode: _titleFocusNode,
+              controller: _titleController,
               decoration: InputDecoration(
                 labelText: '제목을 입력하세요.',
                 labelStyle: TextStyle(color: Color(0xFF7C7C7C)),
@@ -77,12 +87,10 @@ class MemoWrite extends ConsumerWidget {
                 ),
                 prefixIcon: Icon(Icons.title, color: Color(0xFFFC7C9A)),
               ),
-              // onChanged: (value) {
-              //   // ref.read(titleProvider).state = value;
-              // },
             ),
             SizedBox(height: 16),
             TextField(
+              controller: _contentController,
               decoration: InputDecoration(
                 labelText: '내용을 입력하세요.',
                 labelStyle: TextStyle(color: Color(0xFF7C7C7C)),
@@ -101,9 +109,6 @@ class MemoWrite extends ConsumerWidget {
                 prefixIcon: Icon(Icons.comment, color: Color(0xFFFC7C9A)),
               ),
               maxLines: 5,
-              // onChanged: (value) {
-              //   // ref.read(contentProvider).state = value;
-              // },
             ),
             SizedBox(height: 16),
           ],

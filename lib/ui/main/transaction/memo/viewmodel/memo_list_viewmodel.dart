@@ -40,63 +40,6 @@ class MemoListViewmodel extends StateNotifier<MemoListModel?> {
     ScaffoldMessenger.of(context!).showSnackBar(
         SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
   }
-
-  Future<void> notifySave(MemoSaveDTO requestDTO) async {
-    try {
-      ResponseDTO responseDTO = await MemoRepository().saveMemo(requestDTO);
-      if (responseDTO.status == 200) {
-        // 성공적으로 저장되었을 때 처리 로직 추가
-        // 예를 들어, 저장 후 UI 갱신 등을 수행할 수 있습니다.
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("저장 실패 : ${responseDTO.errorMessage}")),
-        );
-      }
-    } catch (e) {
-      print("메모 저장 중 오류 발생: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("저장 중 오류 발생")),
-      );
-    }
-  }
-
-  Future<void> notifyUpdate(int memoId, MemoUpdateDTO requestDTO) async {
-    try {
-      ResponseDTO responseDTO = await MemoRepository().editMemo(memoId, requestDTO);
-      if (responseDTO.status == 200) {
-        // 성공적으로 업데이트되었을 때 처리 로직 추가
-        // 예를 들어, 업데이트 후 UI 갱신 등을 수행할 수 있습니다.
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("업데이트 실패 : ${responseDTO.errorMessage}")),
-        );
-      }
-    } catch (e) {
-      print("메모 업데이트 중 오류 발생: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("업데이트 중 오류 발생")),
-      );
-    }
-  }
-
-  Future<void> notifyDelete(int memoId) async {
-    try {
-      ResponseDTO responseDTO = await MemoRepository().deleteMemo(memoId);
-      if (responseDTO.status == 200) {
-        // 성공적으로 삭제되었을 때 처리 로직 추가
-        // 예를 들어, 삭제 후 UI 갱신 등을 수행할 수 있습니다.
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("삭제 실패 : ${responseDTO.errorMessage}")),
-        );
-      }
-    } catch (e) {
-      print("메모 삭제 중 오류 발생: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("삭제 중 오류 발생")),
-      );
-    }
-  }
 }
 
 
