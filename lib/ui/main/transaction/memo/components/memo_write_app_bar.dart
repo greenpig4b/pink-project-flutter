@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MemoWriteAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MemoWriteAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final String title;
+  final VoidCallback onSave;
 
-  const MemoWriteAppBar({super.key, required this.title});
+  const MemoWriteAppBar({
+    Key? key,
+    required this.title,
+    required this.onSave,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: Text(
-        title, // 포맷팅된 날짜를 제목으로 설정
+        title,
         style: TextStyle(
-          color: Colors.white, // 글자 색상을 흰색으로 설정
+          color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -25,9 +31,7 @@ class MemoWriteAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.save, color: Colors.white),
-          onPressed: () {
-            // Implement your onPressed function here
-          },
+          onPressed: onSave,
         ),
       ],
     );
