@@ -49,6 +49,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   fl_chart: ^0.68.0
+  flutter_launcher_icons: ^0.10.0
 
 
 dev_dependencies:
@@ -78,7 +79,9 @@ flutter:
     - assets/images/
     - assets/icons/
   #   - images/a_dot_ham.jpeg
-
+flutter_icons:
+  android: true
+  image_path: "assets/images/main_non_txt.png"
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
