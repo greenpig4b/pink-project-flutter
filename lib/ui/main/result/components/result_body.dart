@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/main/result/components/result_body_budget.dart';
-import 'package:pinkpig_project_flutter/ui/main/result/components/result_body_budget_button.dart';
+import 'package:pinkpig_project_flutter/ui/main/result/components/property/property_content.dart';
+import 'package:pinkpig_project_flutter/ui/main/result/components/property/property_title.dart';
 
 class ResultBody extends StatelessWidget {
   const ResultBody({super.key});
@@ -9,8 +9,8 @@ class ResultBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ResultBodyBudgetButton(),
-        ResultBodyBudget(),
+        PropertyTitle(),
+        PropertyContent()
       ],
     );
   }

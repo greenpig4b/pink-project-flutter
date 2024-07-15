@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BudgetEditInfo extends StatelessWidget {
-  const BudgetEditInfo({super.key});
+class PropertyContent extends StatelessWidget {
+  const PropertyContent({super.key});
 
   @override
   Widget build(BuildContext context) {
