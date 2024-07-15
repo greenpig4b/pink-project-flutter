@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_list.dart';
+import '../data/memo_dummy.dart';
 
 // 제목 상태 관리
 final titleProvider = StateProvider<String>((ref) => '');
@@ -23,13 +23,13 @@ final selectedMonthProvider = StateProvider<DateTime>((ref) {
   return DateTime(2024, 10);
 });
 
-// final memoListProvider = Provider<List<MemoList>>((ref) {
-//   final selectedMonth = ref.watch(selectedMonthProvider);
-//   return newMemoList.where((memo) {
-//     DateTime date = DateTime.parse(memo.registrationDate);
-//     return date.year == selectedMonth.year && date.month == selectedMonth.month;
-//   }).toList();
-// });
+final memoListProvider = Provider<List<Memo>>((ref) {
+  final selectedMonth = ref.watch(selectedDateProvider);
+  return newMemoList.where((memo) {
+    DateTime date = memo.createdDate;
+    return date.year == selectedMonth.year && date.month == selectedMonth.month;
+  }).toList();
+});
 
 
 

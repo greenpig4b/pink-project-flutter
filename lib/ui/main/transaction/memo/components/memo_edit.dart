@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_write_app_bar.dart';
+import '../data/memo_dummy.dart';
 import 'memo_provider.dart';
 
 class MemoEdit extends ConsumerWidget {
-  final Map<String, String> memo;
+  final Memo memo;
   final String date;
 
-  MemoEdit({Key? key, required this.memo, required this.date}) : super(key: key);
+  MemoEdit({required this.memo, required this.date});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(titleProvider.notifier).state = memo['title']!;
-      ref.read(contentProvider.notifier).state = memo['comment']!;
+      ref.read(titleProvider.notifier).state = memo.title;
+      ref.read(contentProvider.notifier).state = memo.content;
     });
 
-    TextEditingController _titleController = TextEditingController(text: memo['title']);
-    TextEditingController _commentController = TextEditingController(text: memo['comment']);
+    TextEditingController _titleController = TextEditingController(text: memo.title);
+    TextEditingController _commentController = TextEditingController(text: memo.content);
 
     return Scaffold(
       appBar: MemoWriteAppBar(title: date),
