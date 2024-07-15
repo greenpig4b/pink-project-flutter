@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_edit.dart';
 import 'memo_provider.dart';
-
 class MemoList extends ConsumerWidget {
   const MemoList({Key? key}) : super(key: key);
 
@@ -18,6 +18,8 @@ class MemoList extends ConsumerWidget {
       itemCount: memoList.length,
       itemBuilder: (context, index) {
         final memo = memoList[index];
+        String formattedDate = DateFormat('MM.dd').format(memo.createdDate);
+
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -28,7 +30,7 @@ class MemoList extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    memo.createdDate.toIso8601String(),
+                    formattedDate,  // 형식화된 날짜 사용
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -44,7 +46,7 @@ class MemoList extends ConsumerWidget {
                         MaterialPageRoute(
                           builder: (context) => MemoEdit(
                             memo: memo,
-                            date: memo.createdDate.toIso8601String(),
+                            date: formattedDate,  // 형식화된 날짜 사용
                           ),
                         ),
                       );
