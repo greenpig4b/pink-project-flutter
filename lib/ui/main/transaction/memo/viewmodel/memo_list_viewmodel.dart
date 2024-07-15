@@ -4,6 +4,7 @@ import 'package:pinkpig_project_flutter/data/dtos/memo/memo_response.dart';
 
 import '../../../../../data/dtos/response_dto.dart';
 import '../../../../../data/repository/memo_repository.dart';
+import '../../../../../data/store/session_store.dart';
 
 
 class MemoListViewmodel {
@@ -26,18 +27,24 @@ class MemoListmodel extends StateNotifier<AsyncValue<MemoListViewmodel>> {
     int year = parsedDate.year;
     int month = parsedDate.month;
 
-    // 여기서 실제 세션 관리 로직으로 교체하세요
-    String jwt = ''; // 세션 스토어나 다른 곳에서 JWT 토큰을 가져오세요
-
-    ResponseDTO responseDTO =
-    await MemoRepository().fetchMemoList(year, month, jwt);
-
-    if (responseDTO.status == 200) {
-      state = responseDTO.response;
+    final sessionStore = ref.watch(
+        sessionProvider); // sessionProvider로부터 SessionStore 인스턴스 가져오기
+    String? jwt = sessionStore.accessToken;
+    if (jwt != null) {
+      // JWT 토큰이 유효한 경우 처리
+      ResponseDTO responseDTO = await MemoRepository().fetchMemoList(
+          year, month, jwt);
+      if (responseDTO.status == 200) {
+        state = responseDTO.response;
+      }
+      // 나머지 로직 처리
+    } else {
+      // JWT 토큰이 없는 경우 처리
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("로그인이 필요합니다.")),
+      );
     }
-    ScaffoldMessenger.of(context!).showSnackBar(
-        SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
+
+
   }
 }
-
-
