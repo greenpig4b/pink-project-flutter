@@ -7,20 +7,20 @@ import '../../../../../data/repository/memo_repository.dart';
 import '../../../../../data/store/session_store.dart';
 
 
-class MemoListViewmodel {
+class MemoListModel {
   MonthlyMemoDTO? monthlyMemoDTO;
   List<DailyMemoListDTO>? dailyMemoListDTO;
   List<DailyMemoDTO>? dailyMemoDetailDTO;
 
-  MemoListViewmodel({this.monthlyMemoDTO, this.dailyMemoListDTO,
+  MemoListModel({this.monthlyMemoDTO, this.dailyMemoListDTO,
     this.dailyMemoDetailDTO});
 }
 
 
-class MemoListmodel extends StateNotifier<AsyncValue<MemoListViewmodel>> {
+class MemoListViewModel extends StateNotifier<MemoListModel?> {
   final Ref ref;
 
-  MemoListmodel(this.ref) : super(const AsyncLoading());
+  MemoListViewModel(this.ref) : super(null);
 
   Future<void> notifyInit(BuildContext context, String selectedDate) async {
 
@@ -31,7 +31,7 @@ class MemoListmodel extends StateNotifier<AsyncValue<MemoListViewmodel>> {
 
     ResponseDTO responseDTO = await MemoRepository().fetchMemoList(year, month);
     if (responseDTO.status == 200) {
-      state = AsyncValue.data(responseDTO.response);
+      state = responseDTO.response;
     } else {
       // 에러 처리
       ScaffoldMessenger.of(context).showSnackBar(

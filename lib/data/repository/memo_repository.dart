@@ -45,7 +45,7 @@ class MemoRepository {
       List<DailyMemoDTO> dailyMemoDetailDTO =
       dailyMemoListDTO.expand((e) => e.dailyMemo).toList();
 
-      MemoListViewmodel model = MemoListViewmodel(
+      MemoListModel model = MemoListModel(
           monthlyMemoDTO: monthlyMemoDTO,
           dailyMemoListDTO: dailyMemoListDTO,
           dailyMemoDetailDTO: dailyMemoDetailDTO);
