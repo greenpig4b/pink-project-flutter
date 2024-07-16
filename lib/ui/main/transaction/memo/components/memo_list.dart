@@ -13,11 +13,11 @@ class MemoList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final memoListState = ref.watch(memoListProvider);
     final dailyMemoList = memoListState?.dailyMemoListDTO ?? [];
-    final selectedMonth = ref.watch(calendarProvider).toIso8601String();
-    final userId = ref.read(sessionProvider).user?.id;
+
+
 
     // notifyInit을 한 번만 호출하도록 상태 초기화 여부를 확인합니다.
-    ref.read(memoListProvider.notifier).notifyInit(context, selectedMonth);
+
     if (dailyMemoList.isEmpty) {
       return Center(
         child: Text(
@@ -65,8 +65,6 @@ class MemoList extends ConsumerWidget {
                                   MaterialPageRoute(
                                     builder: (context) => MemoEdit(
                                       memoId: memo.id,
-                                      // 선택한 메모의 ID 전달
-                                      userId: userId!,
                                       // 사용자 ID 전달
                                       title: memo.title,
                                       // 선택한 메모의 제목 전달

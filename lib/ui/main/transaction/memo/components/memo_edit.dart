@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pinkpig_project_flutter/data/store/session_store.dart';
 import '../../../../../data/dtos/memo/memo_request.dart';
 import '../data/memo_provider.dart';
 import 'memo_write_app_bar.dart';
 
 class MemoEdit extends ConsumerWidget {
   final int memoId;
-  final int userId;
   final String title;
   final String content;
   final String memoDate;
 
   MemoEdit({
     required this.memoId,
-    required this.userId,
     required this.title,
     required this.content,
     required this.memoDate,
@@ -24,13 +23,15 @@ class MemoEdit extends ConsumerWidget {
     TextEditingController _titleController = TextEditingController(text: title);
     TextEditingController _commentController = TextEditingController(text: content);
 
+    final userId = ref.read(sessionProvider).user?.id;
+
     return Scaffold(
       appBar: MemoWriteAppBar(
         title: memoDate, // 앱바 타이틀에 날짜 표시
         onSave: () {
           MemoUpdateDTO memoEditDTO = MemoUpdateDTO(
             id: memoId,
-            userId: userId,
+            userId: userId!,
             title: _titleController.text,
             content: _commentController.text,
           );
