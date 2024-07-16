@@ -23,28 +23,20 @@ class MemoListmodel extends StateNotifier<AsyncValue<MemoListViewmodel>> {
   MemoListmodel(this.ref) : super(const AsyncLoading());
 
   Future<void> notifyInit(BuildContext context, String selectedDate) async {
+
     DateTime parsedDate = DateTime.parse(selectedDate);
     int year = parsedDate.year;
     int month = parsedDate.month;
 
-    final sessionStore = ref.watch(
-        sessionProvider); // sessionProvider로부터 SessionStore 인스턴스 가져오기
-    String? jwt = sessionStore.accessToken;
-    if (jwt != null) {
-      // JWT 토큰이 유효한 경우 처리
-      ResponseDTO responseDTO = await MemoRepository().fetchMemoList(
-          year, month, jwt);
-      if (responseDTO.status == 200) {
-        state = responseDTO.response;
-      }
-      // 나머지 로직 처리
+
+    ResponseDTO responseDTO = await MemoRepository().fetchMemoList(year, month);
+    if (responseDTO.status == 200) {
+      state = AsyncValue.data(responseDTO.response);
     } else {
-      // JWT 토큰이 없는 경우 처리
+      // 에러 처리
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("로그인이 필요합니다.")),
+        SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")),
       );
     }
-
-
   }
 }

@@ -13,7 +13,9 @@ class MemoList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final memoListState = ref.watch(memoListProvider);
     final selectedMonth = ref.watch(calendarProvider).toIso8601String();
-    final userId = ref.watch(sessionProvider).user?.id;
+    final userId = ref.read(sessionProvider).user?.id;
+
+    // notifyInit을 한 번만 호출하도록 상태 초기화 여부를 확인합니다.
     ref.read(memoListProvider.notifier).notifyInit(context, selectedMonth);
 
     return memoListState.when(

@@ -12,9 +12,9 @@ class MonthlyMemoDTO {
   });
 
   factory MonthlyMemoDTO.fromJson(Map<String, dynamic> json) {
-    var list = json['dailyMemoRecordsList'] as List;
+    var list = json['dailyMemoRecords'] as List;
     List<DailyMemoListDTO> memoList =
-        list.map((i) => DailyMemoListDTO.fromJson(i)).toList();
+    list.map((i) => DailyMemoListDTO.fromJson(i)).toList();
 
     return MonthlyMemoDTO(
       userId: json['userId'],
@@ -35,9 +35,9 @@ class DailyMemoListDTO {
   });
 
   factory DailyMemoListDTO.fromJson(Map<String, dynamic> json) {
-    var list = json['dailyMemoList'] as List;
+    var list = json['dailyMemoRecordList'] as List;
     List<DailyMemoDTO> memoDetailList =
-        list.map((i) => DailyMemoDTO.fromJson(i)).toList();
+    list.map((i) => DailyMemoDTO.fromJson(i)).toList();
 
     return DailyMemoListDTO(
       date: json['date'],
