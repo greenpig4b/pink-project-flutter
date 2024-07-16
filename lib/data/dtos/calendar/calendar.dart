@@ -1,5 +1,3 @@
-import 'daily_summaries.dart';
-
 class Calendar {
   final monthlyIcome;
   final monthlyExpense;
@@ -14,12 +12,14 @@ class Calendar {
   });
 
   factory Calendar.fromJson(Map<String, dynamic> json) {
+    // 파싱
+    List<dynamic> dailySummariesList = json["dailySummariesList"];
+    List<DailySummaries> newDailySummariesList = dailySummariesList.map((e) => DailySummaries.fromJson(e)).toList();
     return Calendar(
         monthlyIcome: json["monthlyIcome"],
         monthlyExpense: json["monthlyExpense"],
         monthlyTotalAmount: json["monthlyTotalAmount"],
-        dailySummariesList: List<DailySummaries>.from(
-          json["dailySummariesList"].map((x) => DailySummaries.fromJson(x))),
+        dailySummariesList: newDailySummariesList
     );
   }
 }
@@ -70,14 +70,19 @@ class DailyDetail{
   });
 
   factory DailyDetail.fromJson(Map<String, dynamic> json) {
+    // 파싱
+    List<dynamic> memoList = json["memoList"];
+    List<dynamic> transactionDetailsList = json["transactionDetailsList"];
+
+    List<Memos> newMemoList = memoList.map((e) => Memos.fromJson(e)).toList();
+    List<TransactionDetails> newTransactionDetailsList = transactionDetailsList.map((e) => TransactionDetails.fromJson(e)).toList();
+
     return DailyDetail(
       date: json["date"],
       yearMonth: json["yearMonth"],
       day: json["day"],
-      memoList: List<Memos>.from(
-          json["memoList"].map((x) => Memos.fromJson(x))),
-      transactionDetailsList: List<TransactionDetails>.from(
-          json["transactionDetailsList"].map((x) => TransactionDetails.fromJson(x))),
+      memoList: newMemoList,
+      transactionDetailsList: newTransactionDetailsList
     );
   }
 //
