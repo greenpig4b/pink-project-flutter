@@ -30,10 +30,10 @@ class MemoRepository {
       rethrow; // 예외를 다시 던져서 상위 코드에서 처리할 수 있도록 함
     }
   }
-  Future<ResponseDTO> fetchMemoList(int year, int month,String accessToken) async {
+  Future<ResponseDTO> fetchMemoList(int year, int month) async {
     final response = await dio.get("/api/memos/monthly",
-        options: Options(headers: {"Authorization": "${accessToken}"}),
         queryParameters: {'year': year, 'month': month});
+
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     if (responseDTO.status == 200) {
       MonthlyMemoDTO monthlyMemoDTO =
@@ -45,7 +45,7 @@ class MemoRepository {
       List<DailyMemoDTO> dailyMemoDetailDTO =
       dailyMemoListDTO.expand((e) => e.dailyMemo).toList();
 
-      MemoListViewmodel model = MemoListViewmodel(
+      MemoListModel model = MemoListModel(
           monthlyMemoDTO: monthlyMemoDTO,
           dailyMemoListDTO: dailyMemoListDTO,
           dailyMemoDetailDTO: dailyMemoDetailDTO);
