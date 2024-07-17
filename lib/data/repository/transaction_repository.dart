@@ -16,10 +16,10 @@ class TransactionRepository {
     return responseDTO;
   }
 
-  Future<ResponseDTO> fetchTransactionList(int year, int month,String accessToken) async {
+  Future<ResponseDTO> fetchTransactionList(int year, int month) async {
     final response = await dio.get("/api/transactions/monthly",
-        options: Options(headers: {"Authorization": "${accessToken}"}),
         queryParameters: {'year': year, 'month': month});
+
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     if (responseDTO.status == 200) {
       TotalTransactionDTO totalTransactionDTO =
