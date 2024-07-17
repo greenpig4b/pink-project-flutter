@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import 'components/my_home_page.dart';
+import 'components/my_chart_page.dart';
 
 void main() => runApp(ChartPage());
 
@@ -13,7 +13,7 @@ class ChartPage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: MyChartPage(),
     );
   }
 }
