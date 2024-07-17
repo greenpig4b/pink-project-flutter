@@ -6,7 +6,6 @@ import '../../_core/constants/http.dart';
 import '../models/User.dart';
 
 class UserRepository {
-
   Future<(ResponseDTO, String)> fetchLogin(LoginRequestDTO requestDTO) async {
     final response = await dio.post("/login", data: requestDTO.toJson());
 
@@ -29,14 +28,25 @@ class UserRepository {
     return responseDTO;
   }
 
-  Future<EmailCheckDTO> fetchEmailCheck(String email) async{
-    final response = await dio.get("/check-email",
-        queryParameters: {'email': email});
+  Future<EmailCheckDTO> fetchEmailCheck(String email) async {
+    final response =
+        await dio.get("/check-email", queryParameters: {'email': email});
     EmailCheckDTO emailCheckDTO = EmailCheckDTO.fromJson(response.data);
 
-
     return emailCheckDTO;
-
   }
 
+  Future<(ResponseDTO, String)> fetchKakaoLogin(String kakaoAccessToken) async {
+    final response = await dio.get("oauth/callback/kakao",
+        queryParameters: {"accessToken": kakaoAccessToken});
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+    if (responseDTO.status == 200) {
+      responseDTO.response = User.fromJson(responseDTO.response);
+      final accessToken = response.headers["Authorization"]!.first;
+      return (responseDTO, accessToken);
+    } else {
+      return (responseDTO, "");
+    }
+  }
 }
