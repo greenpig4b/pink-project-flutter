@@ -68,23 +68,24 @@ class MonthIncomeDTO {
   final int? id;
   final String? category;
   final String? amount;
-  final categoryImagePath;
+  final String? categoryImagePath;
   final DateTime? date;
 
   MonthIncomeDTO({
     this.id,
     this.category,
     this.amount,
-    String? categoryImagePath,
+    this.categoryImagePath,
     this.date,
-  }): categoryImagePath = _getEmojiForCategory(category);
+  });
 
   factory MonthIncomeDTO.fromJson(Map<String, dynamic> json) {
+    String? category = json['category'] ?? '';
     return MonthIncomeDTO(
       id: json['id'],
-      category: json['category'] ?? '',
+      category: category,
       amount: json['amount'],
-      categoryImagePath: '',
+      categoryImagePath: _getEmojiForCategory(category),
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
     );
   }
@@ -107,7 +108,6 @@ class MonthIncomeDTO {
         return '';
     }
   }
-
 }
 
 class MonthSpendingDTO {
@@ -121,17 +121,17 @@ class MonthSpendingDTO {
     this.id,
     this.category,
     this.amount,
-    String? categoryImagePath,
+    this.categoryImagePath,
     this.date,
-  }): categoryImagePath = _getEmojiForCategory(category);
-
+  });
 
   factory MonthSpendingDTO.fromJson(Map<String, dynamic> json) {
+    String? category = json['category'] ?? '';
     return MonthSpendingDTO(
       id: json['id'],
-      category: json['category'] ?? '',
+      category: category,
       amount: json['amount'],
-      categoryImagePath: '',
+      categoryImagePath: _getEmojiForCategory(category),
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
     );
   }
@@ -162,30 +162,30 @@ class MonthSpendingDTO {
         return '💰';
     }
   }
-
 }
 
 class WeeklyIncomeDTO {
   final int? id;
   final String? category;
   final String? amount;
-  final categoryImagePath;
+  final String? categoryImagePath;
   final DateTime? date;
 
   WeeklyIncomeDTO({
     this.id,
     this.category,
     this.amount,
-    String? categoryImagePath,
+    this.categoryImagePath,
     this.date,
-  }): categoryImagePath = _getEmojiForCategory(category);
+  });
 
   factory WeeklyIncomeDTO.fromJson(Map<String, dynamic> json) {
+    String? category = json['category'] ?? '';
     return WeeklyIncomeDTO(
       id: json['id'],
-      category: json['category'] ?? '',
+      category: category,
       amount: json['amount'],
-      categoryImagePath:'',
+      categoryImagePath: _getEmojiForCategory(category),
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
     );
   }
@@ -208,31 +208,30 @@ class WeeklyIncomeDTO {
         return '';
     }
   }
-
-
 }
 
 class WeeklySpendingDTO {
   final int? id;
   final String? category;
   final String? amount;
-  final categoryImagePath;
+  final String? categoryImagePath;
   final DateTime? date;
 
   WeeklySpendingDTO({
     this.id,
     this.category,
     this.amount,
-    String? categoryImagePath,
+    this.categoryImagePath,
     this.date,
-  }): categoryImagePath = _getEmojiForCategory(category);
+  });
 
   factory WeeklySpendingDTO.fromJson(Map<String, dynamic> json) {
+    String? category = json['category'] ?? '';
     return WeeklySpendingDTO(
       id: json['id'],
-      category: json['category'] ?? '',
+      category: category,
       amount: json['amount'],
-      categoryImagePath: '',
+      categoryImagePath: _getEmojiForCategory(category),
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
     );
   }

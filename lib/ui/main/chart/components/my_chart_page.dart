@@ -10,7 +10,7 @@ import '../viewmodel/chart_list_viewmodel.dart';
 class MyChartPage extends ConsumerWidget {
   MyChartPage({Key? key}) : super(key: key);
 
-  final DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   final int touchedIncomeIndex = -1;
   final int touchedExpenseIndex = -1;
 
@@ -32,15 +32,16 @@ class MyChartPage extends ConsumerWidget {
     final selectedDateString = '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-01';
     final chartListState = ref.watch(chartListProvider(selectedDateString));
     final chartViewModel = ref.read(chartListProvider(selectedDateString).notifier);
+    final String jwtToken = "your_jwt_token_here";
 
     void _nextMonth() {
-      ref.read(chartListProvider(selectedDateString).notifier).notifyInit(
-          DateTime(_selectedDate.year, _selectedDate.month + 1, 1).toString());
+      _selectedDate = DateTime(_selectedDate.year, _selectedDate.month + 1, 1);
+      ref.read(chartListProvider(_selectedDate.toString()).notifier).notifyInit(_selectedDate.toString(), jwtToken);
     }
 
     void _previousMonth() {
-      ref.read(chartListProvider(selectedDateString).notifier).notifyInit(
-          DateTime(_selectedDate.year, _selectedDate.month - 1, 1).toString());
+      _selectedDate = DateTime(_selectedDate.year, _selectedDate.month - 1, 1);
+      ref.read(chartListProvider(_selectedDate.toString()).notifier).notifyInit(_selectedDate.toString(), jwtToken);
     }
 
     void _onIncomeTap() {
@@ -90,7 +91,7 @@ class MyChartPage extends ConsumerWidget {
             TextButton(
               onPressed: () {
                 chartViewModel.toggleView();
-                ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString());
+                ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString(), jwtToken);
               },
               child: Text(
                 '월간',
@@ -103,7 +104,7 @@ class MyChartPage extends ConsumerWidget {
             TextButton(
               onPressed: () {
                 chartViewModel.toggleView();
-                ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString());
+                ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString(), jwtToken);
               },
               child: Text(
                 '주간',
@@ -160,7 +161,7 @@ class MyChartPage extends ConsumerWidget {
                     IncomeSection<MonthIncomeDTO>(
                       touchedIndex: touchedIncomeIndex,
                       onTouch: (index) {
-                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString());
+                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString(), jwtToken);
                       },
                       incomes: chartList.chartMonth?.incomeList ?? [], // 데이터를 전달
                       selectedDate: _selectedDate,
@@ -168,7 +169,7 @@ class MyChartPage extends ConsumerWidget {
                     ExpenseSection<MonthSpendingDTO>(
                       touchedIndex: touchedExpenseIndex,
                       onTouch: (index) {
-                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString());
+                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString(), jwtToken);
                       },
                       expenses: chartList.chartMonth?.spendingList ?? [], // 데이터를 전달
                       selectedDate: _selectedDate,
@@ -185,7 +186,7 @@ class MyChartPage extends ConsumerWidget {
                     IncomeSection<WeeklyIncomeDTO>(
                       touchedIndex: touchedIncomeIndex,
                       onTouch: (index) {
-                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString());
+                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString(), jwtToken);
                       },
                       incomes: chartList.chatWeekly?.incomeList ?? [], // 데이터를 전달
                       selectedDate: _selectedDate,
@@ -193,7 +194,7 @@ class MyChartPage extends ConsumerWidget {
                     ExpenseSection<WeeklySpendingDTO>(
                       touchedIndex: touchedExpenseIndex,
                       onTouch: (index) {
-                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString());
+                        ref.read(chartListProvider(selectedDateString).notifier).notifyInit(_selectedDate.toString(), jwtToken);
                       },
                       expenses: chartList.chatWeekly?.spendingList ?? [], // 데이터를 전달
                       selectedDate: _selectedDate,
