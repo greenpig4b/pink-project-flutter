@@ -1,17 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/startview/components/startview_login_button.dart';
-import 'package:pinkpig_project_flutter/ui/startview/components/startview_sign_up_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pinkpig_project_flutter/data/dtos/user/user_request.dart';
 
-class RegisterPage extends StatelessWidget {
+import '../../../data/store/session_store.dart';
+import '../startview_page.dart';
+
+class RegisterPage extends ConsumerWidget {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SessionStore store = ref.read(sessionProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -21,6 +28,7 @@ class RegisterPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               Row(
@@ -34,10 +42,10 @@ class RegisterPage extends StatelessWidget {
                         hintText: '이메일 주소',
                         floatingLabelStyle: TextStyle(color: Color(0xFFFC7C9A)),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFFC7C9A)), // 포커스 시 밑줄 색상
+                          borderSide: BorderSide(
+                              color: Color(0xFFFC7C9A)), // 포커스 시 밑줄 색상
                         ),
                       ),
-
                     ),
                   ),
                   Container(
@@ -45,13 +53,17 @@ class RegisterPage extends StatelessWidget {
                     height: 40, // 버튼 높이
                     child: ElevatedButton(
                       onPressed: () {
-                        // 중복확인 로직
+                        String email = _emailController.text.trim();
+                        store.emailCheck(email);
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20 ,0),
-                        backgroundColor: Colors.white, // 배경색
-                        foregroundColor: Color(0xFFFC7C9A), // 글자색
-                        side: BorderSide(color: Color(0xFFFC7C9A)), // 테두리색
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        backgroundColor: Colors.white,
+                        // 배경색
+                        foregroundColor: Color(0xFFFC7C9A),
+                        // 글자색
+                        side: BorderSide(color: Color(0xFFFC7C9A)),
+                        // 테두리색
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                         ),
@@ -71,7 +83,8 @@ class RegisterPage extends StatelessWidget {
                   hintText: '비밀번호를 입력하세요',
                   floatingLabelStyle: TextStyle(color: Color(0xFFFC7C9A)),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFFC7C9A)), // 포커스 시 밑줄 색상
+                    borderSide:
+                        BorderSide(color: Color(0xFFFC7C9A)), // 포커스 시 밑줄 색상
                   ),
                 ),
               ),
@@ -88,7 +101,8 @@ class RegisterPage extends StatelessWidget {
                         hintText: '비밀번호를 확인해주세요.',
                         floatingLabelStyle: TextStyle(color: Color(0xFFFC7C9A)),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFFC7C9A)), // 포커스 시 밑줄 색상
+                          borderSide: BorderSide(
+                              color: Color(0xFFFC7C9A)), // 포커스 시 밑줄 색상
                         ),
                       ),
                     ),
@@ -98,13 +112,23 @@ class RegisterPage extends StatelessWidget {
                     height: 40, // 버튼 높이
                     child: ElevatedButton(
                       onPressed: () {
-                        // 중복확인 로직
+                        if (_passwordController.text ==
+                            _confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("비밀번호가 일치합니다.")));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("비밀번호가 일치하지 않습니다.")));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20 ,0),
-                        backgroundColor: Colors.white, // 배경색
-                        foregroundColor: Color(0xFFFC7C9A), // 글자색
-                        side: BorderSide(color: Color(0xFFFC7C9A)), // 테두리색
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        backgroundColor: Colors.white,
+                        // 배경색
+                        foregroundColor: Color(0xFFFC7C9A),
+                        // 글자색
+                        side: BorderSide(color: Color(0xFFFC7C9A)),
+                        // 테두리색
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                         ),
@@ -115,13 +139,51 @@ class RegisterPage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
-              StartviewSignUpButton(text: '회원가입')
+              Container(
+                margin: EdgeInsets.only(top: 30),
+                width: double.infinity, // 너비를 100%로 설정
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4), // 그림자 색상 및 투명도
+                      spreadRadius: 2, // 그림자 퍼짐 정도
+                      blurRadius: 5, // 그림자 흐림 정도
+                      offset: Offset(0, 4), // 그림자 위치
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(50), // 둥근 테두리
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    String email = _emailController.text.trim();
+                    String password = _passwordController.text.trim();
+
+                    JoinRequestDTO joinRequest =
+                        JoinRequestDTO(email, password);
+
+                    store.join(joinRequest);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xfffc7c9a), // 버튼 배경색
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50), // 둥근 테두리
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15), // 버튼 내부 여백
+                  ),
+                  child: Text(
+                    "회원가입",
+                    style: TextStyle(
+                      fontSize: 18, // 폰트 크기
+                      color: Colors.white, // 텍스트 색상
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-
       ),
     );
   }
 }
-

@@ -1,5 +1,6 @@
 import 'package:pinkpig_project_flutter/data/dtos/response_dto.dart';
 import 'package:pinkpig_project_flutter/data/dtos/user/user_request.dart';
+import 'package:pinkpig_project_flutter/data/dtos/user/user_response.dart';
 
 import '../../_core/constants/http.dart';
 import '../models/User.dart';
@@ -19,4 +20,23 @@ class UserRepository {
       return (responseDTO, "");
     }
   }
+
+  Future<ResponseDTO> fetchJoin(JoinRequestDTO joinRequestDTO) async {
+    final response = await dio.post("/join", data: joinRequestDTO.toJson());
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+
+    return responseDTO;
+  }
+
+  Future<EmailCheckDTO> fetchEmailCheck(String email) async{
+    final response = await dio.get("/check-email",
+        queryParameters: {'email': email});
+    EmailCheckDTO emailCheckDTO = EmailCheckDTO.fromJson(response.data);
+
+
+    return emailCheckDTO;
+
+  }
+
 }
