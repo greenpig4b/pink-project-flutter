@@ -5,7 +5,6 @@ import 'package:pinkpig_project_flutter/data/dtos/transaction/transaction_reques
 import 'package:pinkpig_project_flutter/data/repository/transaction_repository.dart';
 
 import '../../../../../data/dtos/transaction/transaction_response.dart';
-import '../../../../../data/store/session_store.dart';
 import '../../../../../main.dart';
 
 class TransactionListModel {
@@ -43,6 +42,61 @@ class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
 
   Future<void> notifySave(TransactionSaveDTO requestDTO) async {
     ResponseDTO responseDTO = await TransactionRepository().saveTransaction(requestDTO);
+    if(responseDTO.status == 200){
+
+      SaveTransactionRespRecord saveTransactionRespRecord = SaveTransactionRespRecord.fromJson(responseDTO.response);
+      // print("saveTransactionRespRecord : ${saveTransactionRespRecord.userId}");
+      // print("saveTransactionRespRecord : ${saveTransactionRespRecord.monthlyIncome}");
+      // print("saveTransactionRespRecord : ${saveTransactionRespRecord.monthlyExpense}");
+      // print("saveTransactionRespRecord : ${saveTransactionRespRecord.monthlyTotalAmount}");
+      // print("saveTransactionRespRecord : ${saveTransactionRespRecord.dailySaveTransactionRecord}");
+
+      DailySaveTransactionRecord dailySaveTransactionRecord = saveTransactionRespRecord.dailySaveTransactionRecord;
+      // print("dailySaveTransactionRecord : ${dailySaveTransactionRecord.date}");
+      // print("dailySaveTransactionRecord : ${dailySaveTransactionRecord.dailyIncome}");
+      // print("dailySaveTransactionRecord : ${dailySaveTransactionRecord.dailyExpense}");
+      // print("dailySaveTransactionRecord : ${dailySaveTransactionRecord.dailyTotalAmount}");
+      // print("dailySaveTransactionRecord : ${dailySaveTransactionRecord.dailySaveTransactionDetailRecord}");
+
+      DailySaveTransactionDetailRecord dailySaveTransactionDetailRecord = dailySaveTransactionRecord.dailySaveTransactionDetailRecord;
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.time}");
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.categoryInImage}");
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.categoryIn}");
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.categoryOut}");
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.description}");
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.amount}");
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.assets}");
+      // print("dailySaveTransactionDetailRecord : ${dailySaveTransactionDetailRecord.transactionType}");
+
+      DailyTransactionDetailDTO newDailyTransactionDetailDTO = DailyTransactionDetailDTO(id: dailySaveTransactionDetailRecord.id,
+          transactionType: dailySaveTransactionDetailRecord.transactionType, categoryIn: dailySaveTransactionDetailRecord.categoryIn, categoryInImage: dailySaveTransactionDetailRecord.categoryInImage,
+          categoryOut: dailySaveTransactionDetailRecord.categoryOut, categoryOutImage: dailySaveTransactionDetailRecord.categoryOutImage, description: dailySaveTransactionDetailRecord.description,
+          time: dailySaveTransactionDetailRecord.time, assets: dailySaveTransactionDetailRecord.assets, amount: dailySaveTransactionDetailRecord.amount);
+
+      List<DailyTransactionDetailDTO> newDailyTransactionDetailDTOs = [newDailyTransactionDetailDTO,...?state!.dailyTransactionDetailDTO];
+
+      DailyTransactionDTO newDailyTransactionDTO = DailyTransactionDTO(date: dailySaveTransactionRecord.date, dailyIncome: dailySaveTransactionRecord.dailyIncome,
+          dailyExpense: dailySaveTransactionRecord.dailyExpense, dailyTotalAmount: dailySaveTransactionRecord.dailyTotalAmount, dailyTransactionDetailDTO: newDailyTransactionDetailDTOs);
+
+      List<DailyTransactionDTO> newDailyTransactionDTOs = [newDailyTransactionDTO,...?state!.dailyTransactionDTO];
+
+
+      TotalTransactionDTO newTotalTransactionDTO = TotalTransactionDTO(userId: saveTransactionRespRecord.userId,
+          year: saveTransactionRespRecord.year, month: saveTransactionRespRecord.month, monthlyIncome: saveTransactionRespRecord.monthlyIncome,
+          monthlyExpense: saveTransactionRespRecord.monthlyExpense, monthlyTotalAmount: saveTransactionRespRecord.monthlyTotalAmount,
+          dailyTransactionRecord: newDailyTransactionDTOs);
+
+      TransactionListModel model = TransactionListModel(totalTransactionDTO: newTotalTransactionDTO,dailyTransactionDTO: newDailyTransactionDTOs,dailyTransactionDetailDTO: newDailyTransactionDetailDTOs);
+
+      state = model ;
+      Navigator.pop(mContext!);
+
+    }else{
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+          SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")));
+
+    }
+
   }
 }
 
