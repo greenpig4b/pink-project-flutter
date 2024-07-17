@@ -16,7 +16,9 @@ class RegisterPage extends ConsumerWidget {
   RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SessionStore store = ref.read(sessionProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -51,7 +53,8 @@ class RegisterPage extends ConsumerWidget {
                     height: 40, // 버튼 높이
                     child: ElevatedButton(
                       onPressed: () {
-                        // 중복확인 로직
+                        String email = _emailController.text.trim();
+                        store.emailCheck(email);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -109,7 +112,14 @@ class RegisterPage extends ConsumerWidget {
                     height: 40, // 버튼 높이
                     child: ElevatedButton(
                       onPressed: () {
-                        // 중복확인 로직
+                        if (_passwordController.text ==
+                            _confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("비밀번호가 일치합니다.")));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("비밀번호가 일치하지 않습니다.")));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -148,11 +158,10 @@ class RegisterPage extends ConsumerWidget {
                     String email = _emailController.text.trim();
                     String password = _passwordController.text.trim();
 
-                    JoinRequestDTO joinRequest = JoinRequestDTO(email, password);
-                    SessionStore store = ref.read(sessionProvider);
+                    JoinRequestDTO joinRequest =
+                        JoinRequestDTO(email, password);
 
                     store.join(joinRequest);
-
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xfffc7c9a), // 버튼 배경색

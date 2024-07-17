@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/response_dto.dart';
+import 'package:pinkpig_project_flutter/data/dtos/user/user_response.dart';
 import 'package:pinkpig_project_flutter/ui/startview/components/startview_sign_in.dart';
 
 import '../../_core/constants/http.dart';
@@ -29,7 +30,7 @@ class SessionStore extends SessionUser {
 
   Future<void> login(LoginRequestDTO requestDTO) async {
     var (responseDTO, accessToken) =
-    await UserRepository().fetchLogin(requestDTO);
+        await UserRepository().fetchLogin(requestDTO);
 
     if (responseDTO.status == 200) {
       await secureStorage.write(key: "accessToken", value: accessToken);
@@ -63,9 +64,12 @@ class SessionStore extends SessionUser {
     }
   }
 
+  Future<void> emailCheck(String email) async {
+    EmailCheckDTO emailCheckDTO = await UserRepository().fetchEmailCheck(email);
+    ScaffoldMessenger.of(mContext!)
+        .showSnackBar(SnackBar(content: Text("${emailCheckDTO.msg}")));
   }
-
-
+}
 
 // 창고 관리자
 final sessionProvider = StateProvider<SessionStore>((ref) {
