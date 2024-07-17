@@ -1,42 +1,40 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../data/dtos/chart/chart_response.dart';
+import '../../../../data/dtos/chart/chart_month_response.dart';
+import '../../../../data/dtos/chart/chart_weekly_response.dart';
 import '../../../../data/dtos/response_dto.dart';
 import '../../../../data/repository/chart_repository.dart';
 
-class ChartListmodel {
-  final ChartResponseDTO? monthCount;
-  final MonthDTO? chartMonth;
-  final WeeklyDTO? chatWeekly;
+
+class ChartListModel {
+  final ChartMonthResponse? chartMonth;
+  final ChartWeeklyResponse? chartWeekly;
   final bool isMonthly;
 
-  ChartListmodel({
-    this.monthCount,
+  ChartListModel({
     this.chartMonth,
-    this.chatWeekly,
+    this.chartWeekly,
     this.isMonthly = true,
   });
 
-  ChartListmodel copyWith({
-    ChartResponseDTO? monthCount,
-    MonthDTO? chartMonth,
-    WeeklyDTO? chatWeekly,
+  ChartListModel copyWith({
+    ChartMonthResponse? chartMonth,
+    ChartWeeklyResponse? chartWeekly,
     bool? isMonthly,
   }) {
-    return ChartListmodel(
-      monthCount: monthCount ?? this.monthCount,
+    return ChartListModel(
       chartMonth: chartMonth ?? this.chartMonth,
-      chatWeekly: chatWeekly ?? this.chatWeekly,
+      chartWeekly: chartWeekly ?? this.chartWeekly,
       isMonthly: isMonthly ?? this.isMonthly,
     );
   }
 }
 
-class ChartListViewmodel extends StateNotifier<AsyncValue<ChartListmodel?>> {
-  ChartListViewmodel() : super(const AsyncValue.loading());
+class ChartListViewModel extends StateNotifier<AsyncValue<ChartListModel?>> {
+  ChartListViewModel() : super(const AsyncValue.loading());
 
-  Future<void> notifyInit(String selectedDate, String accessToken) async {
+  Future<void> notifyInit(String selectedDate, String accessToken, bool isMonthly) async {
+    print("notifyInit called with selectedDate: $selectedDate, isMonthly: $isMonthly");
     state = const AsyncValue.loading();
     try {
       DateTime parsedDate = DateTime.parse(selectedDate);
@@ -45,20 +43,32 @@ class ChartListViewmodel extends StateNotifier<AsyncValue<ChartListmodel?>> {
       int week = _getWeekNumber(parsedDate);
 
       ChartRepository chartRepository = ChartRepository();
-      ResponseDTO responseDTO = await chartRepository.getChatGraph(year, month, week, accessToken);
+      ResponseDTO responseDTO = await chartRepository.getChatGraph(year, month, week, accessToken, isMonthly);
+
+      print("ResponseDTO: ${responseDTO.toString()}");
 
       if (responseDTO.status == 200) {
-        ChartResponseDTO chartResponseDTO = ChartResponseDTO.fromJson(responseDTO.response);
-
-        state = AsyncValue.data(ChartListmodel(
-          monthCount: chartResponseDTO,
-          chartMonth: chartResponseDTO.chartMonth,
-          chatWeekly: chartResponseDTO.chartWeekly,
-        ));
+        if (isMonthly) {
+          ChartMonthResponse chartMonthResponse = ChartMonthResponse.fromJson(responseDTO.response);
+          print("Monthly data: ${chartMonthResponse.toString()}");
+          state = AsyncValue.data(ChartListModel(
+            chartMonth: chartMonthResponse,
+            isMonthly: isMonthly,
+          ));
+        } else {
+          ChartWeeklyResponse chartWeeklyResponse = ChartWeeklyResponse.fromJson(responseDTO.response);
+          print("Weekly data: ${chartWeeklyResponse.toString()}");
+          state = AsyncValue.data(ChartListModel(
+            chartWeekly: chartWeeklyResponse,
+            isMonthly: isMonthly,
+          ));
+        }
       } else {
+        print("Error: ${responseDTO.errorMessage ?? 'Unknown error'}");
         state = AsyncValue.error(Exception(responseDTO.errorMessage ?? 'Unknown error'), StackTrace.current);
       }
     } catch (e) {
+      print("Exception: $e");
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
@@ -74,6 +84,6 @@ class ChartListViewmodel extends StateNotifier<AsyncValue<ChartListmodel?>> {
   }
 }
 
-final chartListProvider = StateNotifierProvider.family<ChartListViewmodel, AsyncValue<ChartListmodel?>, String>(
-      (ref, selectedDate) => ChartListViewmodel()..notifyInit(selectedDate, "your_jwt_token_here"),
+final chartListProvider = StateNotifierProvider.family<ChartListViewModel, AsyncValue<ChartListModel?>, String>(
+      (ref, selectedDate) => ChartListViewModel(),
 );

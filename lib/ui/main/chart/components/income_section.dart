@@ -14,22 +14,22 @@ class IncomeSection<T> extends StatelessWidget {
     required this.selectedDate,
   });
 
-  List<PieChartSectionData> showingIncomeSections(
-      List<T> filteredIncomes, List<String> percentages) {
+  List<PieChartSectionData> showingIncomeSections(List<T> filteredIncomes, List<String> percentages) {
+    if (filteredIncomes.isEmpty) {
+      print("No income data available.");
+      return [];
+    }
+
     double totalAmount = filteredIncomes.fold(
         0,
-            (sum, item) =>
-        sum +
-            int.parse((item as dynamic).amount.replaceAll(',', '')));
+            (sum, item) => sum + int.parse((item as dynamic).amount.replaceAll(',', '')));
 
     return List.generate(filteredIncomes.length, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 20.0 : 16.0;
       final radius = isTouched ? 110.0 : 100.0;
-      final value =
-      int.parse((filteredIncomes[i] as dynamic).amount.replaceAll(',', ''));
-      final percentage =
-          (value / totalAmount * 100).toStringAsFixed(1) + '%';
+      final value = int.parse((filteredIncomes[i] as dynamic).amount.replaceAll(',', ''));
+      final percentage = (value / totalAmount * 100).toStringAsFixed(1) + '%';
       percentages.add(percentage);
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
@@ -48,8 +48,12 @@ class IncomeSection<T> extends StatelessWidget {
     });
   }
 
-  List<Widget> getIncomeList(
-      List<T> filteredIncomes, List<String> percentages) {
+  List<Widget> getIncomeList(List<T> filteredIncomes, List<String> percentages) {
+    if (filteredIncomes.isEmpty) {
+      print("No income data available.");
+      return [Text('No income data available.')];
+    }
+
     final Map<String, int> categorySums = {};
     for (var income in filteredIncomes) {
       final item = income as dynamic;
@@ -124,6 +128,9 @@ class IncomeSection<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> percentages = [];
+
+    print("Building IncomeSection with ${incomes.length} incomes.");
+
     return Column(
       children: [
         Container(
