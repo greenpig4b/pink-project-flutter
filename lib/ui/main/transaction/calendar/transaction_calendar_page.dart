@@ -5,7 +5,9 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../data/store/calendar_store.dart';
 import '../../../components/under_line_widget.dart';
+import '../../result/components/result_app_bar.dart';
 import '../daily/components/transaction_total_account.dart';
+import '../daily/viewmodel/transaction_list_viewmodel.dart';
 import 'components/memo_button.dart';
 import 'components/transaction_detail.dart';
 import 'components/transaction_detail_memo.dart';
@@ -15,6 +17,8 @@ class TransactionCalenderPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final calendarState = ref.watch(calendarStoreProvider);
+    final selectedDate = ref.watch(calendarProvider);
+    final model = ref.watch(transactionListProvider(selectedDate.toString()));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -22,7 +26,7 @@ class TransactionCalenderPage extends ConsumerWidget {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverToBoxAdapter(
-            child: TransactionTotalAccount(),
+            child: TransactionTotalAccount(model: model,),
           ),
           SliverToBoxAdapter(
             child: UnderLineWidget(),
