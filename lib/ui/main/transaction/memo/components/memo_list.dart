@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_edit.dart';
-import '../../../../../data/store/session_store.dart';
 import '../../_components/calender_widget.dart';
 import '../data/memo_provider.dart';
 
@@ -12,11 +11,14 @@ class MemoList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final memoListState = ref.watch(memoListProvider);
+    final selectedMonth = ref.watch(calendarProvider).toIso8601String();
+
+    // notifyInit을 달력이 변경될 때만 호출합니다.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(memoListProvider.notifier).notifyInit(selectedMonth);
+    });
+
     final dailyMemoList = memoListState?.dailyMemoListDTO ?? [];
-
-
-
-    // notifyInit을 한 번만 호출하도록 상태 초기화 여부를 확인합니다.
 
     if (dailyMemoList.isEmpty) {
       return Center(
@@ -34,7 +36,7 @@ class MemoList extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final dailyMemo = dailyMemoList[index];
                 String formattedDate =
-                    DateFormat('MM.dd').format(DateTime.parse(dailyMemo.date));
+                DateFormat('MM.dd').format(DateTime.parse(dailyMemo.date));
 
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -77,7 +79,7 @@ class MemoList extends ConsumerWidget {
                               },
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                const EdgeInsets.symmetric(vertical: 10.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

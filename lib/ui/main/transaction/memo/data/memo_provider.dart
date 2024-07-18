@@ -25,7 +25,7 @@ final selectedDateProvider = StateNotifierProvider<SelectedDateNotifier, DateTim
 
 final memoListProvider = StateNotifierProvider<MemoListViewModel, MemoListModel?>((ref) {
 
-  return MemoListViewModel(ref)..notifyInit();
+  return MemoListViewModel(ref) ;
 });
 
 final userIdProvider = Provider<int>((ref) {
