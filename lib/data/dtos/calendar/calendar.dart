@@ -1,137 +1,131 @@
 class Calendar {
-  final monthlyIcome;
-  final monthlyExpense;
-  final monthlyTotalAmount;
+  final String? monthlyIncome;
+  final String? monthlyExpense;
+  final String? monthlyTotalAmount;
   final List<DailySummaries> dailySummariesList;
 
   Calendar({
-    required this.monthlyIcome,
-    required this.monthlyExpense,
-    required this.monthlyTotalAmount,
-    required this. dailySummariesList
+    this.monthlyIncome,
+    this.monthlyExpense,
+    this.monthlyTotalAmount,
+    required this.dailySummariesList
   });
 
   factory Calendar.fromJson(Map<String, dynamic> json) {
-    // 파싱
-    List<dynamic> dailySummariesList = json["dailySummariesList"];
-    List<DailySummaries> newDailySummariesList = dailySummariesList.map((e) => DailySummaries.fromJson(e)).toList();
+    List<dynamic> dailySummariesJson = json["dailySummariesList"] ?? [];
+    List<DailySummaries> newDailySummariesList = dailySummariesJson.map((e) => DailySummaries.fromJson(e)).toList();
     return Calendar(
-        monthlyIcome: json["monthlyIcome"],
-        monthlyExpense: json["monthlyExpense"],
-        monthlyTotalAmount: json["monthlyTotalAmount"],
+        monthlyIncome: json["monthlyIncome"] ?? "",
+        monthlyExpense: json["monthlyExpense"] ?? "",
+        monthlyTotalAmount: json["monthlyTotalAmount"] ?? "",
         dailySummariesList: newDailySummariesList
     );
   }
 }
 
-class DailySummaries{
-  final date;
-  final hasMemo;
-  final dailyIncome;
-  final dailyExpense;
-  final dailyTotalAmount;
-  final DailyDetail dailyDetail;
+class DailySummaries {
+  final String? date;
+  final bool? hasMemo;
+  final String? dailyIncome;
+  final String? dailyExpense;
+  final String? dailyTotalAmount;
+  final DailyDetail? dailyDetail;
 
   DailySummaries({
-    required this.date,
-    required this.hasMemo,
-    required this.dailyIncome,
-    required this.dailyExpense,
-    required this.dailyTotalAmount,
-    required this.dailyDetail
+    this.date,
+    this.hasMemo,
+    this.dailyIncome,
+    this.dailyExpense,
+    this.dailyTotalAmount,
+    this.dailyDetail
   });
 
   factory DailySummaries.fromJson(Map<String, dynamic> json) {
     return DailySummaries(
-      date: json["date"],
+      date: json["date"] ?? "",
       hasMemo: json["hasMemo"],
-      dailyIncome: json["dailyIncome"],
-      dailyExpense: json["dailyExpense"],
-      dailyTotalAmount: json["dailyTotalAmount"],
-      dailyDetail: json["dailyDetail"],
+      dailyIncome: json["dailyIncome"] ?? "",
+      dailyExpense: json["dailyExpense"] ?? "",
+      dailyTotalAmount: json["dailyTotalAmount"] ?? "",
+      dailyDetail: json["dailyDetail"] != null ? DailyDetail.fromJson(json["dailyDetail"]) : null,
     );
   }
-//
 }
 
-class DailyDetail{
-  final date;
-  final yearMonth;
-  final day;
+class DailyDetail {
+  final String? date;
+  final String? yearMonth;
+  final String? day;
   final List<Memos> memoList;
   final List<TransactionDetails> transactionDetailsList;
 
   DailyDetail({
-    required this.date,
-    required this.yearMonth,
-    required this.day,
+    this.date,
+    this.yearMonth,
+    this.day,
     required this.memoList,
     required this.transactionDetailsList
   });
 
   factory DailyDetail.fromJson(Map<String, dynamic> json) {
-    // 파싱
-    List<dynamic> memoList = json["memoList"];
-    List<dynamic> transactionDetailsList = json["transactionDetailsList"];
+    List<dynamic> memoJson = json["memoList"] ?? [];
+    List<dynamic> transactionDetailsJson = json["transactionDetailsList"] ?? [];
 
-    List<Memos> newMemoList = memoList.map((e) => Memos.fromJson(e)).toList();
-    List<TransactionDetails> newTransactionDetailsList = transactionDetailsList.map((e) => TransactionDetails.fromJson(e)).toList();
+    List<Memos> newMemoList = memoJson.map((e) => Memos.fromJson(e)).toList();
+    List<TransactionDetails> newTransactionDetailsList = transactionDetailsJson.map((e) => TransactionDetails.fromJson(e)).toList();
 
     return DailyDetail(
-      date: json["date"],
-      yearMonth: json["yearMonth"],
-      day: json["day"],
-      memoList: newMemoList,
-      transactionDetailsList: newTransactionDetailsList
+        date: json["date"] ?? "",
+        yearMonth: json["yearMonth"] ?? "",
+        day: json["day"] ?? "",
+        memoList: newMemoList,
+        transactionDetailsList: newTransactionDetailsList
     );
   }
-//
 }
 
-class Memos{
-  final id;
-  final content;
+class Memos {
+  final int? id;
+  final String? content;
 
   Memos({
-    required this.id,
-    required this.content
+    this.id,
+    this.content
   });
 
   factory Memos.fromJson(Map<String, dynamic> json) {
     return Memos(
-      id: json["id"],
-      content: json["content"],
+      id: json["id"] ?? 0,
+      content: json["content"] ?? "",
     );
   }
-//
 }
 
-class TransactionDetails{
-  final id;
-  final transactionType;
-  final category;
-  final description;
-  final assets;
-  final amount;
+class TransactionDetails {
+  final int? id;
+  final String? transactionType;
+  final String? category;
+  final String? description;
+  final String? assets;
+  final String? amount;
 
   TransactionDetails({
-    required this.id,
-    required this.transactionType,
-    required this.category,
-    required this.description,
-    required this.assets,
-    required this.amount
+    this.id,
+    this.transactionType,
+    this.category,
+    this.description,
+    this.assets,
+    this.amount
   });
 
   factory TransactionDetails.fromJson(Map<String, dynamic> json) {
     return TransactionDetails(
-      id: json["id"],
-      transactionType: json["transactionType"],
-      category: json["category"],
-      description: json["description"],
-      assets: json["assets"],
-      amount: json["amount"],
+      id: json["id"] ?? 0,
+      transactionType: json["transactionType"] ?? "",
+      category: json["category"] ?? "",
+      description: json["description"] ?? "",
+      assets: json["assets"] ?? "",
+      amount: json["amount"] ?? "",
     );
   }
-//
 }

@@ -1,6 +1,7 @@
 // transaction_calendar_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/calendar/transaction_calendar_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../data/store/calendar_store.dart';
@@ -19,6 +20,8 @@ class TransactionCalenderPage extends ConsumerWidget {
     final calendarState = ref.watch(calendarStoreProvider);
     final selectedDate = ref.watch(calendarProvider);
     final model = ref.watch(transactionListProvider(selectedDate.toString()));
+    TransactionCalendarModel? cModel = ref.watch(TransactionCalendarProvider(selectedDate.toString()));
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -26,7 +29,9 @@ class TransactionCalenderPage extends ConsumerWidget {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverToBoxAdapter(
-            child: TransactionTotalAccount(model: model,),
+            child: TransactionTotalAccount(
+              model: model,
+            ),
           ),
           SliverToBoxAdapter(
             child: UnderLineWidget(),
@@ -60,30 +65,27 @@ class TransactionCalenderPage extends ConsumerWidget {
                   TransactionDetailMemo(title: "메모1"),
                   TransactionDetailMemo(title: "메모2"),
                   UnderLineWidget(),
-                  TransactionDetail(
-                    category: "기타",
-                    content: "옷사기",
-                    property: "카드",
-                    price: "30000원",
-                    isIncome: false,
-                  ),
                   UnderLineWidget(),
-                  TransactionDetail(
-                    category: "식비",
-                    content: "밥",
-                    property: "현금",
-                    price: "9000원",
-                    isIncome: false,
-                  ),
-                  UnderLineWidget(),
-                  TransactionDetail(
-                    category: "용돈",
-                    content: "용돈",
-                    property: "계좌",
-                    price: "300000원",
-                    isIncome: true,
-                  ),
-                  UnderLineWidget(),
+                  cModel == null
+                      ? Container(
+                          width: double.infinity,
+                          child: Center(
+                            child: Text(
+                              "해당 날짜와 관련된 데이터가 존재하지 않습니다.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemCount: cModel.calendar.dailySummariesList.length,
+                          itemBuilder: (context, index) {
+                            return TransactionDetail(transactionDetails: cModel.calendar.dailySummariesList[index].dailyDetail!.transactionDetailsList[index],);
+                          },
+                        ),
+
                 ],
               ),
             ),
@@ -121,7 +123,8 @@ class TransactionCalenderPage extends ConsumerWidget {
         dowBuilder: (context, day) {
           final text = ['월', '화', '수', '목', '금', '토', '일'][day.weekday - 1];
           if (day.weekday == 7) {
-            return Center(child: Text(text, style: TextStyle(color: Colors.red)));
+            return Center(
+                child: Text(text, style: TextStyle(color: Colors.red)));
           }
           return Center(child: Text(text));
         },
@@ -135,7 +138,8 @@ class TransactionCalenderPage extends ConsumerWidget {
         ),
         selectedDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: DateTime.now().toString().split(' ')[0] != calendarState.focusedDay.toString().split(' ')[0]
+          color: DateTime.now().toString().split(' ')[0] !=
+                  calendarState.focusedDay.toString().split(' ')[0]
               ? Colors.grey.withOpacity(0.7)
               : Color(0xFFFC7C9A).withOpacity(0.7),
         ),
