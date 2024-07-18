@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_list_viewmodel.dart';
+import '../viewmodel/result_list_view_model.dart';
 
 class ResultBodyTop extends StatelessWidget {
-  final TransactionListModel? model;
+  final ResultListModel? model;
 
   const ResultBodyTop({Key? key, this.model}) : super(key: key);
 
@@ -25,9 +25,9 @@ class ResultBodyTop extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("${model?.totalTransactionDTO?.monthlyIncome}", style: TextStyle(color: Colors.blue)),
-            Text("${model?.totalTransactionDTO?.monthlyExpense}", style: TextStyle(color: Colors.redAccent)),
-            Text("${model?.totalTransactionDTO?.monthlyTotalAmount}"),
+            Text("${model?.monthlyFinancialReport?.monthlyIncome}", style: TextStyle(color: Colors.blue)),
+            Text("${model?.monthlyFinancialReport?.monthlyExpense}", style: TextStyle(color: Colors.redAccent)),
+            Text("${model?.monthlyFinancialReport?.monthlyTotalAmount}"),
           ],
         ),
         SizedBox(height: 8), // 간격 추가
