@@ -51,7 +51,7 @@ class MyChartPage extends ConsumerWidget {
 
     if (ref.read(isMonthlyViewProvider)) {
       startDate = DateTime(date.year, date.month, 1);
-      endDate = DateTime(date.year, date.month + 1, 0);
+      endDate = DateTime(date.year, date.month, 0);
       await chartListViewmodel.notifyInitMonthly(selectedDateString, jwtToken, date.year, date.month);
     } else {
       startDate = date.subtract(Duration(days: date.weekday - 1));
