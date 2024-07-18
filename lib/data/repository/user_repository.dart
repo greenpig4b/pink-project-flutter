@@ -50,4 +50,21 @@ class UserRepository {
       return (responseDTO, "");
     }
   }
+
+  Future<(ResponseDTO, String)> fetchNaverLogin(String naverAccessToken) async{
+    final response = await dio.get("/oauth/callback/kakao",
+        queryParameters: {"accessToken": naverAccessToken});
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+    print("responseDTO 결과 : ${responseDTO.response}");
+    if (responseDTO.status == 200) {
+      // responseDTO.response = User.fromJson(responseDTO.response);
+      final accessToken = response.headers["Authorization"]!.first;
+      return (responseDTO, accessToken);
+    } else {
+      return (responseDTO, "");
+    }
+  }
+
+
 }

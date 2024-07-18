@@ -89,6 +89,27 @@ class SessionStore extends SessionUser {
           SnackBar(content: Text("로그인 실패 : ${responseDTO.errorMessage}")));
     }
   }
+
+  Future<void> naverLogin(String naverAccessToken) async{
+    var (responseDTO, accessToken) =
+    await UserRepository().fetchNaverLogin(naverAccessToken);
+
+    if (responseDTO.status == 200) {
+      await secureStorage.write(key: "accessToken", value: accessToken);
+      this.user = responseDTO.response;
+      this.accessToken = accessToken;
+      this.isLogin = true;
+
+      Navigator.push(
+        mContext!,
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+          SnackBar(content: Text("로그인 실패 : ${responseDTO.errorMessage}")));
+    }
+
+  }
 }
 
 // 창고 관리자
