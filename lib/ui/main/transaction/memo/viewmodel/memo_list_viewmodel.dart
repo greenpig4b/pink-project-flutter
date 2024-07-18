@@ -25,9 +25,7 @@ class MemoListViewModel extends StateNotifier<MemoListModel?> {
 
   MemoListViewModel(this.ref) : super(null);
 
-  Future<void> notifyInit() async {
-
-    final selectedMonth = ref.read(calendarProvider).toIso8601String();
+  Future<void> notifyInit(String selectedMonth) async {
 
     DateTime parsedDate = DateTime.parse(selectedMonth);
     int year = parsedDate.year;
