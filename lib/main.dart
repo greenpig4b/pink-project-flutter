@@ -9,7 +9,7 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ko', null); // 로케일 데이터 초기화
+  await initializeDateFormatting('ko', null);
   // initializeDateFormatting().then((_) => runApp(ProviderScope(MyApp())));
   dio.interceptors.add(interceptor);
   runApp(ProviderScope(child: const MyApp()));

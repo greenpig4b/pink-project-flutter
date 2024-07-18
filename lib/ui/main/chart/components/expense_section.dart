@@ -14,6 +14,35 @@ class ExpenseSection<T> extends StatelessWidget {
     required this.selectedDate,
   });
 
+  String getCategoryEmoji(String category) {
+    switch (category) {
+      case '식비':
+        return '🍱';
+      case '교통/차량':
+        return '🚖';
+      case '문화생활':
+        return '🖼️';
+      case '패션/미용':
+        return '🧥';
+      case '생활용품':
+        return '🪑';
+      case '주거/통신':
+        return '🏠';
+      case '건강':
+        return '🧘';
+      case '교육':
+        return '📖';
+      case '경조사/회비':
+        return '🎁';
+      case '부모님':
+        return '👵';
+      case '기타':
+        return '🎸';
+      default:
+        return '❓';
+    }
+  }
+
   List<PieChartSectionData> showingExpenseSections(
       List<T> filteredExpenses, List<String> percentages) {
     if (filteredExpenses.isEmpty) {
@@ -58,9 +87,8 @@ class ExpenseSection<T> extends StatelessWidget {
 
     final Map<String, int> categorySums = {};
     for (var expense in filteredExpenses) {
-      final item = expense as dynamic;
-      final category = item.category;
-      final amount = int.parse(item.amount.replaceAll(',', ''));
+      final category = (expense as dynamic).category;
+      final amount = int.parse(expense.amount.replaceAll(',', ''));
       if (categorySums.containsKey(category)) {
         categorySums[category] = categorySums[category]! + amount;
       } else {
@@ -73,14 +101,13 @@ class ExpenseSection<T> extends StatelessWidget {
       final amount = categorySums[category]!;
       final percentage = percentages[i];
 
-      // 안전하게 값을 가져오기 위해 타입 검사
       final T? matchingExpense = filteredExpenses.cast<T?>().firstWhere(
             (expense) => (expense as dynamic).category == category,
         orElse: () => null,
       );
 
-      final categoryImagePath = matchingExpense != null
-          ? (matchingExpense as dynamic).categoryImagePath
+      final categoryEmoji = matchingExpense != null
+          ? getCategoryEmoji((matchingExpense as dynamic).category)
           : '';
 
       return Container(
@@ -111,7 +138,7 @@ class ExpenseSection<T> extends StatelessWidget {
           title: Row(
             children: [
               Text(
-                categoryImagePath,
+                categoryEmoji,
                 style: TextStyle(fontSize: 18.0),
               ),
               SizedBox(width: 8.0),

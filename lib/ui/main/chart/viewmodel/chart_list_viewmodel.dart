@@ -5,7 +5,6 @@ import '../../../../data/dtos/chart/chart_weekly_response.dart';
 import '../../../../data/dtos/response_dto.dart';
 import '../../../../data/repository/chart_repository.dart';
 
-
 class ChartListModel {
   final ChartMonthResponse? chartMonth;
   final ChartWeeklyResponse? chartWeekly;
@@ -33,36 +32,48 @@ class ChartListModel {
 class ChartListViewModel extends StateNotifier<AsyncValue<ChartListModel?>> {
   ChartListViewModel() : super(const AsyncValue.loading());
 
-  Future<void> notifyInit(String selectedDate, String accessToken, bool isMonthly) async {
-    print("notifyInit called with selectedDate: $selectedDate, isMonthly: $isMonthly");
+  Future<void> notifyInitMonthly(String selectedDate, String accessToken, int year, int month) async {
+    print("notifyInitMonthly called with selectedDate: $selectedDate");
     state = const AsyncValue.loading();
     try {
-      DateTime parsedDate = DateTime.parse(selectedDate);
-      int year = parsedDate.year;
-      int month = parsedDate.month;
-      int week = _getWeekNumber(parsedDate);
-
       ChartRepository chartRepository = ChartRepository();
-      ResponseDTO responseDTO = await chartRepository.getChatGraph(year, month, week, accessToken, isMonthly);
+      ResponseDTO responseDTO = await chartRepository.getMonthlyChartGraph(year, month, accessToken);
 
       print("ResponseDTO: ${responseDTO.toString()}");
 
       if (responseDTO.status == 200) {
-        if (isMonthly) {
-          ChartMonthResponse chartMonthResponse = ChartMonthResponse.fromJson(responseDTO.response);
-          print("Monthly data: ${chartMonthResponse.toString()}");
-          state = AsyncValue.data(ChartListModel(
-            chartMonth: chartMonthResponse,
-            isMonthly: isMonthly,
-          ));
-        } else {
-          ChartWeeklyResponse chartWeeklyResponse = ChartWeeklyResponse.fromJson(responseDTO.response);
-          print("Weekly data: ${chartWeeklyResponse.toString()}");
-          state = AsyncValue.data(ChartListModel(
-            chartWeekly: chartWeeklyResponse,
-            isMonthly: isMonthly,
-          ));
-        }
+        ChartMonthResponse chartMonthResponse = ChartMonthResponse.fromJson(responseDTO.response);
+        print("Monthly data: ${chartMonthResponse.toString()}");
+        state = AsyncValue.data(ChartListModel(
+          chartMonth: chartMonthResponse,
+          isMonthly: true,
+        ));
+      } else {
+        print("Error: ${responseDTO.errorMessage ?? 'Unknown error'}");
+        state = AsyncValue.error(Exception(responseDTO.errorMessage ?? 'Unknown error'), StackTrace.current);
+      }
+    } catch (e) {
+      print("Exception: $e");
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  Future<void> notifyInitWeekly(String selectedDate, String accessToken, int year, int month, String startDate, String endDate) async {
+    print("notifyInitWeekly called with selectedDate: $selectedDate, startDate: $startDate, endDate: $endDate");
+    state = const AsyncValue.loading();
+    try {
+      ChartRepository chartRepository = ChartRepository();
+      ResponseDTO responseDTO = await chartRepository.getWeeklyChartGraph(year, month, accessToken, startDate, endDate);
+
+      print("ResponseDTO: ${responseDTO.toString()}");
+
+      if (responseDTO.status == 200) {
+        ChartWeeklyResponse chartWeeklyResponse = ChartWeeklyResponse.fromJson(responseDTO.response);
+        print("Weekly data: ${chartWeeklyResponse.toString()}");
+        state = AsyncValue.data(ChartListModel(
+          chartWeekly: chartWeeklyResponse,
+          isMonthly: false,
+        ));
       } else {
         print("Error: ${responseDTO.errorMessage ?? 'Unknown error'}");
         state = AsyncValue.error(Exception(responseDTO.errorMessage ?? 'Unknown error'), StackTrace.current);

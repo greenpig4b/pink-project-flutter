@@ -1,148 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:pinkpig_project_flutter/ui/main/chart/components/weekly/weekly_tabmenu.dart';
 import '../../../../data/store/session_store.dart';
-import 'month_tabmenu.dart';
-import 'weekly_tabmenu.dart';
+import 'month/month_tabmenu.dart';
+
 import '../viewmodel/chart_list_viewmodel.dart';
+import 'appbar/custom_appbar.dart';
 
-
-class MyChartPage extends ConsumerStatefulWidget {
+class MyChartPage extends ConsumerWidget {
   MyChartPage({Key? key}) : super(key: key);
 
-  @override
-  _MyChartPageState createState() => _MyChartPageState();
-}
-
-class _MyChartPageState extends ConsumerState<MyChartPage> {
-  DateTime _selectedDate = DateTime.now();
-  bool _isMonthlyView = true;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchChartData()); // Use addPostFrameCallback
-  }
-
-  void _nextMonth() {
-    setState(() {
-      _selectedDate = DateTime(_selectedDate.year, _selectedDate.month + 1, 1);
+  void _nextPeriod(BuildContext context, WidgetRef ref) {
+    ref.read(selectedDateProvider.notifier).update((state) {
+      DateTime newDate;
+      if (ref.read(isMonthlyViewProvider)) {
+        newDate = DateTime(state.year, state.month + 1, 1);
+      } else {
+        newDate = state.add(Duration(days: 7));
+      }
+      _fetchChartData(ref, newDate);
+      return newDate;
     });
-    _fetchChartData();
   }
 
-  void _previousMonth() {
-    setState(() {
-      _selectedDate = DateTime(_selectedDate.year, _selectedDate.month - 1, 1);
+  void _previousPeriod(BuildContext context, WidgetRef ref) {
+    ref.read(selectedDateProvider.notifier).update((state) {
+      DateTime newDate;
+      if (ref.read(isMonthlyViewProvider)) {
+        newDate = DateTime(state.year, state.month - 1, 1);
+      } else {
+        newDate = state.subtract(Duration(days: 7));
+      }
+      _fetchChartData(ref, newDate);
+      return newDate;
     });
-    _fetchChartData();
   }
 
-  void _toggleView(bool isMonthly) {
-    setState(() {
-      _isMonthlyView = isMonthly;
-    });
-    _fetchChartData();
+  void _toggleView(bool isMonthly, WidgetRef ref) {
+    ref.read(isMonthlyViewProvider.notifier).state = isMonthly;
+    _fetchChartData(ref, ref.read(selectedDateProvider));
   }
 
-  Future<void> _fetchChartData() async {
-    final selectedDateString = '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-01';
+  Future<void> _fetchChartData(WidgetRef ref, DateTime date) async {
+    final selectedDateString = DateFormat('yyyy-MM-dd').format(date);
     final chartListViewmodel = ref.read(chartListProvider(selectedDateString).notifier);
     final jwtToken = ref.read(sessionProvider).accessToken!;
-    print("Fetching chart data for $selectedDateString"); // Add this line
-    await chartListViewmodel.notifyInit(selectedDateString, jwtToken, _isMonthlyView);
+    DateTime startDate;
+    DateTime endDate;
+
+    if (ref.read(isMonthlyViewProvider)) {
+      startDate = DateTime(date.year, date.month, 1);
+      endDate = DateTime(date.year, date.month + 1, 0);
+      await chartListViewmodel.notifyInitMonthly(selectedDateString, jwtToken, date.year, date.month);
+    } else {
+      startDate = date.subtract(Duration(days: date.weekday - 1));
+      endDate = startDate.add(Duration(days: 6));
+      final startDateString = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(startDate);
+      final endDateString = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(endDate);
+      await chartListViewmodel.notifyInitWeekly(selectedDateString, jwtToken, date.year, date.month, startDateString, endDateString);
+    }
   }
 
-
   @override
-  Widget build(BuildContext context) {
-    final selectedDateString = '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-01';
-    final jwtToken = ref.watch(sessionProvider).accessToken!;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedDate = ref.watch(selectedDateProvider);
+    final isMonthlyView = ref.watch(isMonthlyViewProvider);
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: GestureDetector(
-            onHorizontalDragEnd: (details) {
-              if (details.primaryVelocity! < 0) {
-                _nextMonth();
-              } else if (details.primaryVelocity! > 0) {
-                _previousMonth();
-              }
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: _previousMonth,
-                ),
-                Text(
-                  '${_selectedDate.year}년 ${_selectedDate.month}월',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward, color: Colors.white),
-                  onPressed: _nextMonth,
-                ),
-              ],
+        body: Column(
+          children: [
+            CustomAppBar(
+              title: isMonthlyView
+                  ? '${selectedDate.year}년 ${selectedDate.month}월'
+                  : '${DateFormat('M.d').format(selectedDate.subtract(Duration(days: selectedDate.weekday - 1)))} ~ ${DateFormat('M.d').format(selectedDate.add(Duration(days: 7 - selectedDate.weekday - 1)))}',
+              onNextPeriod: () => _nextPeriod(context, ref),
+              onPreviousPeriod: () => _previousPeriod(context, ref),
+              onMonthlyView: () => _toggleView(true, ref),
+              onWeeklyView: () => _toggleView(false, ref),
+              isMonthlyView: isMonthlyView,
             ),
-          ),
-          backgroundColor: const Color(0xFFFC7C9A),
-          actions: [
-            TextButton(
-              onPressed: () => _toggleView(true),
-              child: Text(
-                '월간',
-                style: TextStyle(
-                  color: _isMonthlyView ? Colors.white : Colors.white70,
-                  fontWeight: _isMonthlyView ? FontWeight.bold : FontWeight.normal,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () => _toggleView(false),
-              child: Text(
-                '주간',
-                style: TextStyle(
-                  color: !_isMonthlyView ? Colors.white : Colors.white70,
-                  fontWeight: !_isMonthlyView ? FontWeight.bold : FontWeight.normal,
-                ),
+            Expanded(
+              child: GestureDetector(
+                onHorizontalDragEnd: (details) {
+                  if (details.primaryVelocity! < 0) {
+                    _nextPeriod(context, ref);
+                  } else if (details.primaryVelocity! > 0) {
+                    _previousPeriod(context, ref);
+                  }
+                },
+                child: isMonthlyView
+                    ? MonthTabmenu(selectedDate: selectedDate, jwtToken: ref.watch(sessionProvider).accessToken!)
+                    : WeeklyTabmenu(selectedDate: selectedDate, jwtToken: ref.watch(sessionProvider).accessToken!),
               ),
             ),
           ],
-          bottom: TabBar(
-            tabs: [
-              Tab(text: '수입'),
-              Tab(text: '지출'),
-            ],
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white70,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicator: UnderlineTabIndicator(
-              borderSide: BorderSide(color: Colors.white, width: 4.0),
-              insets: EdgeInsets.zero,
-            ),
-            indicatorPadding: EdgeInsets.zero,
-          ),
-        ),
-        body: GestureDetector(
-          onHorizontalDragEnd: (details) {
-            if (details.primaryVelocity! < 0) {
-              _nextMonth();
-            } else if (details.primaryVelocity! > 0) {
-              _previousMonth();
-            }
-          },
-          child: _isMonthlyView
-              ? MonthTabmenu(selectedDate: _selectedDate, jwtToken: jwtToken)
-              : WeeklyTabmenu(selectedDate: _selectedDate, jwtToken: jwtToken),
         ),
       ),
     );
   }
 }
+
+final selectedDateProvider = StateProvider<DateTime>((ref) => DateTime.now());
+final isMonthlyViewProvider = StateProvider<bool>((ref) => true);

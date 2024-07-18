@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pinkpig_project_flutter/ui/main/result/result_page.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/transaction_page.dart';
 import '../components/custom_bottom_navigation_bar.dart';
-import 'chart/chart_page.dart';
+
+import 'chart/components/my_chart_page.dart';
 
 
 class MainPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _widgetOptions = <Widget>[
     TransactionPage(),
-    ChartPage(),
+    MyChartPage(),
     ResultPage()
   ];
 

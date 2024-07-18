@@ -1,39 +1,31 @@
 import 'package:dio/dio.dart';
-import 'package:pinkpig_project_flutter/data/dtos/chart/chart_month_response.dart';
-import 'package:pinkpig_project_flutter/data/dtos/chart/chart_weekly_response.dart';
 import '../../_core/constants/http.dart';
 import '../dtos/response_dto.dart';
 
 class ChartRepository {
+  Future<ResponseDTO> getMonthlyChartGraph(int year, int month, String accessToken) async {
+    print("Sending request to server for monthly data with year: $year, month: $month");
 
-  Future<ResponseDTO> getChatGraph(int year, int month, int week, String accessToken, bool isMonthly) async {
-    print("Sending request to server with year: $year, month: $month, week: $week, isMonthly: $isMonthly");
+    final response = await dio.get("/api/chart/monthly",
+        options: Options(headers: {"Authorization": "Bearer $accessToken"}),
+        queryParameters: {'year': year, 'month': month, 'isMonthly': true}
+    );
 
-    try {
-      final response = await dio.get("/api/chart",
-          options: Options(headers: {"Authorization": "Bearer $accessToken"}),
-          queryParameters: {'year': year, 'month': month, 'week': week, 'isMonthly': isMonthly});
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
-      print("Server response: ${response.data}");
+    return responseDTO;
+  }
 
-      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+  Future<ResponseDTO> getWeeklyChartGraph(int year, int month, String accessToken, String startDate, String endDate) async {
+    print("Sending request to server for weekly data with year: $year, month: $month, startDate: $startDate, endDate: $endDate");
 
-      if (responseDTO.status == 200) {
-        if (isMonthly) {
-          ChartMonthResponse chartMonthResponse = ChartMonthResponse.fromJson(responseDTO.response);
-          print("Monthly data received: $chartMonthResponse");
-        } else {
-          ChartWeeklyResponse chartWeeklyResponse = ChartWeeklyResponse.fromJson(responseDTO.response);
-          print("Weekly data received: $chartWeeklyResponse");
-        }
-      } else {
-        print("Error response: ${responseDTO.errorMessage}");
-      }
+    final response = await dio.get("/api/chart/weekly",
+        options: Options(headers: {"Authorization": "Bearer $accessToken"}),
+        queryParameters: {'year': year, 'month': month, 'isMonthly': false, 'startDate': startDate, 'endDate': endDate}
+    );
 
-      return responseDTO;
-    } catch (e) {
-      print("Error during server request: $e");
-      rethrow;
-    }
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+
+    return responseDTO;
   }
 }

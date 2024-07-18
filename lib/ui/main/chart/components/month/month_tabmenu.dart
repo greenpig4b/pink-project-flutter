@@ -1,19 +1,24 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../data/dtos/chart/chart_weekly_response.dart';
-import 'income_section.dart';
-import 'expense_section.dart';
-import '../viewmodel/chart_list_viewmodel.dart';
 
-class WeeklyTabmenu extends ConsumerWidget {
+import '../../../../../data/dtos/chart/chart_month_response.dart';
+import '../../viewmodel/chart_list_viewmodel.dart';
+import '../expense_section.dart';
+import '../income_section.dart';
+
+class MonthTabmenu extends ConsumerWidget {
   final DateTime selectedDate;
   final String jwtToken;
 
-  WeeklyTabmenu({required this.selectedDate, required this.jwtToken});
+  MonthTabmenu({required this.selectedDate, required this.jwtToken});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDateString = '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-01';
+    print("Watching chartListState for date: $selectedDateString");
+
     final chartListState = ref.watch(chartListProvider(selectedDateString));
 
     return chartListState.when(
@@ -23,14 +28,14 @@ class WeeklyTabmenu extends ConsumerWidget {
           return Center(child: Text('No data available'));
         }
 
-        final weeklyData = chartList.chartWeekly?.chartWeekly;
-        if (weeklyData == null) {
-          print("Weekly data is null");
+        final monthData = chartList.chartMonth;
+        if (monthData == null) {
+          print("Month data is null");
           return Center(child: Text('No data available'));
         }
 
-        double totalIncome = getTotalAmount(weeklyData.incomeList ?? []);
-        double totalExpense = getTotalExpense(weeklyData.spendingList ?? []);
+        double totalIncome = getTotalAmount(monthData.incomeList);
+        double totalExpense = getTotalExpense(monthData.spendingList);
 
         print("Total Income: $totalIncome, Total Expense: $totalExpense");
 
@@ -40,20 +45,22 @@ class WeeklyTabmenu extends ConsumerWidget {
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  IncomeSection<WeeklyIncomeDTO>(
+                  IncomeSection<MonthIncomeDTO>(
                     touchedIndex: -1,
                     onTouch: (index) {
-                      ref.read(chartListProvider(selectedDateString).notifier).notifyInit(selectedDateString, jwtToken, false);
+                      ref.read(chartListProvider(selectedDateString).notifier)
+                          .notifyInitMonthly(selectedDateString, jwtToken, selectedDate.year, selectedDate.month);
                     },
-                    incomes: weeklyData.incomeList ?? [],
+                    incomes: monthData.incomeList,
                     selectedDate: selectedDate,
                   ),
-                  ExpenseSection<WeeklySpendingDTO>(
+                  ExpenseSection<MonthSpendingDTO>(
                     touchedIndex: -1,
                     onTouch: (index) {
-                      ref.read(chartListProvider(selectedDateString).notifier).notifyInit(selectedDateString, jwtToken, false);
+                      ref.read(chartListProvider(selectedDateString).notifier)
+                          .notifyInitMonthly(selectedDateString, jwtToken, selectedDate.year, selectedDate.month);
                     },
-                    expenses: weeklyData.spendingList ?? [],
+                    expenses: monthData.spendingList,
                     selectedDate: selectedDate,
                   ),
                 ],
@@ -74,13 +81,13 @@ class WeeklyTabmenu extends ConsumerWidget {
     );
   }
 
-  double getTotalAmount(List<dynamic> incomes) {
-    if (incomes == null || incomes.isEmpty) {
+  double getTotalAmount(List<MonthIncomeDTO> incomes) {
+    if (incomes.isEmpty) {
       return 0.0;
     }
     return incomes.fold(0, (sum, item) {
       try {
-        return sum + int.parse((item as dynamic).amount.replaceAll(',', ''));
+        return sum + int.parse(item.amount.replaceAll(',', ''));
       } catch (e) {
         print("Error parsing income amount: $e");
         return sum;
@@ -88,13 +95,13 @@ class WeeklyTabmenu extends ConsumerWidget {
     });
   }
 
-  double getTotalExpense(List<dynamic> expenses) {
-    if (expenses == null || expenses.isEmpty) {
+  double getTotalExpense(List<MonthSpendingDTO> expenses) {
+    if (expenses.isEmpty) {
       return 0.0;
     }
     return expenses.fold(0, (sum, item) {
       try {
-        return sum + int.parse((item as dynamic).amount.replaceAll(',', ''));
+        return sum + int.parse(item.amount.replaceAll(',', ''));
       } catch (e) {
         print("Error parsing expense amount: $e");
         return sum;

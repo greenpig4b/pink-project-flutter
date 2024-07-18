@@ -14,6 +14,25 @@ class IncomeSection<T> extends StatelessWidget {
     required this.selectedDate,
   });
 
+  String getCategoryEmoji(String category) {
+    switch (category) {
+      case '월급':
+        return '💰';
+      case '부수입':
+        return '💸';
+      case '용돈':
+        return '🤑';
+      case '상여':
+        return '🏅';
+      case '금융소득':
+        return '🏦';
+      case '기타':
+        return '🎸';
+      default:
+        return '❓';
+    }
+  }
+
   List<PieChartSectionData> showingIncomeSections(List<T> filteredIncomes, List<String> percentages) {
     if (filteredIncomes.isEmpty) {
       print("No income data available.");
@@ -56,9 +75,8 @@ class IncomeSection<T> extends StatelessWidget {
 
     final Map<String, int> categorySums = {};
     for (var income in filteredIncomes) {
-      final item = income as dynamic;
-      final category = item.category;
-      final amount = int.parse(item.amount.replaceAll(',', ''));
+      final category = (income as dynamic).category;
+      final amount = int.parse(income.amount.replaceAll(',', ''));
       if (categorySums.containsKey(category)) {
         categorySums[category] = categorySums[category]! + amount;
       } else {
@@ -71,14 +89,13 @@ class IncomeSection<T> extends StatelessWidget {
       final amount = categorySums[category]!;
       final percentage = percentages[i];
 
-      // 안전하게 값을 가져오기 위해 타입 검사
       final T? matchingIncome = filteredIncomes.cast<T?>().firstWhere(
             (income) => (income as dynamic).category == category,
         orElse: () => null,
       );
 
-      final categoryImagePath = matchingIncome != null
-          ? (matchingIncome as dynamic).categoryImagePath
+      final categoryEmoji = matchingIncome != null
+          ? getCategoryEmoji((matchingIncome as dynamic).category)
           : '';
 
       return Container(
@@ -109,7 +126,7 @@ class IncomeSection<T> extends StatelessWidget {
           title: Row(
             children: [
               Text(
-                categoryImagePath,
+                categoryEmoji,
                 style: TextStyle(fontSize: 18.0),
               ),
               SizedBox(width: 8.0),

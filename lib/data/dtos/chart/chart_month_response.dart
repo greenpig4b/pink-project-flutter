@@ -23,13 +23,13 @@ class MonthIncomeDTO {
   final int id;
   final String category;
   final String amount;
-  final String categoryImagePath;
+
 
   MonthIncomeDTO({
     required this.id,
     required this.category,
     required this.amount,
-    required this.categoryImagePath,
+
   });
 
   factory MonthIncomeDTO.fromJson(Map<String, dynamic> json) {
@@ -37,7 +37,7 @@ class MonthIncomeDTO {
       id: json['id'],
       category: json['category'],
       amount: json['amount'],
-      categoryImagePath: json['categoryImagePath'],
+
     );
   }
 }
@@ -46,13 +46,13 @@ class MonthSpendingDTO {
   final int id;
   final String category;
   final String amount;
-  final String categoryImagePath;
+
 
   MonthSpendingDTO({
     required this.id,
     required this.category,
     required this.amount,
-    required this.categoryImagePath,
+
   });
 
   factory MonthSpendingDTO.fromJson(Map<String, dynamic> json) {
@@ -60,7 +60,7 @@ class MonthSpendingDTO {
       id: json['id'],
       category: json['category'],
       amount: json['amount'],
-      categoryImagePath: json['categoryImagePath'],
+
     );
   }
 }
