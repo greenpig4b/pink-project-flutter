@@ -19,10 +19,11 @@ class TransactionListModel {
 class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
   final mContext = navigatorKey.currentContext;
   final Ref ref;
+  final String selectedDate;
 
-  TransactionListViewmodel(super.state, this.ref);
+  TransactionListViewmodel(super._state, this.ref, this.selectedDate);
 
-  Future<void> notifyInit(String selectedDate) async {
+  Future<void> notifyInit() async {
     DateTime parsedDate = DateTime.parse(selectedDate);
     int year = parsedDate.year;
     int month = parsedDate.month;
@@ -100,9 +101,9 @@ class TransactionListViewmodel extends StateNotifier<TransactionListModel?> {
   }
 }
 
-final transactionListProvider = StateNotifierProvider.family<
-    TransactionListViewmodel,
-    TransactionListModel?,
-    String>((ref, selectedDate) {
-  return TransactionListViewmodel(null, ref)..notifyInit(selectedDate);
-});
+
+final transactionListProvider = StateNotifierProvider.family<TransactionListViewmodel, TransactionListModel?, String>(
+      (ref, selectedDate) {
+    return TransactionListViewmodel(null, ref, selectedDate)..notifyInit();
+  },
+);

@@ -12,7 +12,10 @@ class TransactionDailyPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(calendarProvider);
+    // ref.read(transactionListProvider(selectedDate.toString()).notifier).notifyInit();
     final model = ref.watch(transactionListProvider(selectedDate.toString()));
+
+
 
     if (model == null) {
       return Center(child: CircularProgressIndicator(color: Color(0xFFFC7C9A)));
