@@ -23,6 +23,11 @@ class MonthlyMemoDTO {
       dailyMemoList: memoList,
     );
   }
+
+  @override
+  String toString() {
+    return 'MonthlyMemoDTO(userId: $userId, year: $year, month: $month, dailyMemoList: $dailyMemoList)';
+  }
 }
 
 class DailyMemoListDTO {
@@ -44,6 +49,11 @@ class DailyMemoListDTO {
       dailyMemo: memoDetailList,
     );
   }
+
+  @override
+  String toString() {
+    return 'DailyMemoListDTO(date: $date, dailyMemo: $dailyMemo)';
+  }
 }
 
 class DailyMemoDTO {
@@ -63,5 +73,10 @@ class DailyMemoDTO {
       title: json['title'],
       content: json['content'],
     );
+  }
+
+  @override
+  String toString() {
+    return 'DailyMemoDTO(id: $id, title: $title, content: $content)';
   }
 }

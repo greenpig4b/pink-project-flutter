@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/memo/memo_response.dart';
-
 import '../../../../../data/dtos/response_dto.dart';
 import '../../../../../data/repository/memo_repository.dart';
 import '../../../../../main.dart';
-
 
 class MemoListModel {
   MonthlyMemoDTO? monthlyMemoDTO;
   List<DailyMemoListDTO>? dailyMemoListDTO;
   List<DailyMemoDTO>? dailyMemoDetailDTO;
 
-  MemoListModel({this.monthlyMemoDTO, this.dailyMemoListDTO,
-    this.dailyMemoDetailDTO});
+  MemoListModel({this.monthlyMemoDTO, this.dailyMemoListDTO, this.dailyMemoDetailDTO});
 }
-
 
 class MemoListViewModel extends StateNotifier<MemoListModel?> {
   final Ref ref;
@@ -39,7 +35,13 @@ class MemoListViewModel extends StateNotifier<MemoListModel?> {
 
       ResponseDTO responseDTO = await MemoRepository().fetchMemoList(year, month);
       if (responseDTO.status == 200) {
-        state = responseDTO.response;
+        // Assuming the response contains the memo list in the format required
+        // You may need to adjust the following line based on your actual response structure
+        state = MemoListModel(
+          monthlyMemoDTO: responseDTO.response.monthlyMemoDTO,
+          dailyMemoListDTO: responseDTO.response.dailyMemoListDTO,
+          dailyMemoDetailDTO: responseDTO.response.dailyMemoDetailDTO,
+        );
       } else {
         ScaffoldMessenger.of(mContext!).showSnackBar(
           SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")),
@@ -57,6 +59,6 @@ class MemoListViewModel extends StateNotifier<MemoListModel?> {
   }
 }
 
-final memoListProvider = StateNotifierProvider<MemoListViewModel, MemoListModel?>((ref) {
-  return MemoListViewModel(ref);
+final memoListProvider = StateNotifierProvider.family<MemoListViewModel, MemoListModel?, String>((ref, selectedDate) {
+  return MemoListViewModel(ref)..notifyInit(selectedDate);
 });
