@@ -33,22 +33,18 @@ class MemoRepository {
   Future<ResponseDTO> fetchMemoList(int year, int month) async {
     final response = await dio.get("/api/memos/monthly",
         queryParameters: {'year': year, 'month': month});
-
+    print("API Response Data: ${response.data}");
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     if (responseDTO.status == 200) {
-      MonthlyMemoDTO monthlyMemoDTO =
-      MonthlyMemoDTO.fromJson(responseDTO.response);
-
-      List<DailyMemoListDTO> dailyMemoListDTO =
-          monthlyMemoDTO.dailyMemoList;
-
-      List<DailyMemoDTO> dailyMemoDetailDTO =
-      dailyMemoListDTO.expand((e) => e.dailyMemo).toList();
+      MonthlyMemoDTO monthlyMemoDTO = MonthlyMemoDTO.fromJson(responseDTO.response);
+      List<DailyMemoListDTO> dailyMemoListDTO = monthlyMemoDTO.dailyMemoList;
+      List<DailyMemoDTO> dailyMemoDetailDTO = dailyMemoListDTO.expand((e) => e.dailyMemo).toList();
 
       MemoListModel model = MemoListModel(
-          monthlyMemoDTO: monthlyMemoDTO,
-          dailyMemoListDTO: dailyMemoListDTO,
-          dailyMemoDetailDTO: dailyMemoDetailDTO);
+        monthlyMemoDTO: monthlyMemoDTO,
+        dailyMemoListDTO: dailyMemoListDTO,
+        dailyMemoDetailDTO: dailyMemoDetailDTO,
+      );
 
       responseDTO.response = model;
     }

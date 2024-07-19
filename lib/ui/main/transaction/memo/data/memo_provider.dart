@@ -23,10 +23,6 @@ class SelectedDateNotifier extends StateNotifier<DateTime> {
 final selectedDateProvider = StateNotifierProvider<SelectedDateNotifier, DateTime>((ref) => SelectedDateNotifier());
 
 
-final memoListProvider = StateNotifierProvider<MemoListViewModel, MemoListModel?>((ref) {
-
-  return MemoListViewModel(ref) ;
-});
 
 final userIdProvider = Provider<int>((ref) {
   final session = ref.watch(sessionProvider);

@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/memo/memo_request.dart';
-
 import '../../../../../data/dtos/response_dto.dart';
 import '../../../../../data/repository/memo_repository.dart';
 
 class MemoUpdateViewmodel extends StateNotifier<MemoUpdateDTO> {
   final int id;
   final int userId;
+
   MemoUpdateViewmodel(this.id, this.userId)
       : super(MemoUpdateDTO(userId: userId, id: id, title: '', content: ''));
 
-  Future<void> updateMemo(BuildContext context,
-      MemoUpdateDTO memoUpdateDTO) async {
+  Future<void> updateMemo(BuildContext context, MemoUpdateDTO memoUpdateDTO) async {
     try {
-      ResponseDTO responseDTO = await MemoRepository().editMemo(id,memoUpdateDTO);
+      ResponseDTO responseDTO = await MemoRepository().editMemo(id, memoUpdateDTO);
       if (responseDTO.status == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("메모가 성공적으로 수정되었습니다.")),
         );
-        // 성공적으로 저장되면 필요한 추가 로직을 수행할 수 있습니다.
+        // 메모 수정 후 UI를 업데이트할 수 있는 로직 추가
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("저장 실패 : ${responseDTO.errorMessage}")),

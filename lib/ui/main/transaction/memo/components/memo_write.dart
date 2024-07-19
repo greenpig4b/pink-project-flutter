@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pinkpig_project_flutter/data/dtos/memo/memo_request.dart';
-
+import '../../../../../data/dtos/memo/memo_request.dart';
 import '../../../../../data/store/session_store.dart';
-import '../data/memo_provider.dart'; // 이 곳에 있는 메모 프로바이더를 이용해야함
+import '../data/memo_provider.dart'; // 이 곳에 있는 메모 프로바이더를 이용해야 함
 import 'memo_write_app_bar.dart';
 
 class MemoWrite extends ConsumerWidget {
@@ -31,7 +30,10 @@ class MemoWrite extends ConsumerWidget {
             content: _contentController.text,
             createdDate: _selectedDate,
           );
-          ref.read(memoSaveViewmodelProvider.notifier).saveMemo(context, memoSaveDTO);
+          ref.read(memoSaveViewmodelProvider.notifier).saveMemo(context, memoSaveDTO).then((_) {
+            // 메모 저장 후 메모 목록 페이지를 새로 고침합니다.
+            Navigator.of(context).pop(true); // true를 반환하여 메모 목록 페이지에서 새로 고침을 트리거합니다.
+          });
         },
       ),
       body: Padding(
