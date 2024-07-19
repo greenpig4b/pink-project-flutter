@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pinkpig_project_flutter/data/dtos/response_dto.dart';
+import 'package:pinkpig_project_flutter/data/dtos/user/user_response.dart';
+import 'package:pinkpig_project_flutter/ui/startview/components/startview_sign_in.dart';
 
 import '../../_core/constants/http.dart';
+import '../../_core/constants/move.dart';
 import '../../main.dart';
 import '../../ui/main/main_page.dart';
+import '../../ui/startview/startview_page.dart';
 import '../dtos/user/user_request.dart';
 import '../models/User.dart';
 import '../repository/user_repository.dart';
@@ -25,7 +30,7 @@ class SessionStore extends SessionUser {
 
   Future<void> login(LoginRequestDTO requestDTO) async {
     var (responseDTO, accessToken) =
-    await UserRepository().fetchLogin(requestDTO);
+        await UserRepository().fetchLogin(requestDTO);
 
     if (responseDTO.status == 200) {
       await secureStorage.write(key: "accessToken", value: accessToken);
@@ -41,6 +46,69 @@ class SessionStore extends SessionUser {
       ScaffoldMessenger.of(mContext!).showSnackBar(
           SnackBar(content: Text("로그인 실패 : ${responseDTO.errorMessage}")));
     }
+  }
+
+  Future<void> join(JoinRequestDTO joinRequestDTO) async {
+    ResponseDTO responseDTO = await UserRepository().fetchJoin(joinRequestDTO);
+
+    if (responseDTO.status == 200) {
+      Navigator.push(
+        mContext!,
+        MaterialPageRoute(builder: (context) => StartviewPage()),
+      );
+      ScaffoldMessenger.of(mContext!)
+          .showSnackBar(SnackBar(content: Text("회원가입이 완료되었습니다.")));
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+          SnackBar(content: Text("회원가입 실패 : ${responseDTO.errorMessage}")));
+    }
+  }
+
+  Future<void> emailCheck(String email) async {
+    EmailCheckDTO emailCheckDTO = await UserRepository().fetchEmailCheck(email);
+    ScaffoldMessenger.of(mContext!)
+        .showSnackBar(SnackBar(content: Text("${emailCheckDTO.msg}")));
+  }
+
+  Future<void> kakaoLogin(String kakaoAccessToken) async {
+    var (responseDTO, accessToken) =
+        await UserRepository().fetchKakaoLogin(kakaoAccessToken);
+
+    if (responseDTO.status == 200) {
+      await secureStorage.write(key: "accessToken", value: accessToken);
+      this.user = responseDTO.response;
+      this.accessToken = accessToken;
+      this.isLogin = true;
+
+      Navigator.push(
+        mContext!,
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+          SnackBar(content: Text("로그인 실패 : ${responseDTO.errorMessage}")));
+    }
+  }
+
+  Future<void> naverLogin(String naverAccessToken) async{
+    var (responseDTO, accessToken) =
+    await UserRepository().fetchNaverLogin(naverAccessToken);
+
+    if (responseDTO.status == 200) {
+      await secureStorage.write(key: "accessToken", value: accessToken);
+      this.user = responseDTO.response;
+      this.accessToken = accessToken;
+      this.isLogin = true;
+
+      Navigator.push(
+        mContext!,
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+          SnackBar(content: Text("로그인 실패 : ${responseDTO.errorMessage}")));
+    }
+
   }
 }
 

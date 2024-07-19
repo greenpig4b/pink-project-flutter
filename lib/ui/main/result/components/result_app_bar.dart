@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_calender_viewmodel.dart';
-
-final calendarProvider = StateNotifierProvider<CalendarViewmodel, DateTime>((ref) {
-  return CalendarViewmodel();
-});
+import 'package:pinkpig_project_flutter/ui/main/result/viewmodel/calendar_view_model.dart';
+import 'package:pinkpig_project_flutter/ui/main/result/viewmodel/result_list_view_model.dart';
 
 class ResultAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(calendarProvider);
+    final resultListViewModel = ref.read(resultListProvider(selectedDate.toIso8601String()).notifier);
 
     return AppBar(
       backgroundColor: Color(0xFFFC7C9A),
@@ -20,7 +18,10 @@ class ResultAppBar extends ConsumerWidget implements PreferredSizeWidget {
         children: [
           IconButton(
             icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => ref.read(calendarProvider.notifier).prevMonth(),
+            onPressed: () {
+              ref.read(calendarProvider.notifier).prevMonth();
+              resultListViewModel.notifyInit(ref.read(calendarProvider).toIso8601String());
+            },
           ),
           SizedBox(width: 20.0),
           Text(
@@ -30,7 +31,10 @@ class ResultAppBar extends ConsumerWidget implements PreferredSizeWidget {
           SizedBox(width: 20.0),
           IconButton(
             icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
-            onPressed: () => ref.read(calendarProvider.notifier).nextMonth(),
+            onPressed: () {
+              ref.read(calendarProvider.notifier).nextMonth();
+              resultListViewModel.notifyInit(ref.read(calendarProvider).toIso8601String());
+            },
           ),
         ],
       ),

@@ -11,3 +11,17 @@ class LoginRequestDTO{
       };
 
 }
+
+class JoinRequestDTO{
+  final String email;
+  final String password ;
+
+  JoinRequestDTO(this.email, this.password);
+
+  Map<String, dynamic> toJson() =>
+      {
+        "email": email,
+        "password": password,
+      };
+
+}

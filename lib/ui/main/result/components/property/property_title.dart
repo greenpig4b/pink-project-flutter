@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
+import '../../viewmodel/result_list_view_model.dart';
+
 class PropertyTitle extends StatelessWidget {
-  const PropertyTitle({super.key});
+  final ResultListModel? model;
+
+  const PropertyTitle({super.key, this.model});
 
   String _getCurrentMonthRange() {
-    final now = DateTime.now();
-    final firstDay = DateTime(now.year, now.month, 1);
-    final lastDay = DateTime(now.year, now.month + 1, 0);
-
-    final formatter = DateFormat('yy.MM.dd');
-    return '${formatter.format(firstDay)}~${formatter.format(lastDay)}';
+    return '${model?.monthlyFinancialReport?.startYearMonthDate}~${model?.monthlyFinancialReport?.endYearMonthDate}';
   }
 
   @override
