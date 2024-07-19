@@ -52,7 +52,7 @@ class UserRepository {
   }
 
   Future<(ResponseDTO, String)> fetchNaverLogin(String naverAccessToken) async{
-    final response = await dio.get("/oauth/callback/kakao",
+    final response = await dio.get("/oauth/callback/naver",
         queryParameters: {"accessToken": naverAccessToken});
 
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
