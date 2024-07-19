@@ -36,19 +36,15 @@ class MemoRepository {
 
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     if (responseDTO.status == 200) {
-      MonthlyMemoDTO monthlyMemoDTO =
-      MonthlyMemoDTO.fromJson(responseDTO.response);
-
-      List<DailyMemoListDTO> dailyMemoListDTO =
-          monthlyMemoDTO.dailyMemoList;
-
-      List<DailyMemoDTO> dailyMemoDetailDTO =
-      dailyMemoListDTO.expand((e) => e.dailyMemo).toList();
+      MonthlyMemoDTO monthlyMemoDTO = MonthlyMemoDTO.fromJson(responseDTO.response);
+      List<DailyMemoListDTO> dailyMemoListDTO = monthlyMemoDTO.dailyMemoList;
+      List<DailyMemoDTO> dailyMemoDetailDTO = dailyMemoListDTO.expand((e) => e.dailyMemo).toList();
 
       MemoListModel model = MemoListModel(
-          monthlyMemoDTO: monthlyMemoDTO,
-          dailyMemoListDTO: dailyMemoListDTO,
-          dailyMemoDetailDTO: dailyMemoDetailDTO);
+        monthlyMemoDTO: monthlyMemoDTO,
+        dailyMemoListDTO: dailyMemoListDTO,
+        dailyMemoDetailDTO: dailyMemoDetailDTO,
+      );
 
       responseDTO.response = model;
     }

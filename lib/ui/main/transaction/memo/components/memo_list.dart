@@ -12,10 +12,13 @@ class MemoList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final memoListState = ref.watch(memoListProvider);
     final selectedMonth = ref.watch(calendarProvider).toIso8601String();
+    final memoListNotifier = ref.read(memoListProvider.notifier);
 
-    // notifyInit을 달력이 변경될 때만 호출합니다.
+    // 위젯이 처음 빌드될 때 한 번만 notifyInit을 호출
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(memoListProvider.notifier).notifyInit(selectedMonth);
+      if (memoListNotifier.lastSelectedMonth != selectedMonth) {
+        memoListNotifier.notifyInit(selectedMonth);
+      }
     });
 
     final dailyMemoList = memoListState?.dailyMemoListDTO ?? [];

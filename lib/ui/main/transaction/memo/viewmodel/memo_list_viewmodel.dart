@@ -21,25 +21,44 @@ class MemoListModel {
 
 class MemoListViewModel extends StateNotifier<MemoListModel?> {
   final Ref ref;
-  final mContext = navigatorKey.currentContext;
+  final BuildContext? mContext = navigatorKey.currentContext;
+  bool isLoading = false;
+  String? lastSelectedMonth;
 
   MemoListViewModel(this.ref) : super(null);
 
   Future<void> notifyInit(String selectedMonth) async {
+    if (isLoading || lastSelectedMonth == selectedMonth) return; // 이미 로딩 중이거나 동일한 월일 경우 추가 요청 방지
+    isLoading = true; // 로딩 시작
+    lastSelectedMonth = selectedMonth;
 
-    DateTime parsedDate = DateTime.parse(selectedMonth);
-    int year = parsedDate.year;
-    int month = parsedDate.month;
+    print('notifyInit called with selectedMonth: $selectedMonth');
 
+    try {
+      DateTime parsedDate = DateTime.parse(selectedMonth);
+      int year = parsedDate.year;
+      int month = parsedDate.month;
 
-    ResponseDTO responseDTO = await MemoRepository().fetchMemoList(year, month);
-    if (responseDTO.status == 200) {
-      state = responseDTO.response;
-    } else {
-      // 에러 처리
+      ResponseDTO responseDTO = await MemoRepository().fetchMemoList(year, month);
+      if (responseDTO.status == 200) {
+        state = responseDTO.response;
+      } else {
+        ScaffoldMessenger.of(mContext!).showSnackBar(
+          SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")),
+        );
+      }
+    } catch (e) {
+      // 예외 처리
       ScaffoldMessenger.of(mContext!).showSnackBar(
-        SnackBar(content: Text("불러오기 실패 : ${responseDTO.errorMessage}")),
+        SnackBar(content: Text("예외 발생: $e")),
       );
+    } finally {
+      isLoading = false; // 로딩 종료
+      print('notifyInit finished');
     }
   }
 }
+
+final memoListProvider = StateNotifierProvider<MemoListViewModel, MemoListModel?>((ref) {
+  return MemoListViewModel(ref);
+});
