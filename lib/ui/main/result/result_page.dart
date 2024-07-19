@@ -18,7 +18,7 @@ class ResultPage extends ConsumerWidget {
       body: Column(
         children: [
           ResultBodyTop(model: model),
-          ResultBody(),
+          ResultBody(model: model),
         ],
       ),
     );

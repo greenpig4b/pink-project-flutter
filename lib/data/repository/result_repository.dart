@@ -1,4 +1,3 @@
-
 import '../../_core/constants/http.dart';
 import '../../ui/main/result/viewmodel/result_list_view_model.dart';
 import '../dtos/response_dto.dart';
@@ -9,21 +8,21 @@ class ResultRepository {
     final response = await dio.get("/api/financial-report",
         queryParameters: {'year': year, 'month': month});
 
+    // Debugging: Print the raw response data
+    print("API Response Data: ${response.data}");
+
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
     if (responseDTO.status == 200) {
       MonthlyFinancialReport monthlyFinancialReport =
       MonthlyFinancialReport.fromJson(responseDTO.response);
 
-      MonthlyExpenseSummary monthlyExpenseSummary =
-      MonthlyExpenseSummary.fromJson(responseDTO.response);
-
-      MonthlyIncomeSummary monthlyIncomeSummary =
-      MonthlyIncomeSummary.fromJson(responseDTO.response);
+      // Debugging: Print the parsed MonthlyFinancialReport
+      print("Parsed MonthlyFinancialReport: $monthlyFinancialReport");
 
       ResultListModel model = ResultListModel(
           monthlyFinancialReport: monthlyFinancialReport,
-          monthlyExpenseSummary: monthlyExpenseSummary,
-          monthlyIncomeSummary: monthlyIncomeSummary);
+          monthlyExpenseSummary: monthlyFinancialReport.monthlyExpenseSummary,
+          monthlyIncomeSummary: monthlyFinancialReport.monthlyIncomeSummary);
 
       responseDTO.response = model;
     }
@@ -31,4 +30,3 @@ class ResultRepository {
     return responseDTO;
   }
 }
-
