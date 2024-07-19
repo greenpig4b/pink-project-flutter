@@ -30,7 +30,9 @@ class TransactionCalendarViewModel extends StateNotifier<TransactionCalendarMode
 
     // print("주문내역 뷰모델 : ${responseDTO.status}");
     if (responseDTO.status == 200) {
-      state = responseDTO.response;
+
+      state = TransactionCalendarModel(responseDTO.response);
+
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
           SnackBar(content: Text("달력 데이터 보기 실패 : ${responseDTO.errorMessage}")));

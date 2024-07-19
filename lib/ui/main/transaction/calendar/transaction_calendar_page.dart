@@ -20,9 +20,14 @@ class TransactionCalenderPage extends ConsumerWidget {
     final calendarState = ref.watch(calendarStoreProvider);
     final selectedDate = ref.watch(calendarProvider);
     final model = ref.watch(transactionListProvider(selectedDate.toString()));
-    TransactionCalendarModel? cModel = ref.watch(TransactionCalendarProvider(selectedDate.toString()));
+    TransactionCalendarModel? cModel =
+        ref.watch(TransactionCalendarProvider(selectedDate.toString()));
 
-
+    if (cModel == null) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: MemoButton(),
@@ -65,8 +70,7 @@ class TransactionCalenderPage extends ConsumerWidget {
                   TransactionDetailMemo(title: "메모1"),
                   TransactionDetailMemo(title: "메모2"),
                   UnderLineWidget(),
-                  UnderLineWidget(),
-                  cModel == null
+                  cModel == null || cModel.calendar.dailySummariesList.isEmpty
                       ? Container(
                           width: double.infinity,
                           child: Center(
@@ -82,10 +86,23 @@ class TransactionCalenderPage extends ConsumerWidget {
                           scrollDirection: Axis.vertical,
                           itemCount: cModel.calendar.dailySummariesList.length,
                           itemBuilder: (context, index) {
-                            return TransactionDetail(transactionDetails: cModel.calendar.dailySummariesList[index].dailyDetail!.transactionDetailsList[index],);
+                            final dailySummary =
+                                cModel.calendar.dailySummariesList[index];
+                            if (dailySummary.dailyDetail == null ||
+                                dailySummary.dailyDetail!.transactionDetailsList
+                                    .isEmpty) {
+                              return SizedBox.shrink(); // 데이터가 없는 경우 빈 위젯 반환
+                            }
+                            return Column(
+                              children: dailySummary
+                                  .dailyDetail!.transactionDetailsList
+                                  .map((transactionDetail) => TransactionDetail(
+                                        transactionDetails: transactionDetail,
+                                      ))
+                                  .toList(),
+                            );
                           },
                         ),
-
                 ],
               ),
             ),

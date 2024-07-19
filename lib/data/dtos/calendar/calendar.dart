@@ -12,7 +12,7 @@ class Calendar {
   });
 
   factory Calendar.fromJson(Map<String, dynamic> json) {
-    List<dynamic> dailySummariesJson = json["dailySummariesList"] ?? [];
+    List<dynamic> dailySummariesJson = json["dailySummaries"] ?? [];
     List<DailySummaries> newDailySummariesList = dailySummariesJson.map((e) => DailySummaries.fromJson(e)).toList();
     return Calendar(
         monthlyIncome: json["monthlyIncome"] ?? "",
@@ -68,8 +68,8 @@ class DailyDetail {
   });
 
   factory DailyDetail.fromJson(Map<String, dynamic> json) {
-    List<dynamic> memoJson = json["memoList"] ?? [];
-    List<dynamic> transactionDetailsJson = json["transactionDetailsList"] ?? [];
+    List<dynamic> memoJson = json["memos"] ?? [];
+    List<dynamic> transactionDetailsJson = json["transactionDetails"] ?? [];
 
     List<Memos> newMemoList = memoJson.map((e) => Memos.fromJson(e)).toList();
     List<TransactionDetails> newTransactionDetailsList = transactionDetailsJson.map((e) => TransactionDetails.fromJson(e)).toList();
