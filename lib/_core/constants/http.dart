@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // mac : ipconfig getifaddr en0
 
-String serverAddress = "http://192.168.0.139:8080";
+String serverAddress = "http://192.168.182.40:8080";
 
 
 final dio = Dio(
