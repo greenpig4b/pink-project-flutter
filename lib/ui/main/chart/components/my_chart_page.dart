@@ -8,10 +8,34 @@ import 'month/month_tabmenu.dart';
 import '../viewmodel/chart_list_viewmodel.dart';
 import 'appbar/custom_appbar.dart';
 
-class MyChartPage extends ConsumerWidget {
+class MyChartPage extends ConsumerStatefulWidget {
   MyChartPage({Key? key}) : super(key: key);
 
-  void _nextPeriod(BuildContext context, WidgetRef ref) {
+  @override
+  _MyChartPageState createState() => _MyChartPageState();
+}
+
+class _MyChartPageState extends ConsumerState<MyChartPage> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    final selectedDate = ref.read(selectedDateProvider);
+    final isMonthlyView = ref.read(isMonthlyViewProvider);
+    final jwtToken = ref.read(sessionProvider).accessToken!;
+    if (isMonthlyView) {
+      await ref.read(chartListProvider('monthly').notifier).notifyInitMonthly(jwtToken, selectedDate.year, selectedDate.month);
+    } else {
+      final startDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(selectedDate.subtract(Duration(days: selectedDate.weekday - 1)));
+      final endDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(selectedDate.add(Duration(days: 7 - selectedDate.weekday - 1)));
+      await ref.read(chartListProvider('weekly').notifier).notifyInitWeekly(jwtToken, selectedDate.year, selectedDate.month, startDate, endDate);
+    }
+  }
+
+  void _nextPeriod(BuildContext context) {
     ref.read(selectedDateProvider.notifier).update((state) {
       DateTime newDate;
       if (ref.read(isMonthlyViewProvider)) {
@@ -19,12 +43,12 @@ class MyChartPage extends ConsumerWidget {
       } else {
         newDate = state.add(Duration(days: 7));
       }
-      _fetchChartData(ref, newDate);
-      return newDate;
+      return newDate; // 반환값으로 새로운 날짜를 설정합니다.
     });
+    _initializeData(); // 날짜가 업데이트된 후에 데이터를 다시 가져옵니다.
   }
 
-  void _previousPeriod(BuildContext context, WidgetRef ref) {
+  void _previousPeriod(BuildContext context) {
     ref.read(selectedDateProvider.notifier).update((state) {
       DateTime newDate;
       if (ref.read(isMonthlyViewProvider)) {
@@ -32,72 +56,57 @@ class MyChartPage extends ConsumerWidget {
       } else {
         newDate = state.subtract(Duration(days: 7));
       }
-      _fetchChartData(ref, newDate);
-      return newDate;
+      return newDate; // 반환값으로 새로운 날짜를 설정합니다.
     });
+    _initializeData(); // 날짜가 업데이트된 후에 데이터를 다시 가져옵니다.
   }
 
-  void _toggleView(bool isMonthly, WidgetRef ref) {
+  void _toggleView(bool isMonthly) {
     ref.read(isMonthlyViewProvider.notifier).state = isMonthly;
-    _fetchChartData(ref, ref.read(selectedDateProvider));
-  }
-
-  Future<void> _fetchChartData(WidgetRef ref, DateTime date) async {
-    final selectedDateString = DateFormat('yyyy-MM-dd').format(date);
-    final chartListViewmodel = ref.read(chartListProvider(selectedDateString).notifier);
-    final jwtToken = ref.read(sessionProvider).accessToken!;
-    DateTime startDate;
-    DateTime endDate;
-
-    if (ref.read(isMonthlyViewProvider)) {
-      startDate = DateTime(date.year, date.month, 1);
-      endDate = DateTime(date.year, date.month, 0);
-      await chartListViewmodel.notifyInitMonthly(selectedDateString, jwtToken, date.year, date.month);
-    } else {
-      startDate = date.subtract(Duration(days: date.weekday - 1));
-      endDate = startDate.add(Duration(days: 6));
-      final startDateString = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(startDate);
-      final endDateString = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(endDate);
-      await chartListViewmodel.notifyInitWeekly(selectedDateString, jwtToken, date.year, date.month, startDateString, endDateString);
-    }
+    _initializeData(); // 뷰 모드를 변경한 후에 데이터를 다시 가져옵니다.
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final selectedDate = ref.watch(selectedDateProvider);
     final isMonthlyView = ref.watch(isMonthlyViewProvider);
+    final chartDataState = ref.watch(chartListProvider(isMonthlyView ? 'monthly' : 'weekly'));
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            CustomAppBar(
-              title: isMonthlyView
-                  ? '${selectedDate.year}년 ${selectedDate.month}월'
-                  : '${DateFormat('M.d').format(selectedDate.subtract(Duration(days: selectedDate.weekday - 1)))} ~ ${DateFormat('M.d').format(selectedDate.add(Duration(days: 7 - selectedDate.weekday - 1)))}',
-              onNextPeriod: () => _nextPeriod(context, ref),
-              onPreviousPeriod: () => _previousPeriod(context, ref),
-              onMonthlyView: () => _toggleView(true, ref),
-              onWeeklyView: () => _toggleView(false, ref),
-              isMonthlyView: isMonthlyView,
-            ),
-            Expanded(
-              child: GestureDetector(
-                onHorizontalDragEnd: (details) {
-                  if (details.primaryVelocity! < 0) {
-                    _nextPeriod(context, ref);
-                  } else if (details.primaryVelocity! > 0) {
-                    _previousPeriod(context, ref);
-                  }
-                },
-                child: isMonthlyView
-                    ? MonthTabmenu(selectedDate: selectedDate, jwtToken: ref.watch(sessionProvider).accessToken!)
-                    : WeeklyTabmenu(selectedDate: selectedDate, jwtToken: ref.watch(sessionProvider).accessToken!),
+        body: chartDataState.when(
+          loading: () => Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text('Error: $err')),
+          data: (_) => Column(
+            children: [
+              CustomAppBar(
+                title: isMonthlyView
+                    ? '${selectedDate.year}년 ${selectedDate.month}월'
+                    : '${DateFormat('M.d').format(selectedDate.subtract(Duration(days: selectedDate.weekday - 1)))} ~ ${DateFormat('M.d').format(selectedDate.add(Duration(days: 7 - selectedDate.weekday - 1)))}',
+                onNextPeriod: () => _nextPeriod(context),
+                onPreviousPeriod: () => _previousPeriod(context),
+                onMonthlyView: () => _toggleView(true),
+                onWeeklyView: () => _toggleView(false),
+                isMonthlyView: isMonthlyView,
               ),
-            ),
-          ],
+              Expanded(
+                child: GestureDetector(
+                  onHorizontalDragEnd: (details) {
+                    if (details.primaryVelocity! < 0) {
+                      _nextPeriod(context);
+                    } else if (details.primaryVelocity! > 0) {
+                      _previousPeriod(context);
+                    }
+                  },
+                  child: isMonthlyView
+                      ? MonthTabmenu(selectedDate: selectedDate, jwtToken: ref.watch(sessionProvider).accessToken!)
+                      : WeeklyTabmenu(selectedDate: selectedDate, jwtToken: ref.watch(sessionProvider).accessToken!),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

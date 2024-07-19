@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +18,7 @@ class MonthTabmenu extends ConsumerWidget {
     final selectedDateString = '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-01';
     print("Watching chartListState for date: $selectedDateString");
 
-    final chartListState = ref.watch(chartListProvider(selectedDateString));
+    final chartListState = ref.watch(chartListProvider('monthly'));
 
     return chartListState.when(
       data: (chartList) {
@@ -48,8 +47,11 @@ class MonthTabmenu extends ConsumerWidget {
                   IncomeSection<MonthIncomeDTO>(
                     touchedIndex: -1,
                     onTouch: (index) {
-                      ref.read(chartListProvider(selectedDateString).notifier)
-                          .notifyInitMonthly(selectedDateString, jwtToken, selectedDate.year, selectedDate.month);
+                      ref.read(chartListProvider('monthly').notifier).notifyInitMonthly(
+                        jwtToken,
+                        selectedDate.year,
+                        selectedDate.month,
+                      );
                     },
                     incomes: monthData.incomeList,
                     selectedDate: selectedDate,
@@ -57,8 +59,11 @@ class MonthTabmenu extends ConsumerWidget {
                   ExpenseSection<MonthSpendingDTO>(
                     touchedIndex: -1,
                     onTouch: (index) {
-                      ref.read(chartListProvider(selectedDateString).notifier)
-                          .notifyInitMonthly(selectedDateString, jwtToken, selectedDate.year, selectedDate.month);
+                      ref.read(chartListProvider('monthly').notifier).notifyInitMonthly(
+                        jwtToken,
+                        selectedDate.year,
+                        selectedDate.month,
+                      );
                     },
                     expenses: monthData.spendingList,
                     selectedDate: selectedDate,

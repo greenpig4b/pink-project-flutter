@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ExpenseSection<T> extends StatelessWidget {
   final int touchedIndex;
@@ -43,72 +44,71 @@ class ExpenseSection<T> extends StatelessWidget {
     }
   }
 
-  List<PieChartSectionData> showingExpenseSections(
-      List<T> filteredExpenses, List<String> percentages) {
-    if (filteredExpenses.isEmpty) {
-      print("No expense data available.");
-      return [];
+  List<Color> getColorPalette(int length) {
+    final List<Color> colors = [
+      Colors.red,
+      Colors.orange,
+      Colors.yellow,
+      Colors.green,
+      Colors.blue,
+      Colors.indigo,
+      Colors.purple,
+    ];
+
+    // 반복해서 색상을 할당
+    List<Color> palette = [];
+    for (int i = 0; i < length; i++) {
+      palette.add(colors[i % colors.length]);
     }
-
-    double totalAmount = filteredExpenses.fold(
-        0,
-            (sum, item) => sum + int.parse((item as dynamic).amount.replaceAll(',', '')));
-
-    return List.generate(filteredExpenses.length, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 20.0 : 16.0;
-      final radius = isTouched ? 110.0 : 100.0;
-      final value = int.parse((filteredExpenses[i] as dynamic).amount.replaceAll(',', ''));
-      final percentage = (value / totalAmount * 100).toStringAsFixed(1) + '%';
-      percentages.add(percentage);
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-
-      return PieChartSectionData(
-        color: Colors.red,
-        value: value.toDouble(),
-        title: percentage,
-        radius: radius,
-        titleStyle: TextStyle(
-          fontSize: fontSize,
-          fontWeight: FontWeight.bold,
-          color: const Color(0xffffffff),
-          shadows: shadows,
-        ),
-      );
-    });
+    return palette;
   }
 
-  List<Widget> getExpenseList(
-      List<T> filteredExpenses, List<String> percentages) {
-    if (filteredExpenses.isEmpty) {
-      print("No expense data available.");
-      return [Text('No expense data available.')];
-    }
+  List<ChartData> getChartData(List<T> filteredExpenses) {
+    final Map<String, double> categorySums = {};
+    double totalAmount = filteredExpenses.fold(0, (sum, item) => sum + int.parse((item as dynamic).amount.replaceAll(',', '')));
 
-    final Map<String, int> categorySums = {};
     for (var expense in filteredExpenses) {
       final category = (expense as dynamic).category;
       final amount = int.parse(expense.amount.replaceAll(',', ''));
       if (categorySums.containsKey(category)) {
         categorySums[category] = categorySums[category]! + amount;
       } else {
-        categorySums[category] = amount;
+        categorySums[category] = amount.toDouble();
       }
     }
 
-    return List.generate(categorySums.length, (i) {
-      final category = categorySums.keys.elementAt(i);
-      final amount = categorySums[category]!;
-      final percentage = percentages[i];
+    List<ChartData> chartData = categorySums.entries.map((entry) {
+      final percentage = (entry.value / totalAmount * 100).toStringAsFixed(1) + '%';
+      return ChartData(entry.key, entry.value, Colors.red, percentage);
+    }).toList();
 
-      final T? matchingExpense = filteredExpenses.cast<T?>().firstWhere(
-            (expense) => (expense as dynamic).category == category,
-        orElse: () => null,
-      );
+    // 퍼센트 순으로 정렬
+    chartData.sort((a, b) => b.value.compareTo(a.value));
 
-      final categoryEmoji = matchingExpense != null
-          ? getCategoryEmoji((matchingExpense as dynamic).category)
-          : '';
+    // 색상 할당
+    List<Color> colors = getColorPalette(chartData.length);
+    for (int i = 0; i < chartData.length; i++) {
+      chartData[i].color = colors[i];
+    }
+
+    return chartData;
+  }
+
+  List<Widget> getExpenseList(List<T> filteredExpenses, List<ChartData> chartData) {
+    if (filteredExpenses.isEmpty) {
+      return [
+        Center(child: Text('데이터가 없습니다')),
+      ];
+    }
+
+    final formatter = NumberFormat('#,###');
+
+    return List.generate(chartData.length, (i) {
+      final data = chartData[i];
+      final category = data.category;
+      final amount = data.value.toInt();
+      final formattedAmount = formatter.format(amount);
+      final percentage = data.percentage;
 
       return Container(
         decoration: BoxDecoration(
@@ -126,7 +126,7 @@ class ExpenseSection<T> extends StatelessWidget {
             width: 45.0,
             height: 30.0,
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: data.color,
               borderRadius: BorderRadius.circular(5),
             ),
             alignment: Alignment.center,
@@ -138,7 +138,7 @@ class ExpenseSection<T> extends StatelessWidget {
           title: Row(
             children: [
               Text(
-                categoryEmoji,
+                getCategoryEmoji(category),
                 style: TextStyle(fontSize: 18.0),
               ),
               SizedBox(width: 8.0),
@@ -148,7 +148,7 @@ class ExpenseSection<T> extends StatelessWidget {
               ),
             ],
           ),
-          trailing: Text('${amount}원'),
+          trailing: Text('${formattedAmount}원'),
         ),
       );
     });
@@ -156,38 +156,50 @@ class ExpenseSection<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> percentages = [];
-
-    print("Building ExpenseSection with ${expenses.length} expenses.");
+    List<ChartData> chartData = getChartData(expenses);
 
     return Column(
       children: [
         Container(
-          height: 250,
-          margin: EdgeInsets.fromLTRB(0, 50.0, 0, 50.0),
-          child: PieChart(
-            PieChartData(
-              sections: showingExpenseSections(expenses, percentages),
-              pieTouchData: PieTouchData(
-                touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  if (!event.isInterestedForInteractions ||
-                      pieTouchResponse == null ||
-                      pieTouchResponse.touchedSection == null) {
-                    onTouch(-1);
-                    return;
-                  }
-                  onTouch(pieTouchResponse.touchedSection!.touchedSectionIndex);
-                },
+          height: 300,
+          margin: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+          child: SfCircularChart(
+            title: ChartTitle(text: '지출현황'),
+            legend: Legend(isVisible: true),
+            series: <CircularSeries>[
+              DoughnutSeries<ChartData, String>(
+                dataSource: chartData,
+                xValueMapper: (ChartData data, _) => data.category,
+                yValueMapper: (ChartData data, _) => data.value,
+                pointColorMapper: (ChartData data, _) => data.color,
+                dataLabelMapper: (ChartData data, _) => data.percentage,
+                dataLabelSettings: DataLabelSettings(
+                  isVisible: true,
+                  labelPosition: ChartDataLabelPosition.outside,
+                  connectorLineSettings: ConnectorLineSettings(
+                    type: ConnectorType.line,
+                    length: '10%',
+                  ),
+                ),
+                innerRadius: '20%',
               ),
-            ),
+            ],
           ),
         ),
         Expanded(
           child: ListView(
-            children: getExpenseList(expenses, percentages),
+            children: getExpenseList(expenses, chartData),
           ),
         ),
       ],
     );
   }
+}
+
+class ChartData {
+  ChartData(this.category, this.value, this.color, this.percentage);
+  final String category;
+  final double value;
+  Color color;
+  final String percentage;
 }

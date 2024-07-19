@@ -14,26 +14,34 @@ class WeeklyTabmenu extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedDateString = '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-01';
     final startDate = selectedDate.subtract(Duration(days: selectedDate.weekday - 1));
     final endDate = startDate.add(Duration(days: 6));
     final startDateString = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(startDate);
     final endDateString = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(endDate);
+    final selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
 
     print("WeeklyTabmenu: startDate=$startDateString, endDate=$endDateString");
 
-    ref.listen<AsyncValue<ChartListModel?>>(chartListProvider(selectedDateString), (previous, next) {
-      if (previous?.isLoading == false && next?.isLoading == true) {
-        return;
-      }
+    ref.listen<AsyncValue<ChartListModel?>>(
+      chartListProvider('weekly'),
+          (previous, next) {
+        if (previous?.isLoading == false && next?.isLoading == true) {
+          return;
+        }
 
-      if (next?.isLoading == false && next?.value == null) {
-        ref.read(chartListProvider(selectedDateString).notifier)
-            .notifyInitWeekly(selectedDateString, jwtToken, selectedDate.year, selectedDate.month, startDateString, endDateString);
-      }
-    });
+        if (next?.isLoading == false && next?.value == null) {
+          ref.read(chartListProvider('weekly').notifier).notifyInitWeekly(
+              jwtToken,
+              selectedDate.year,
+              selectedDate.month,
+              startDateString,
+              endDateString
+          );
+        }
+      },
+    );
 
-    final chartListState = ref.watch(chartListProvider(selectedDateString));
+    final chartListState = ref.watch(chartListProvider('weekly'));
 
     return chartListState.when(
       data: (chartList) {
@@ -62,8 +70,13 @@ class WeeklyTabmenu extends ConsumerWidget {
                   IncomeSection<WeeklyIncomeDTO>(
                     touchedIndex: -1,
                     onTouch: (index) {
-                      ref.read(chartListProvider(selectedDateString).notifier)
-                          .notifyInitWeekly(selectedDateString, jwtToken, selectedDate.year, selectedDate.month, startDateString, endDateString);
+                      ref.read(chartListProvider('weekly').notifier).notifyInitWeekly(
+                          jwtToken,
+                          selectedDate.year,
+                          selectedDate.month,
+                          startDateString,
+                          endDateString
+                      );
                     },
                     incomes: weekData.incomeList,
                     selectedDate: selectedDate,
@@ -71,8 +84,13 @@ class WeeklyTabmenu extends ConsumerWidget {
                   ExpenseSection<WeeklySpendingDTO>(
                     touchedIndex: -1,
                     onTouch: (index) {
-                      ref.read(chartListProvider(selectedDateString).notifier)
-                          .notifyInitWeekly(selectedDateString, jwtToken, selectedDate.year, selectedDate.month, startDateString, endDateString);
+                      ref.read(chartListProvider('weekly').notifier).notifyInitWeekly(
+                          jwtToken,
+                          selectedDate.year,
+                          selectedDate.month,
+                          startDateString,
+                          endDateString
+                      );
                     },
                     expenses: weekData.spendingList,
                     selectedDate: selectedDate,

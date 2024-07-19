@@ -32,66 +32,48 @@ class ChartListModel {
 class ChartListViewModel extends StateNotifier<AsyncValue<ChartListModel?>> {
   ChartListViewModel() : super(const AsyncValue.loading());
 
-  Future<void> notifyInitMonthly(String selectedDate, String accessToken, int year, int month) async {
-    print("notifyInitMonthly called with selectedDate: $selectedDate");
+  Future<void> notifyInitMonthly(String accessToken, int year, int month) async {
     state = const AsyncValue.loading();
     try {
       ChartRepository chartRepository = ChartRepository();
-      ResponseDTO responseDTO = await chartRepository.getMonthlyChartGraph(year, month, accessToken);
-
-      print("ResponseDTO: ${responseDTO.toString()}");
+      ResponseDTO responseDTO = await chartRepository.fetchMonthlyChartGraph(year, month, accessToken);
 
       if (responseDTO.status == 200) {
         ChartMonthResponse chartMonthResponse = ChartMonthResponse.fromJson(responseDTO.response);
-        print("Monthly data: ${chartMonthResponse.toString()}");
         state = AsyncValue.data(ChartListModel(
           chartMonth: chartMonthResponse,
           isMonthly: true,
         ));
       } else {
-        print("Error: ${responseDTO.errorMessage ?? 'Unknown error'}");
         state = AsyncValue.error(Exception(responseDTO.errorMessage ?? 'Unknown error'), StackTrace.current);
       }
     } catch (e) {
-      print("Exception: $e");
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
-  Future<void> notifyInitWeekly(String selectedDate, String accessToken, int year, int month, String startDate, String endDate) async {
-    print("notifyInitWeekly called with selectedDate: $selectedDate, startDate: $startDate, endDate: $endDate");
+  Future<void> notifyInitWeekly(String accessToken, int year, int month, String startDate, String endDate) async {
     state = const AsyncValue.loading();
     try {
       ChartRepository chartRepository = ChartRepository();
-      ResponseDTO responseDTO = await chartRepository.getWeeklyChartGraph(year, month, accessToken, startDate, endDate);
-
-      print("ResponseDTO: ${responseDTO.toString()}");
+      ResponseDTO responseDTO = await chartRepository.fetchWeeklyChartGraph(year, month, accessToken, startDate, endDate);
 
       if (responseDTO.status == 200) {
         ChartWeeklyResponse chartWeeklyResponse = ChartWeeklyResponse.fromJson(responseDTO.response);
-        print("Weekly data: ${chartWeeklyResponse.toString()}");
         state = AsyncValue.data(ChartListModel(
           chartWeekly: chartWeeklyResponse,
           isMonthly: false,
         ));
       } else {
-        print("Error: ${responseDTO.errorMessage ?? 'Unknown error'}");
         state = AsyncValue.error(Exception(responseDTO.errorMessage ?? 'Unknown error'), StackTrace.current);
       }
     } catch (e) {
-      print("Exception: $e");
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
   void toggleView() {
     state = state.whenData((value) => value?.copyWith(isMonthly: !(value?.isMonthly ?? true)));
-  }
-
-  int _getWeekNumber(DateTime date) {
-    int dayOfYear = int.parse(DateFormat("D").format(date));
-    int weekNumber = ((dayOfYear - date.weekday + 10) / 7).floor();
-    return weekNumber;
   }
 }
 

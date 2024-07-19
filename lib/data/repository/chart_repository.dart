@@ -3,7 +3,7 @@ import '../../_core/constants/http.dart';
 import '../dtos/response_dto.dart';
 
 class ChartRepository {
-  Future<ResponseDTO> getMonthlyChartGraph(int year, int month, String accessToken) async {
+  Future<ResponseDTO> fetchMonthlyChartGraph(int year, int month, String accessToken) async {
     print("Sending request to server for monthly data with year: $year, month: $month");
 
     final response = await dio.get("/api/chart/monthly",
@@ -16,7 +16,7 @@ class ChartRepository {
     return responseDTO;
   }
 
-  Future<ResponseDTO> getWeeklyChartGraph(int year, int month, String accessToken, String startDate, String endDate) async {
+  Future<ResponseDTO> fetchWeeklyChartGraph(int year, int month, String accessToken, String startDate, String endDate) async {
     print("Sending request to server for weekly data with year: $year, month: $month, startDate: $startDate, endDate: $endDate");
 
     final response = await dio.get("/api/chart/weekly",
