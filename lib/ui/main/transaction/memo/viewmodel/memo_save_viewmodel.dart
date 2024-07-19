@@ -10,10 +10,10 @@ class MemoSaveViewmodel extends StateNotifier<MemoSaveDTO> {
 
   MemoSaveViewmodel(this.userId)
       : super(MemoSaveDTO(
-            userId: userId,
-            title: '',
-            content: '',
-            createdDate: DateTime.now()));
+      userId: userId,
+      title: '',
+      content: '',
+      createdDate: DateTime.now()));
 
   Future<void> saveMemo(BuildContext context, MemoSaveDTO memoSaveDTO) async {
     try {
@@ -22,7 +22,7 @@ class MemoSaveViewmodel extends StateNotifier<MemoSaveDTO> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("메모가 성공적으로 저장되었습니다.")),
         );
-        // 성공적으로 저장되면 필요한 추가 로직을 수행할 수 있습니다.
+        // 성공적으로 저장된 후 추가 로직을 수행하거나 UI를 업데이트합니다.
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("저장 실패 : ${responseDTO.errorMessage}")),

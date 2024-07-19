@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/memo/memo_response.dart';
-import 'package:pinkpig_project_flutter/ui/main/result/components/result_app_bar.dart';
 
 import '../../../../../data/dtos/response_dto.dart';
 import '../../../../../data/repository/memo_repository.dart';
-import '../../../../../data/store/session_store.dart';
 import '../../../../../main.dart';
 
 
