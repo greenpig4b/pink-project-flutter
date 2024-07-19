@@ -5,7 +5,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:pinkpig_project_flutter/ui/startview/startview_page.dart';
 
+import '_core/constants/constants.dart';
 import '_core/constants/http.dart';
+import '_core/constants/theme.dart';
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
@@ -27,9 +29,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       home: StartviewPage(),
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
+      theme: ThemeData(fontFamily: 'Pretendard2'),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
