@@ -1,16 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/repository/result_repository.dart';
 import 'package:pinkpig_project_flutter/data/dtos/response_dto.dart';
+import 'package:pinkpig_project_flutter/data/dtos/result/result_response.dart';
 import 'package:pinkpig_project_flutter/main.dart';
-import 'package:flutter/material.dart';
-import '../../../../data/dtos/result/result_response.dart';
 
 class ResultListModel {
   MonthlyFinancialReport? monthlyFinancialReport;
   MonthlyExpenseSummary? monthlyExpenseSummary;
   MonthlyIncomeSummary? monthlyIncomeSummary;
 
-  ResultListModel({this.monthlyFinancialReport, this.monthlyExpenseSummary, this.monthlyIncomeSummary});
+  ResultListModel({
+    this.monthlyFinancialReport,
+    this.monthlyExpenseSummary,
+    this.monthlyIncomeSummary,
+  });
 }
 
 class ResultListViewModel extends StateNotifier<ResultListModel?> {
@@ -36,6 +40,9 @@ class ResultListViewModel extends StateNotifier<ResultListModel?> {
   }
 }
 
-final resultListProvider = StateNotifierProvider.family<ResultListViewModel, ResultListModel?, String>((ref, selectedDate) {
+final resultListProvider = StateNotifierProvider.family<
+    ResultListViewModel,
+    ResultListModel?,
+    String>((ref, selectedDate) {
   return ResultListViewModel(ref)..notifyInit(selectedDate);
 });

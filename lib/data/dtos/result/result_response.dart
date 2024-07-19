@@ -26,15 +26,15 @@ class MonthlyFinancialReport {
   factory MonthlyFinancialReport.fromJson(Map<String, dynamic> json) {
     return MonthlyFinancialReport(
       userId: json['userId'],
-      year: json['year'],
-      month: json['month'],
-      monthlyIncome: json['monthlyIncome'],
-      monthlyExpense: json['monthlyExpense'],
-      monthlyTotalAmount: json['monthlyTotalAmount'],
-      startYearMonthDate: json['startYearMonthDate'],
-      endYearMonthDate: json['endYearMonthDate'],
-      monthlyExpenseSummary: MonthlyExpenseSummary.fromJson(json['monthlyExpenseSummary']),
-      monthlyIncomeSummary: MonthlyIncomeSummary.fromJson(json['monthlyIncomeSummary']),
+      year: json['year'] ?? '',
+      month: json['month'] ?? '',
+      monthlyIncome: json['monthlyIncome'] ?? '',
+      monthlyExpense: json['monthlyExpense'] ?? '',
+      monthlyTotalAmount: json['monthlyTotalAmount'] ?? '',
+      startYearMonthDate: json['startYearMonthDate'] ?? '',
+      endYearMonthDate: json['endYearMonthDate'] ?? '',
+      monthlyExpenseSummary: MonthlyExpenseSummary.fromJson(json['monthlyExpenseSummary'] ?? {}),
+      monthlyIncomeSummary: MonthlyIncomeSummary.fromJson(json['monthlyIncomeSummary'] ?? {}),
     );
   }
 
@@ -43,6 +43,7 @@ class MonthlyFinancialReport {
     return 'MonthlyFinancialReport(userId: $userId, year: $year, month: $month, monthlyIncome: $monthlyIncome, monthlyExpense: $monthlyExpense, monthlyTotalAmount: $monthlyTotalAmount, startYearMonthDate: $startYearMonthDate, endYearMonthDate: $endYearMonthDate, monthlyExpenseSummary: $monthlyExpenseSummary, monthlyIncomeSummary: $monthlyIncomeSummary)';
   }
 }
+
 
 class MonthlyExpenseSummary {
   final String previousMonthExpenseComparison;
@@ -61,11 +62,11 @@ class MonthlyExpenseSummary {
 
   factory MonthlyExpenseSummary.fromJson(Map<String, dynamic> json) {
     return MonthlyExpenseSummary(
-      previousMonthExpenseComparison: json['previousMonthExpenseComparison'],
-      totalMonthlyExpense: json['totalMonthlyExpense'],
-      monthlyCardExpense: json['monthlyCardExpense'],
-      monthlyCashExpense: json['monthlyCashExpense'],
-      monthlyBankExpense: json['monthlyBankExpense'],
+      previousMonthExpenseComparison: json['previousMonthExpenseComparison'] ?? '',
+      totalMonthlyExpense: json['totalMonthlyExpense'] ?? '',
+      monthlyCardExpense: json['monthlyCardExpense'] ?? '',
+      monthlyCashExpense: json['monthlyCashExpense'] ?? '',
+      monthlyBankExpense: json['monthlyBankExpense'] ?? '',
     );
   }
 
@@ -74,6 +75,7 @@ class MonthlyExpenseSummary {
     return 'MonthlyExpenseSummary(previousMonthExpenseComparison: $previousMonthExpenseComparison, totalMonthlyExpense: $totalMonthlyExpense, monthlyCardExpense: $monthlyCardExpense, monthlyCashExpense: $monthlyCashExpense, monthlyBankExpense: $monthlyBankExpense)';
   }
 }
+
 
 class MonthlyIncomeSummary {
   final String previousMonthIncomeComparison;
@@ -92,11 +94,11 @@ class MonthlyIncomeSummary {
 
   factory MonthlyIncomeSummary.fromJson(Map<String, dynamic> json) {
     return MonthlyIncomeSummary(
-      previousMonthIncomeComparison: json['previousMonthIncomeComparison'],
-      totalMonthlyIncome: json['totalMonthlyIncome'],
-      monthlyCardIncome: json['monthlyCardIncome'],
-      monthlyCashIncome: json['monthlyCashIncome'],
-      monthlyBankIncome: json['monthlyBankIncome'],
+      previousMonthIncomeComparison: json['previousMonthIncomeComparison'] ?? '',
+      totalMonthlyIncome: json['totalMonthlyIncome'] ?? '',
+      monthlyCardIncome: json['monthlyCardIncome'] ?? '',
+      monthlyCashIncome: json['monthlyCashIncome'] ?? '',
+      monthlyBankIncome: json['monthlyBankIncome'] ?? '',
     );
   }
 
