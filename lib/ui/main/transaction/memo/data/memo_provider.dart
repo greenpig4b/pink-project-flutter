@@ -28,10 +28,7 @@ final userIdProvider = Provider<int>((ref) {
   final session = ref.watch(sessionProvider);
   return session.user?.id ?? 0; // userId가 없는 경우 0을 반환
 });
-final memoSaveViewmodelProvider = StateNotifierProvider<MemoSaveViewmodel, MemoSaveDTO>((ref) {
-  final userId = ref.watch(userIdProvider);
-  return MemoSaveViewmodel(userId);
-});
+
 
 // memoId를 제공하는 StateProvider
 final memoIdProvider = StateProvider<int>((ref) {

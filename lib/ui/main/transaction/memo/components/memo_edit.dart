@@ -41,6 +41,10 @@ class MemoEdit extends ConsumerWidget {
             title: _titleController.text,
             content: _commentController.text,
           );
+          print('Saving memo with ID: ${memoEditDTO.id}, User ID: ${memoEditDTO.userId}');
+          print('Title: ${memoEditDTO.title}');
+          print('Content: ${memoEditDTO.content}');
+
           ref.read(memoUpdateViewmodelProvider.notifier).updateMemo(context, memoEditDTO).then((_) {
             Navigator.of(context).pop(true); // 메모 수정 후 목록 새로 고침을 위해 true 반환
           });
@@ -72,7 +76,7 @@ class MemoEdit extends ConsumerWidget {
                 prefixIcon: Icon(Icons.title, color: Color(0xFFFC7C9A)),
               ),
               onChanged: (value) {
-                // 필요한 경우 상태 업데이트
+                ref.read(titleProvider.notifier).state = value;
               },
             ),
             SizedBox(height: 16),
@@ -97,7 +101,7 @@ class MemoEdit extends ConsumerWidget {
               ),
               maxLines: 5,
               onChanged: (value) {
-                // 필요한 경우 상태 업데이트
+                ref.read(contentProvider.notifier).state = value;
               },
             ),
             SizedBox(height: 16),

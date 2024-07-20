@@ -80,3 +80,61 @@ class DailyMemoDTO {
     return 'DailyMemoDTO(id: $id, title: $title, content: $content)';
   }
 }
+
+class SaveMemoRespDTO {
+  final int id;
+  final int userId;
+  final String monthDateDay; // "MM.dd(요일)" 형식의 날짜
+  final String title;
+  final String content;
+
+  SaveMemoRespDTO({
+    required this.id,
+    required this.userId,
+    required this.monthDateDay,
+    required this.title,
+    required this.content,
+  });
+
+  factory SaveMemoRespDTO.fromJson(Map<String, dynamic> json) {
+    return SaveMemoRespDTO(
+      id: json['id'],
+      userId: json['userId'],
+      monthDateDay: json['monthDateDay'],
+      title: json['title'],
+      content: json['content'],
+    );
+  }
+
+  @override
+  String toString() {
+    return 'SaveMemoRespDTO(id: $id, userId: $userId, monthDateDay: $monthDateDay, title: $title, content: $content)';
+  }
+}
+class UpdateMemoRespDTO {
+  final int id;
+  final int userId;
+  final String title;
+  final String content;
+
+  UpdateMemoRespDTO({
+    required this.id,
+    required this.userId,
+    required this.title,
+    required this.content,
+  });
+
+  factory UpdateMemoRespDTO.fromJson(Map<String, dynamic> json) {
+    return UpdateMemoRespDTO(
+      id: json['id'],
+      userId: json['userId'],
+      title: json['title'],
+      content: json['content'],
+    );
+  }
+
+  @override
+  String toString() {
+    return 'UpdateMemoRespDTO(id: $id, userId: $userId, title: $title, content: $content)';
+  }
+}

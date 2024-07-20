@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/memo/memo_request.dart';
-
 import '../../../../../data/dtos/response_dto.dart';
 import '../../../../../data/repository/memo_repository.dart';
 
-class MemoSaveViewmodel extends StateNotifier<MemoSaveDTO> {
-  final int userId;
-
-  MemoSaveViewmodel(this.userId)
-      : super(MemoSaveDTO(
-      userId: userId,
-      title: '',
-      content: '',
-      createdDate: DateTime.now()));
+class MemoSaveViewmodel extends StateNotifier<void> {
+  MemoSaveViewmodel() : super(null);
 
   Future<void> saveMemo(BuildContext context, MemoSaveDTO memoSaveDTO) async {
     try {
@@ -36,3 +28,5 @@ class MemoSaveViewmodel extends StateNotifier<MemoSaveDTO> {
     }
   }
 }
+
+final memoSaveViewmodelProvider = Provider((ref) => MemoSaveViewmodel());
