@@ -36,9 +36,7 @@ class MemoWrite extends ConsumerWidget {
           );
 
           ref.read(memoSaveViewmodelProvider).saveMemo(context, memoSaveDTO).then((_) {
-            // 메모 저장 후 메모 목록 페이지를 새로 고침합니다.
-            ref.read(memoListProvider(_selectedDate.toIso8601String()).notifier).notifyInit(_selectedDate.toIso8601String());
-            Navigator.of(context).pop(true); // true를 반환하여 메모 목록 페이지에서 새로 고침을 트리거합니다.
+            // 성공 시 메모 목록이 자동으로 업데이트되므로 별도의 새로 고침이 필요 없습니다.
           }).catchError((error) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("저장 중 오류가 발생했습니다: $error")),

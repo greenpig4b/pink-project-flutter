@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pinkpig_project_flutter/data/store/session_store.dart';
 import '../../../../../data/dtos/memo/memo_request.dart';
+import '../../../../../data/store/session_store.dart';
 import '../data/memo_provider.dart';
 import 'memo_write_app_bar.dart';
+import '../viewmodel/memo_update_viewmodel.dart';
 
 class MemoEdit extends ConsumerWidget {
   final int memoId;
@@ -45,7 +46,7 @@ class MemoEdit extends ConsumerWidget {
           print('Title: ${memoEditDTO.title}');
           print('Content: ${memoEditDTO.content}');
 
-          ref.read(memoUpdateViewmodelProvider.notifier).updateMemo(context, memoEditDTO).then((_) {
+          ref.read(memoUpdateViewmodelProvider(memoId).notifier).updateMemo(context, memoEditDTO).then((_) {
             Navigator.of(context).pop(true); // 메모 수정 후 목록 새로 고침을 위해 true 반환
           });
         },

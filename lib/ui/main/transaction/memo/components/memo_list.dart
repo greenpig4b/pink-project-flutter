@@ -22,73 +22,82 @@ class MemoList extends ConsumerWidget {
         ),
       );
     } else {
-      return ListView.builder(
-        itemCount: dailyMemoList.length,
-        itemBuilder: (context, index) {
-          final dailyMemo = dailyMemoList[index];
-          String formattedDate =
-          DateFormat('MM.dd').format(DateTime.parse(dailyMemo.date));
+      return Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: dailyMemoList.length,
+              itemBuilder: (context, index) {
+                final dailyMemo = dailyMemoList[index];
+                String formattedDate =
+                    DateFormat('MM.dd').format(DateTime.parse(dailyMemo.date));
 
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      formattedDate,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    ...(dailyMemo.dailyMemo).map((memo) {
-                      return GestureDetector(
-                        onTap: () {
-                          ref.read(titleProvider.notifier).state = memo.title;
-                          ref.read(contentProvider.notifier).state = memo.content;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MemoEdit(
-                                memoId: memo.id,
-                                title: memo.title,
-                                content: memo.content,
-                                memoDate: dailyMemo.date,
-                              ),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            formattedDate,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                memo.title,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                          ),
+                          SizedBox(height: 8),
+                          ...(dailyMemo.dailyMemo).map((memo) {
+                            return GestureDetector(
+                              onTap: () {
+                                ref.read(titleProvider.notifier).state =
+                                    memo.title;
+                                ref.read(contentProvider.notifier).state =
+                                    memo.content;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MemoEdit(
+                                      memoId: memo.id,
+                                      title: memo.title,
+                                      content: memo.content,
+                                      memoDate: dailyMemo.date,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      memo.title,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(memo.content),
+                                    SizedBox(height: 4),
+                                  ],
                                 ),
                               ),
-                              SizedBox(height: 4),
-                              Text(memo.content),
-                              SizedBox(height: 4),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ],
-                ),
-              ),
+                            );
+                          }).toList(),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       );
     }
   }
