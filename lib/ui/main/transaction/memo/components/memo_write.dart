@@ -3,11 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../../data/dtos/memo/memo_request.dart';
 import '../../../../../data/store/session_store.dart';
-import '../data/memo_provider.dart'; // 이 곳에 있는 메모 프로바이더를 이용해야 함
+import '../data/memo_provider.dart'; // Ensure this is correctly imported
+import '../viewmodel/memo_list_viewmodel.dart';
+import '../viewmodel/memo_save_viewmodel.dart';
 import 'memo_write_app_bar.dart';
 
 class MemoWrite extends ConsumerWidget {
-  MemoWrite({Key? key}) : super(key: key);
+  final MemoListModel? model;
+
+  MemoWrite({Key? key, this.model}) : super(key: key);
 
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
@@ -30,9 +34,13 @@ class MemoWrite extends ConsumerWidget {
             content: _contentController.text,
             createdDate: _selectedDate,
           );
-          ref.read(memoSaveViewmodelProvider.notifier).saveMemo(context, memoSaveDTO).then((_) {
-            // 메모 저장 후 메모 목록 페이지를 새로 고침합니다.
-            Navigator.of(context).pop(true); // true를 반환하여 메모 목록 페이지에서 새로 고침을 트리거합니다.
+
+          ref.read(memoSaveViewmodelProvider).saveMemo(context, memoSaveDTO).then((_) {
+            // 성공 시 메모 목록이 자동으로 업데이트되므로 별도의 새로 고침이 필요 없습니다.
+          }).catchError((error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("저장 중 오류가 발생했습니다: $error")),
+            );
           });
         },
       ),

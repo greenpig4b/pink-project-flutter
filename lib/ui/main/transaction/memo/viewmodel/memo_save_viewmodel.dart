@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/memo/memo_request.dart';
-
+import '../../../../../data/dtos/memo/memo_response.dart';
 import '../../../../../data/dtos/response_dto.dart';
 import '../../../../../data/repository/memo_repository.dart';
+import 'memo_list_viewmodel.dart';
+final memoSaveViewmodelProvider = Provider((ref) => MemoSaveViewModel(ref));
 
-class MemoSaveViewmodel extends StateNotifier<MemoSaveDTO> {
-  final int userId;
+class MemoSaveViewModel {
+  final Ref ref;
 
-  MemoSaveViewmodel(this.userId)
-      : super(MemoSaveDTO(
-      userId: userId,
-      title: '',
-      content: '',
-      createdDate: DateTime.now()));
+  MemoSaveViewModel(this.ref);
 
   Future<void> saveMemo(BuildContext context, MemoSaveDTO memoSaveDTO) async {
     try {
       ResponseDTO responseDTO = await MemoRepository().saveMemo(memoSaveDTO);
       if (responseDTO.status == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("메모가 성공적으로 저장되었습니다.")),
+        SaveMemoRespDTO saveMemoRespDTO = SaveMemoRespDTO.fromJson(responseDTO.response);
+
+        DailyMemoDTO newDailyMemoDTO = DailyMemoDTO(
+          id: saveMemoRespDTO.id,
+          title: saveMemoRespDTO.title,
+          content: saveMemoRespDTO.content,
         );
-        // 성공적으로 저장된 후 추가 로직을 수행하거나 UI를 업데이트합니다.
+
+        final memoListNotifier = ref.read(memoListProvider(memoSaveDTO.createdDate).notifier);
+        memoListNotifier.addMemo(newDailyMemoDTO, memoSaveDTO.createdDate);
+
+        Navigator.of(context).pop(true); // true를 반환하여 메모 목록 페이지에서 새로 고침을 트리거합니다.
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("저장 실패 : ${responseDTO.errorMessage}")),
         );
       }
-    } catch (e) {
-      print("메모 저장 중 오류 발생: $e");
+    } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("저장 중 오류 발생")),
+        SnackBar(content: Text("저장 중 오류가 발생했습니다: $error")),
       );
     }
   }

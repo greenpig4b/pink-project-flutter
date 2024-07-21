@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pinkpig_project_flutter/data/store/session_store.dart';
 import '../../../../../data/dtos/memo/memo_request.dart';
+import '../../../../../data/store/session_store.dart';
 import '../data/memo_provider.dart';
 import 'memo_write_app_bar.dart';
+import '../viewmodel/memo_update_viewmodel.dart';
 
 class MemoEdit extends ConsumerWidget {
   final int memoId;
@@ -41,7 +42,11 @@ class MemoEdit extends ConsumerWidget {
             title: _titleController.text,
             content: _commentController.text,
           );
-          ref.read(memoUpdateViewmodelProvider.notifier).updateMemo(context, memoEditDTO).then((_) {
+          print('Saving memo with ID: ${memoEditDTO.id}, User ID: ${memoEditDTO.userId}');
+          print('Title: ${memoEditDTO.title}');
+          print('Content: ${memoEditDTO.content}');
+
+          ref.read(memoUpdateViewmodelProvider(memoId).notifier).updateMemo(context, memoEditDTO).then((_) {
             Navigator.of(context).pop(true); // 메모 수정 후 목록 새로 고침을 위해 true 반환
           });
         },
@@ -72,7 +77,7 @@ class MemoEdit extends ConsumerWidget {
                 prefixIcon: Icon(Icons.title, color: Color(0xFFFC7C9A)),
               ),
               onChanged: (value) {
-                // 필요한 경우 상태 업데이트
+                ref.read(titleProvider.notifier).state = value;
               },
             ),
             SizedBox(height: 16),
@@ -97,7 +102,7 @@ class MemoEdit extends ConsumerWidget {
               ),
               maxLines: 5,
               onChanged: (value) {
-                // 필요한 경우 상태 업데이트
+                ref.read(contentProvider.notifier).state = value;
               },
             ),
             SizedBox(height: 16),

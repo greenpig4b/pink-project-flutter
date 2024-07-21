@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/memo/components/memo_edit.dart';
 import '../data/memo_provider.dart';
 import '../viewmodel/memo_list_viewmodel.dart';
-import '../../_components/calender_widget.dart';
 
 class MemoList extends ConsumerWidget {
   final MemoListModel? model;
@@ -13,13 +12,7 @@ class MemoList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final memoListState = model ?? ref.watch(memoListProvider(DateFormat('yyyy-MM').format(ref.watch(calendarProvider))));
-    final dailyMemoList = memoListState?.dailyMemoListDTO ?? [];
-
-    Future<void> _refresh() async {
-      final selectedMonth = DateFormat('yyyy-MM').format(ref.watch(calendarProvider));
-      await ref.read(memoListProvider(selectedMonth).notifier).notifyInit(selectedMonth);
-    }
+    final dailyMemoList = model?.dailyMemoListDTO ?? [];
 
     if (dailyMemoList.isEmpty) {
       return Center(
@@ -29,75 +22,82 @@ class MemoList extends ConsumerWidget {
         ),
       );
     } else {
-      return RefreshIndicator(
-        onRefresh: _refresh,
-        child: ListView.builder(
-          itemCount: dailyMemoList.length,
-          itemBuilder: (context, index) {
-            final dailyMemo = dailyMemoList[index];
-            String formattedDate = DateFormat('MM.dd').format(DateTime.parse(dailyMemo.date));
+      return Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: dailyMemoList.length,
+              itemBuilder: (context, index) {
+                final dailyMemo = dailyMemoList[index];
+                String formattedDate =
+                    DateFormat('MM.dd').format(DateTime.parse(dailyMemo.date));
 
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                color: Colors.white,
-                child: Padding(
+                return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        formattedDate,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      ...dailyMemo.dailyMemo.map((memo) {
-                        return GestureDetector(
-                          onTap: () {
-                            ref.read(titleProvider.notifier).state = memo.title;
-                            ref.read(contentProvider.notifier).state = memo.content;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MemoEdit(
-                                  memoId: memo.id,
-                                  title: memo.title,
-                                  content: memo.content,
-                                  memoDate: dailyMemo.date,
+                  child: Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            formattedDate,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          ...(dailyMemo.dailyMemo).map((memo) {
+                            return GestureDetector(
+                              onTap: () {
+                                ref.read(titleProvider.notifier).state =
+                                    memo.title;
+                                ref.read(contentProvider.notifier).state =
+                                    memo.content;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MemoEdit(
+                                      memoId: memo.id,
+                                      title: memo.title,
+                                      content: memo.content,
+                                      memoDate: dailyMemo.date,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      memo.title,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(memo.content),
+                                    SizedBox(height: 4),
+                                  ],
                                 ),
                               ),
                             );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  memo.title,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(memo.content),
-                                SizedBox(height: 4),
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ],
+                          }).toList(),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+          ),
+        ],
       );
     }
   }
