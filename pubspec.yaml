@@ -44,12 +44,14 @@ dependencies:
   dio: ^5.5.0+1
   flutter_secure_storage: ^9.2.2
   flutter_svg: ^1.0.1
-
+  kakao_flutter_sdk: ^1.9.5
+  flutter_naver_login: ^1.8.0
 
   flutter_localizations:
     sdk: flutter
   fl_chart: ^0.68.0
   flutter_launcher_icons: ^0.10.0
+  syncfusion_flutter_charts: ^21.2.4
 
 
 dev_dependencies:
@@ -79,9 +81,7 @@ flutter:
     - assets/images/
     - assets/icons/
   #   - images/a_dot_ham.jpeg
-flutter_icons:
-  android: true
-  image_path: "assets/images/main_non_txt.png"
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -93,14 +93,22 @@ flutter_icons:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: assets/fonts/Schyler-Regular.ttf
-  #       - asset: assets/fonts/Schyler-Italic.ttf
-  #         weight: 500
-  #         style: italic
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: assets/fonts/NanumSquareRoundR.ttf
+          weight: 500
+          style: italic
+    - family: Pretendard2
+      fonts:
+        - asset: assets/fonts/Pretendard-Regular.otf
+          weight: 500
+
+
 
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  android: true
+  image_path: "assets/images/main_non_txt.png"

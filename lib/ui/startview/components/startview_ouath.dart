@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:pinkpig_project_flutter/data/store/session_store.dart';
 import 'package:pinkpig_project_flutter/ui/startview/components/startview_social_button.dart';
 
-class StartviewOuath extends StatelessWidget {
+class StartviewOuath extends ConsumerWidget {
   const StartviewOuath({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         SizedBox(height: 15),
@@ -36,17 +41,48 @@ class StartviewOuath extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             StartviewSocialButton(
-              assetName: 'assets/images/kakao.png', // kakao 로고 경로
-              onPressed: () {
-                // Kakao 로그인 로직
-              },
-            ),
+                assetName: 'assets/images/kakao.png', // kakao 로고 경로
+                onPressed: () async {
+                  try {
+                    OAuthToken token =
+                        await UserApi.instance.loginWithKakaoTalk();
+                    print('카카오톡으로 로그인 성공 ${token.accessToken}');
+                    ref.read(sessionProvider).kakaoLogin(token.accessToken);
+                  } catch (error) {
+                    print('카카오톡으로 로그인 실패 $error');
+                    if (error is PlatformException &&
+                        error.code == 'Error' &&
+                        error.message ==
+                            'KakaoTalk is not installed. If you want KakaoTalk Login, please install KakaoTalk') {
+                      try {
+                        OAuthToken token =
+                            await UserApi.instance.loginWithKakaoAccount();
+                        print('카카오계정으로 로그인 성공 ${token.accessToken}');
+                        ref.read(sessionProvider).kakaoLogin(token.accessToken);
+                      } catch (error) {
+                        print('카카오계정으로 로그인 실패 $error');
+                      }
+                    }
+                  }
+                }),
             SizedBox(width: 20),
             StartviewSocialButton(
               assetName: 'assets/images/naver.png', // naver 로고 경로
-              onPressed: () {
-                // Naver 로그인 로직
-              },
+              onPressed: () async {
+                  try {
+                    // 1. 로그인 (토큰 가져오기)
+                    await FlutterNaverLogin.logIn(); // 네이버 로그인 시도
+                    NaverAccessToken token =
+                        await FlutterNaverLogin.currentAccessToken; // 토큰 가져오기
+
+                    print('네이버계정으로 로그인 성공 ${token.accessToken}');
+                    ref.read(sessionProvider).naverLogin(token.accessToken);
+
+                  } catch (error) {
+                    print('네이버계정으로 로그인 실패 $error');
+                  }
+                }
+
             ),
           ],
         ),
