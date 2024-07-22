@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/ui/main/setting/notice/notice_detail_page.dart';
+import 'package:pinkpig_project_flutter/ui/main/setting/setting_page_view_model.dart';
 
-class NoticePage extends StatelessWidget {
-  const NoticePage({super.key});
+class NoticePage extends ConsumerWidget {
+  NoticePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SettingModel? model = ref.watch(SettingProvider);
+
+    // model이 null인지 체크
+    if (model == null) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
-      body: ListView.builder(
-        itemCount: 5,
+      body:
+      ListView.builder(
+        itemCount: model!.noticeList.noticeList.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
@@ -23,13 +35,13 @@ class NoticePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("업데이트 안내"),
-                      Text("2024-07-21"),
+                    children: [
+                      Text("${model!.noticeList.noticeList[index].title}"),
+                      Text("${model.noticeList.noticeList[index].createdAt}"),
                     ],
                   ),
                 ),
-                const Divider(), // 각 아이템 하단에 선을 추가
+                Divider(), // 각 아이템 하단에 선을 추가
               ],
             ),
           );
@@ -53,7 +65,7 @@ AppBar _buildAppBar(BuildContext context) {
     ),
     centerTitle: true,
     actions: [
-      const Padding(
+      Padding(
         padding: EdgeInsets.only(right: 10.0),
       ),
     ],
