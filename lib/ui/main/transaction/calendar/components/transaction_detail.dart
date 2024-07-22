@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../data/dtos/calendar/calendar.dart';
+
 class TransactionDetail extends StatelessWidget {
+  final TransactionDetails transactionDetails;
 
-  final category;
-  final content;
-  final property;
-  final price;
-  final isIncome; // true : 수입 false : 지출
+  // final category;
+  // final content;
+  // final property;
+  // final price;
+  // final isIncome; // true : 수입 false : 지출
 
-  TransactionDetail({required this.category, required this.content, required this.property, required this.price, required this.isIncome});
+  TransactionDetail({required this.transactionDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -25,44 +28,34 @@ class TransactionDetail extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      category,
-                      style: TextStyle(
-                        color: Colors.grey
-                      ),
+                      transactionDetails.category!,
+                      style: TextStyle(color: Colors.grey),
                     ),
-                    SizedBox(width: 70,),
+                    SizedBox(
+                      width: 70,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            content,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
+                          transactionDetails.description!,
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Text(
-                          property,
-                          style: TextStyle(
-                            color: Colors.grey
-                          ),
+                          transactionDetails.assets!,
+                          style: TextStyle(color: Colors.grey),
                         )
                       ],
                     )
-
                   ],
                 ),
               ],
             ),
           ),
-
           Text(
-            price,
-            style: TextStyle(
-              color: isIncome
-                  ? Colors.blue
-                  : Colors.redAccent
-            ),
+            transactionDetails.amount!,
+            style: TextStyle(color: transactionDetails.transactionType == "EXPENSE" ? Colors.redAccent : Colors.blue),
           ),
         ],
       ),
