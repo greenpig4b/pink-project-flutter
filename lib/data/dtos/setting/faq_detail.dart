@@ -32,12 +32,12 @@ class Faq {
 
   factory Faq.fromJson(Map<String, dynamic> json) {
     return Faq(
-      id: json["id"],
-      title: json["title"],
-      content: json["content"],
-      username: json["username"],
-      classification: json["classification"],
-      createdAt: json["createdAt"],
+      id: json["id"] ?? "",
+      title: json["title"] ?? "",
+      content: json["content"] ?? "",
+      username: json["username"] ?? "",
+      classification: json["classification"] ?? "",
+      createdAt: json["createdAt"] ?? "",
     );
   }
 //

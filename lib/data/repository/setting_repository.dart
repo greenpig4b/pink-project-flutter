@@ -8,6 +8,7 @@ import '../dtos/setting/notice_list.dart';
 
 class SettingRepository{
 
+  // 공지사항 리스트
   Future<ResponseDTO> fetchSettingNoticeList() async {
     final response = await dio.get("/api/admin/notice"
     );
@@ -22,8 +23,39 @@ class SettingRepository{
     return responseDTO;
   }
 
+  // 공지사항 상세보기
   Future<ResponseDTO> fetchNoticeDetail(int id) async {
     final response = await dio.get("/api/admin/notice/${id}"
+    );
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+
+    if(responseDTO.status == 200) {
+      responseDTO.response = NoticeDetail.fromJson(responseDTO.response);
+
+    }
+
+    return responseDTO;
+  }
+
+  // faq 리스트
+  Future<ResponseDTO> fetchSettingFaqList() async {
+    final response = await dio.get("/api/admin/faq"
+    );
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+
+    if(responseDTO.status == 200) {
+      responseDTO.response = NoticeList.fromJson(responseDTO.response);
+
+    }
+
+    return responseDTO;
+  }
+
+  // faq 상세보기
+  Future<ResponseDTO> fetchFaqDetail(int id) async {
+    final response = await dio.get("/api/admin/faq/${id}"
     );
 
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
