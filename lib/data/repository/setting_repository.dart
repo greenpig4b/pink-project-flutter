@@ -22,4 +22,18 @@ class SettingRepository{
     return responseDTO;
   }
 
+  Future<ResponseDTO> fetchNoticeDetail(int id) async {
+    final response = await dio.get("/api/admin/notice/${id}"
+    );
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+
+    if(responseDTO.status == 200) {
+      responseDTO.response = NoticeDetail.fromJson(responseDTO.response);
+
+    }
+
+    return responseDTO;
+  }
+
 }

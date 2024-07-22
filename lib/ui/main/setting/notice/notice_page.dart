@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/ui/main/setting/notice/notice_detail_page.dart';
-import 'package:pinkpig_project_flutter/ui/main/setting/setting_page_view_model.dart';
+import 'package:pinkpig_project_flutter/ui/main/setting/notice/notice_page_view_model.dart';
 
 class NoticePage extends ConsumerWidget {
   NoticePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SettingModel? model = ref.watch(SettingProvider);
+    final NoticeModel? model = ref.watch(NoticeProvider);
 
     // model이 null인지 체크
     if (model == null) {
@@ -26,7 +26,7 @@ class NoticePage extends ConsumerWidget {
           return InkWell(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NoticeDetailPage()));
+                  MaterialPageRoute(builder: (context) => NoticeDetailPage(model.noticeList.noticeList[index].id)));
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, // 왼쪽 정렬
@@ -36,7 +36,7 @@ class NoticePage extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("${model!.noticeList.noticeList[index].title}"),
+                      Text("${model.noticeList.noticeList[index].title}"),
                       Text("${model.noticeList.noticeList[index].createdAt}"),
                     ],
                   ),
