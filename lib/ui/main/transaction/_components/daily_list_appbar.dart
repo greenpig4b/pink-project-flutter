@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../setting/setting_page.dart';
 
+
 class DailyListAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
