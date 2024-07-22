@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NoticeDetailPage extends StatelessWidget {
-  const NoticeDetailPage({super.key});
+import 'notice_detail_page_view_model.dart';
+
+class NoticeDetailPage extends ConsumerWidget {
+
+  final id;
+
+  NoticeDetailPage(this.id);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final NoticeDetailModel? model = ref.watch(NoticeDetailProvider(id));
+
+    // model이 null인지 체크
+    if (model == null) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text("업데이트 안내",style: TextStyle(fontSize: 25)),
+            child: Text("${model.noticeDetail.notice?.title}",style: TextStyle(fontSize: 25)),
           ),
 
           Padding(
@@ -22,7 +37,7 @@ class NoticeDetailPage extends StatelessWidget {
               children: [
               Text("관리자"),
               SizedBox(width: 20),
-              Text("2024-07-21"),
+              Text("${model.noticeDetail.notice?.createdAt}"),
             ],),
           ),
           const Divider(), // 각 아이템 하단에 선을 추가
@@ -30,7 +45,7 @@ class NoticeDetailPage extends StatelessWidget {
           SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text("1.1.0 버전 업데이트 내용: 버그 수정 및 UI 개선"),
+            child: Text("${model.noticeDetail.notice?.content}"),
           )
         ],
       ),
