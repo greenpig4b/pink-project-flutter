@@ -46,7 +46,7 @@ class MemoEdit extends ConsumerWidget {
           print('Title: ${memoEditDTO.title}');
           print('Content: ${memoEditDTO.content}');
 
-          ref.read(memoUpdateViewmodelProvider(memoId).notifier).updateMemo(context, memoEditDTO).then((_) {
+          ref.read(memoUpdateViewmodelProvider(memoId).notifier).updateMemo(context, memoEditDTO, memoDate).then((_) {
             Navigator.of(context).pop(true); // 메모 수정 후 목록 새로 고침을 위해 true 반환
           });
         },
