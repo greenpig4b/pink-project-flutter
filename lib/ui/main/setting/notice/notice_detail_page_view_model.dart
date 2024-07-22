@@ -5,7 +5,7 @@ import 'package:pinkpig_project_flutter/data/dtos/setting/notice_list.dart';
 import 'package:pinkpig_project_flutter/data/repository/setting_repository.dart';
 
 import '../../../../data/dtos/response_dto.dart';
-import '../../../../data/dtos/setting/notice_detail_response.dart';
+import '../../../../data/dtos/setting/notice_detail.dart';
 import '../../../../main.dart';
 
 class NoticeDetailModel {
