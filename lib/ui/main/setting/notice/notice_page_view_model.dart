@@ -25,7 +25,6 @@ class NoticeViewModel extends StateNotifier<NoticeModel?> {
     ResponseDTO responseDTO =
     await SettingRepository().fetchSettingNoticeList();
 
-    // print("주문내역 뷰모델 : ${responseDTO.status}");
     if (responseDTO.status == 200) {
       state = NoticeModel(responseDTO.response);
 

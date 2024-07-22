@@ -26,7 +26,6 @@ class FaqViewModel extends StateNotifier<FaqModel?> {
     ResponseDTO responseDTO =
     await SettingRepository().fetchSettingFaqList();
 
-    // print("주문내역 뷰모델 : ${responseDTO.status}");
     if (responseDTO.status == 200) {
       state = FaqModel(responseDTO.response);
 

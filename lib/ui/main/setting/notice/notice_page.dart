@@ -21,7 +21,7 @@ class NoticePage extends ConsumerWidget {
       appBar: _buildAppBar(context),
       body:
       ListView.builder(
-        itemCount: model!.noticeList.noticeList.length,
+        itemCount: model.noticeList.noticeList.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {

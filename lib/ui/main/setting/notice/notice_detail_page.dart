@@ -6,7 +6,6 @@ import 'notice_detail_page_view_model.dart';
 class NoticeDetailPage extends ConsumerWidget {
 
   final id;
-
   NoticeDetailPage(this.id);
 
   @override

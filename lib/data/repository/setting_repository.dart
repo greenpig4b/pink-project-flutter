@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:pinkpig_project_flutter/data/dtos/calendar/calendar.dart';
 import 'package:pinkpig_project_flutter/data/dtos/response_dto.dart';
+import 'package:pinkpig_project_flutter/data/dtos/setting/faq_detail.dart';
 import 'package:pinkpig_project_flutter/data/dtos/setting/notice_detail.dart';
 
 import '../../_core/constants/http.dart';
+import '../dtos/setting/faq_list.dart';
 import '../dtos/setting/notice_list.dart';
 
 class SettingRepository{
@@ -46,7 +48,7 @@ class SettingRepository{
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
     if(responseDTO.status == 200) {
-      responseDTO.response = NoticeList.fromJson(responseDTO.response);
+      responseDTO.response = FaqList.fromJson(responseDTO.response);
 
     }
 
@@ -61,7 +63,7 @@ class SettingRepository{
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
     if(responseDTO.status == 200) {
-      responseDTO.response = NoticeDetail.fromJson(responseDTO.response);
+      responseDTO.response = FaqDetail.fromJson(responseDTO.response);
 
     }
 

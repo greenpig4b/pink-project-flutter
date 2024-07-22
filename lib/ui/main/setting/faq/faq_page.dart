@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/ui/main/setting/faq/faq_detail_page.dart';
 
-class FaqPage extends StatelessWidget {
-  const FaqPage({super.key});
+import 'faq_page_view_model.dart';
 
+class FaqPage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FaqModel? model = ref.watch(FaqProvider);
+
+    // model이 null인지 체크
+    if (model == null) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: ListView.builder(
-        itemCount: 5,
+        itemCount: model.faqList.faqList.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FaqDetailPage()));
+                  MaterialPageRoute(builder: (context) => FaqDetailPage(model.faqList.faqList[index].id)));
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,8 +33,8 @@ class FaqPage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("회원 탈퇴는 어떻게 하나요?"),
+                    children: [
+                      Text("${model.faqList.faqList[index].title}"),
                     ],
                   ),
                 ),
