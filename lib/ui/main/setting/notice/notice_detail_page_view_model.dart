@@ -4,30 +4,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/data/dtos/setting/notice_list.dart';
 import 'package:pinkpig_project_flutter/data/repository/setting_repository.dart';
 
-import '../../../data/dtos/response_dto.dart';
-import '../../../main.dart';
+import '../../../../data/dtos/response_dto.dart';
+import '../../../../data/dtos/setting/notice_detail.dart';
+import '../../../../main.dart';
 
-class SettingModel {
-  NoticeList noticeList;
+class NoticeDetailModel {
+  NoticeDetail noticeDetail;
 
-  SettingModel(this.noticeList);
+  NoticeDetailModel(this.noticeDetail);
 }
 
 // 창고
-class SettingViewModel extends StateNotifier<SettingModel?> {
+class NoticeDetailViewModel extends StateNotifier<NoticeDetailModel?> {
   final mContext = navigatorKey.currentContext;
   final Ref ref;
 
-  SettingViewModel(super.state, this.ref);
+  NoticeDetailViewModel(super.state, this.ref);
 
-  Future<void> notifyInit() async {
+  Future<void> notifyInit(int id) async {
 
     ResponseDTO responseDTO =
-    await SettingRepository().fetchSettingNoticeList();
+    await SettingRepository().fetchNoticeDetail(id);
 
     // print("주문내역 뷰모델 : ${responseDTO.status}");
     if (responseDTO.status == 200) {
-      state = SettingModel(responseDTO.response);
+      state = NoticeDetailModel(responseDTO.response);
 
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
@@ -37,7 +38,7 @@ class SettingViewModel extends StateNotifier<SettingModel?> {
 }
 
 // 창고 관리자
-final SettingProvider = StateNotifierProvider<
-    SettingViewModel, SettingModel?>((ref) {
-  return SettingViewModel(null, ref)..notifyInit();
+final NoticeDetailProvider = StateNotifierProvider.autoDispose.family<
+    NoticeDetailViewModel, NoticeDetailModel?, int>((ref, id) {
+  return NoticeDetailViewModel(null, ref)..notifyInit(id);
 });

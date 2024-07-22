@@ -33,7 +33,7 @@ class Notice {
 
   factory Notice.fromJson(Map<String, dynamic> json) {
     return Notice(
-      id: int.parse(json["id"]),
+      id: json["id"],
       title: json["title"],
       content: json["content"],
       username: json["username"],

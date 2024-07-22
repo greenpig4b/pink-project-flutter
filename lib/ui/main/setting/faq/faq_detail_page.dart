@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FaqDetailPage extends StatelessWidget {
-  const FaqDetailPage({super.key});
+import 'faq_detail_page_view_model.dart';
+
+class FaqDetailPage extends ConsumerWidget {
+
+  final id;
+  FaqDetailPage(this.id);
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FaqDetailModel? model = ref.watch(FaqDetailProvider(id));
+
+    // model이 null인지 체크
+    if (model == null) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text("가계부 작성 방법",style: TextStyle(fontSize: 25)),
+            child: Text("${model?.faqDetail.faq?.title}",style: TextStyle(fontSize: 25)),
           ),
 
           Padding(
@@ -21,14 +36,14 @@ class FaqDetailPage extends StatelessWidget {
               children: [
                 Text("관리자"),
                 SizedBox(width: 20),
-                Text("2024-01-15"),
+                Text("${model?.faqDetail.faq?.createdAt}"),
               ],),
           ),
           const Divider(), // 각 아이템 하단에 선을 추가
           SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text("가계부 작성은 \"가계부 작성\" 메뉴에서 가능합니다. 자세한 사항은 사용자 가이드를 참고하세요."),
+            child: Text("${model?.faqDetail.faq?.content}"),
           )
         ],
       ),
