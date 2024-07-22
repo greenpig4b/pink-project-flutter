@@ -1,67 +1,42 @@
+// transaction_calendar_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pinkpig_project_flutter/ui/main/transaction/calendar/transaction_calendar_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../../data/store/calendar_store.dart';
 import '../../../components/under_line_widget.dart';
+import '../../result/components/result_app_bar.dart';
 import '../daily/components/transaction_total_account.dart';
+import '../daily/viewmodel/transaction_list_viewmodel.dart';
 import 'components/memo_button.dart';
 import 'components/transaction_detail.dart';
 import 'components/transaction_detail_memo.dart';
 import 'components/transaction_header.dart';
 
-class TransactionCalenderPage extends StatefulWidget {
+class TransactionCalenderPage extends ConsumerWidget {
   @override
-  State<TransactionCalenderPage> createState() =>
-      _TransactionCalenderPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final calendarState = ref.watch(calendarStoreProvider);
+    final selectedDate = ref.watch(calendarProvider);
+    final model = ref.watch(transactionListProvider(selectedDate.toString()));
+    TransactionCalendarModel? cModel =
+        ref.watch(TransactionCalendarProvider(selectedDate.toString()));
 
-class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
-  CalendarFormat _calendarFormat = CalendarFormat.month; // 달력의 기본 형식을 월별로 설정
-  DateTime _focusedDay = DateTime.now(); // 현재 포커스된 날짜를 현재 날짜로 설정
-  DateTime? _selectedDay = DateTime.now(); // 선택된 날짜를 초기화
-  String _selectedYear = DateTime.now().year.toString(); // 초기 연도 설정
-  String _selectedMonth =
-  DateTime.now().month.toString().padLeft(2, '0'); // 초기 월 설정
-  String _selectedDayNum =
-  DateTime.now().day.toString().padLeft(2, '0'); // 초기 일 설정
-  String _selectedWeekday = ""; // 선택된 요일 저장
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedWeekday = getWeekdayString(_selectedDay!.weekday); // 초기 요일 설정
-  }
-
-  // 요일을 한글로 변환하는 함수
-  String getWeekdayString(int weekday) {
-    switch (weekday) {
-      case 1:
-        return '월요일';
-      case 2:
-        return '화요일';
-      case 3:
-        return '수요일';
-      case 4:
-        return '목요일';
-      case 5:
-        return '금요일';
-      case 6:
-        return '토요일';
-      case 7:
-        return '일요일';
-      default:
-        return '';
+    if (cModel == null) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: MemoButton(),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverToBoxAdapter(
-            child: TransactionTotalAccount(),
+            child: TransactionTotalAccount(
+              model: model,
+            ),
           ),
           SliverToBoxAdapter(
             child: UnderLineWidget(),
@@ -69,165 +44,121 @@ class _TransactionCalenderPageState extends State<TransactionCalenderPage> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: _buildTableCalendar(),
+              child: _buildTableCalendar(ref),
             ),
           ),
           SliverToBoxAdapter(
             child: UnderLineWidget(),
           ),
         ],
-        body: ListView(children: [
-          if (_selectedYear.isNotEmpty &&
-              _selectedMonth.isNotEmpty &&
-              _selectedDayNum.isNotEmpty)
+        body: ListView(
+          children: [
             Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 20.0),
               child: TransactionHeader(
-                  selectedDayNum: _selectedDayNum,
-                  selectedYear: _selectedYear,
-                  selectedMonth: _selectedMonth,
-                  selectedWeekday: _selectedWeekday),
+                selectedDayNum: calendarState.selectedDayNum,
+                selectedYear: calendarState.selectedYear,
+                selectedMonth: calendarState.selectedMonth,
+                selectedWeekday: calendarState.selectedWeekday,
+              ),
             ),
-          UnderLineWidget(),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              children: [
-                if (_selectedYear.isNotEmpty &&
-                    _selectedMonth.isNotEmpty &&
-                    _selectedDayNum.isNotEmpty) ...[
-                  TransactionDetailMemo(
-                    title: "메모1",
-                  ),
-                  TransactionDetailMemo(
-                    title: "메모2",
-                  ),
+            UnderLineWidget(),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Column(
+                children: [
+                  TransactionDetailMemo(title: "메모1"),
+                  TransactionDetailMemo(title: "메모2"),
                   UnderLineWidget(),
-                  TransactionDetail(
-                    category: "기타",
-                    content: "옷사기",
-                    property: "카드",
-                    price: "30000원",
-                    isIncome: false,
-                  ),
-                  UnderLineWidget(),
-                  TransactionDetail(
-                    category: "식비",
-                    content: "밥",
-                    property: "현금",
-                    price: "9000원",
-                    isIncome: false,
-                  ),
-                  UnderLineWidget(),
-                  TransactionDetail(
-                    category: "용돈",
-                    content: "용돈",
-                    property: "계좌",
-                    price: "300000원",
-                    isIncome: true,
-                  ),
-                  UnderLineWidget(),
+                  cModel == null || cModel.calendar.dailySummariesList.isEmpty
+                      ? Container(
+                          width: double.infinity,
+                          child: Center(
+                            child: Text(
+                              "해당 날짜와 관련된 데이터가 존재하지 않습니다.",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemCount: cModel.calendar.dailySummariesList.length,
+                          itemBuilder: (context, index) {
+                            final dailySummary =
+                                cModel.calendar.dailySummariesList[index];
+                            if (dailySummary.dailyDetail == null ||
+                                dailySummary.dailyDetail!.transactionDetailsList
+                                    .isEmpty) {
+                              return SizedBox.shrink(); // 데이터가 없는 경우 빈 위젯 반환
+                            }
+                            return Column(
+                              children: dailySummary
+                                  .dailyDetail!.transactionDetailsList
+                                  .map((transactionDetail) => TransactionDetail(
+                                        transactionDetails: transactionDetail,
+                                      ))
+                                  .toList(),
+                            );
+                          },
+                        ),
                 ],
-              ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }
 
-  TableCalendar<dynamic> _buildTableCalendar() {
+  Widget _buildTableCalendar(WidgetRef ref) {
+    final calendarStore = ref.read(calendarStoreProvider.notifier);
+    final calendarState = ref.watch(calendarStoreProvider);
+
     return TableCalendar(
       headerVisible: false,
-      focusedDay: _focusedDay,
+      focusedDay: calendarState.focusedDay,
       firstDay: DateTime(2024),
       lastDay: DateTime(2027),
       locale: 'ko-KR',
       daysOfWeekHeight: 17,
-      calendarFormat: _calendarFormat,
+      calendarFormat: CalendarFormat.month,
       selectedDayPredicate: (day) {
-        return isSameDay(_selectedDay, day); // 선택된 날짜와 같은 날짜 인지 확인
+        return isSameDay(calendarState.selectedDay, day);
       },
       onDaySelected: (selectedDay, focusedDay) {
-        if (!isSameDay(_selectedDay, selectedDay)) {
-          setState(() {
-            _selectedDay = selectedDay; // 선택된 날짜 업데이트
-            _focusedDay = focusedDay; // 포커스된 날짜 업데이트
-            _selectedYear =
-                selectedDay.year.toString(); // 선택된 연도 업데이트
-            _selectedMonth = selectedDay.month
-                .toString()
-                .padLeft(2, '0'); // 선택된 월 업데이트
-            _selectedDayNum = selectedDay.day
-                .toString()
-                .padLeft(2, '0'); // 선택된 일 업데이트
-            _selectedWeekday =
-                getWeekdayString(selectedDay.weekday); // 선택된 요일 업데이트
-          });
+        if (!isSameDay(calendarState.selectedDay, selectedDay)) {
+          calendarStore.updateCalendar(selectedDay);
+          print(selectedDay);
         }
       },
-
-      // 달력 헤더의 스타일 설정
       headerStyle: HeaderStyle(
-        formatButtonVisible: false, // 헤더에 있는 버튼 숨김
+        formatButtonVisible: false,
       ),
-
-      // 요일 한글화
       calendarBuilders: CalendarBuilders(
         dowBuilder: (context, day) {
-          switch (day.weekday) {
-            case 1:
-              return Center(
-                child: Text('월'),
-              );
-            case 2:
-              return Center(
-                child: Text('화'),
-              );
-            case 3:
-              return Center(
-                child: Text('수'),
-              );
-            case 4:
-              return Center(
-                child: Text('목'),
-              );
-            case 5:
-              return Center(
-                child: Text('금'),
-              );
-            case 6:
-              return Center(
-                child: Text('토'),
-              );
-            case 7:
-              return Center(
-                child: Text(
-                  '일',
-                  style: TextStyle(color: Colors.red),
-                ),
-              );
-            default:
-              return SizedBox(); // 예기치 않은 경우, 빈 SizedBox 반환
+          final text = ['월', '화', '수', '목', '금', '토', '일'][day.weekday - 1];
+          if (day.weekday == 7) {
+            return Center(
+                child: Text(text, style: TextStyle(color: Colors.red)));
           }
+          return Center(child: Text(text));
         },
       ),
-
       calendarStyle: CalendarStyle(
         defaultTextStyle: TextStyle(color: Colors.black87),
         weekendTextStyle: TextStyle(color: Colors.redAccent),
         todayDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Color(0xFFFC7C9A)
-              .withOpacity(0.7), // 오늘 날짜 동그라미 색상을 여기서 설정
+          color: Color(0xFFFC7C9A).withOpacity(0.7),
         ),
         selectedDecoration: BoxDecoration(
           shape: BoxShape.circle,
           color: DateTime.now().toString().split(' ')[0] !=
-              _focusedDay.toString().split(' ')[0]
+                  calendarState.focusedDay.toString().split(' ')[0]
               ? Colors.grey.withOpacity(0.7)
-              : Color(0xFFFC7C9A)
-              .withOpacity(0.7), // 선택된 날짜의 동그라미 색상을 여기서 설정
+              : Color(0xFFFC7C9A).withOpacity(0.7),
         ),
       ),
       rowHeight: 45,

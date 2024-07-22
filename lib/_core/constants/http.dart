@@ -5,7 +5,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 String serverAddress = "http://192.168.0.65:8080";
 
-
 final dio = Dio(
   BaseOptions(
     baseUrl: serverAddress, // IPConfig 로 ip 확인하기⁷
