@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../setting/setting_page.dart';
+
 class DailyListAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
@@ -15,10 +17,15 @@ class DailyListAppbar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       centerTitle: true,
       actions: [
-        const Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: Icon(Icons.settings, color: Colors.white),
-        )
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white),
+            onPressed: () {
+              Navigator.push(context,MaterialPageRoute(builder: (context) => SettingPage()));
+            }
+          ),
+        ),
       ],
     );
   }
