@@ -6,11 +6,12 @@ import 'faq/faq_page.dart';
 import 'notice/notice_page.dart';
 
 class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+  SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: Padding(
         padding: const EdgeInsets.only(top: 10),
@@ -26,9 +27,9 @@ class SettingPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   children: [
-                    const FaIcon(FontAwesomeIcons.bullhorn, size: 24.0),
-                    const SizedBox(width: 10),
-                    const Text(
+                    FaIcon(FontAwesomeIcons.bullhorn, size: 24.0),
+                    SizedBox(width: 10),
+                    Text(
                       "공지사항",
                       style: TextStyle(fontSize: 20),
                     ),
@@ -44,12 +45,12 @@ class SettingPage extends StatelessWidget {
               },
               child: Container(
                 height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   children: [
-                    const Icon(Icons.help_outline, size: 24.0),
-                    const SizedBox(width: 10),
-                    const Text(
+                   Icon(Icons.help_outline, size: 24.0),
+                    SizedBox(width: 10),
+                    Text(
                       "자주 묻는 질문",
                       style: TextStyle(fontSize: 20),
                     ),
@@ -70,14 +71,14 @@ AppBar _buildAppBar(BuildContext context) {
     backgroundColor: const Color(0xFFFC7C9A),
     elevation: 0.0,
     leading: IconButton(
-      icon: const Icon(Icons.arrow_back, color: Colors.white),
+      icon: Icon(Icons.arrow_back, color: Colors.white),
       onPressed: () => Navigator.pop(context),
     ),
-    title: const Text("설정",
+    title: Text("설정",
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
     centerTitle: true,
     actions: [
-      const Padding(
+      Padding(
         padding: EdgeInsets.only(right: 10.0),
       ),
     ],

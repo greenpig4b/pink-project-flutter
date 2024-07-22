@@ -1,14 +1,14 @@
-class NoticeResponse{
+class NoticeDetail{
   final String? currentDateTime;
   final Notice? notice;
 
-  NoticeResponse({
+  NoticeDetail({
     this.currentDateTime,
     this.notice
 });
 
-  factory NoticeResponse.fromJson(Map<String, dynamic> json) {
-    return NoticeResponse(
+  factory NoticeDetail.fromJson(Map<String, dynamic> json) {
+    return NoticeDetail(
       currentDateTime: json["currentDateTime"] ?? "",
       notice: json["notice"] != null ? Notice.fromJson(json["notice"]) : null,
     );
