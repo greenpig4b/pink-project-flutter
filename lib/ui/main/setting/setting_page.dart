@@ -73,7 +73,7 @@ AppBar _buildAppBar(BuildContext context) {
       icon: const Icon(Icons.arrow_back, color: Colors.white),
       onPressed: () => Navigator.pop(context),
     ),
-    title: const Text("공지사항",
+    title: const Text("설정",
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
     centerTitle: true,
     actions: [
