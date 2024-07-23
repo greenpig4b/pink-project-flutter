@@ -27,13 +27,14 @@ class TransactionDetail extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      transactionDetails.category!,
-                      style: TextStyle(color: Colors.grey),
+                    Container(
+                      child: Text(
+                        transactionDetails.category!,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      width: 100,
                     ),
-                    SizedBox(
-                      width: 70,
-                    ),
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
