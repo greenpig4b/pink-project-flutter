@@ -1,4 +1,3 @@
-// transaction_calendar_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinkpig_project_flutter/ui/main/transaction/calendar/transaction_calendar_view_model.dart';
@@ -6,7 +5,6 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../data/store/calendar_store.dart';
 import '../../../components/under_line_widget.dart';
-import '../../result/components/result_app_bar.dart';
 import '../../result/viewmodel/calendar_view_model.dart';
 import '../daily/components/transaction_total_account.dart';
 import '../daily/viewmodel/transaction_list_viewmodel.dart';
@@ -22,7 +20,7 @@ class TransactionCalenderPage extends ConsumerWidget {
     final selectedDate = ref.watch(calendarProvider);
     final model = ref.watch(transactionListProvider(selectedDate.toString()));
     TransactionCalendarModel? cModel =
-        ref.watch(TransactionCalendarProvider(selectedDate.toString()));
+    ref.watch(TransactionCalendarProvider(selectedDate.toString()));
 
     if (cModel == null) {
       return Scaffold(
@@ -45,7 +43,7 @@ class TransactionCalenderPage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: _buildTableCalendar(ref),
+              child: _buildTableCalendar(ref, selectedDate),
             ),
           ),
           SliverToBoxAdapter(
@@ -68,42 +66,42 @@ class TransactionCalenderPage extends ConsumerWidget {
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: Column(
                 children: [
-                  TransactionDetailMemo(title: "메모1"),
-                  TransactionDetailMemo(title: "메모2"),
+                  TransactionDetailMemo(title: "메모"),
+                  TransactionDetailMemo(title: "메모"),
                   UnderLineWidget(),
                   cModel == null || cModel.calendar.dailySummariesList.isEmpty
                       ? Container(
-                          width: double.infinity,
-                          child: Center(
-                            child: Text(
-                              "해당 날짜와 관련된 데이터가 존재하지 않습니다.",
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        )
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "해당 날짜와 관련된 데이터가 존재하지 않습니다.",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  )
                       : ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          itemCount: cModel.calendar.dailySummariesList.length,
-                          itemBuilder: (context, index) {
-                            final dailySummary =
-                                cModel.calendar.dailySummariesList[index];
-                            if (dailySummary.dailyDetail == null ||
-                                dailySummary.dailyDetail!.transactionDetailsList
-                                    .isEmpty) {
-                              return SizedBox.shrink(); // 데이터가 없는 경우 빈 위젯 반환
-                            }
-                            return Column(
-                              children: dailySummary
-                                  .dailyDetail!.transactionDetailsList
-                                  .map((transactionDetail) => TransactionDetail(
-                                        transactionDetails: transactionDetail,
-                                      ))
-                                  .toList(),
-                            );
-                          },
-                        ),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: cModel.calendar.dailySummariesList.length,
+                    itemBuilder: (context, index) {
+                      final dailySummary =
+                      cModel.calendar.dailySummariesList[index];
+                      if (dailySummary.dailyDetail == null ||
+                          dailySummary.dailyDetail!.transactionDetailsList
+                              .isEmpty) {
+                        return SizedBox.shrink(); // 데이터가 없는 경우 빈 위젯 반환
+                      }
+                      return Column(
+                        children: dailySummary
+                            .dailyDetail!.transactionDetailsList
+                            .map((transactionDetail) => TransactionDetail(
+                          transactionDetails: transactionDetail,
+                        ))
+                            .toList(),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -113,13 +111,13 @@ class TransactionCalenderPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildTableCalendar(WidgetRef ref) {
+  Widget _buildTableCalendar(WidgetRef ref, DateTime selectedDate) {
     final calendarStore = ref.read(calendarStoreProvider.notifier);
     final calendarState = ref.watch(calendarStoreProvider);
 
     return TableCalendar(
       headerVisible: false,
-      focusedDay: calendarState.focusedDay,
+      focusedDay: selectedDate,
       firstDay: DateTime(2024),
       lastDay: DateTime(2027),
       locale: 'ko-KR',
@@ -157,7 +155,7 @@ class TransactionCalenderPage extends ConsumerWidget {
         selectedDecoration: BoxDecoration(
           shape: BoxShape.circle,
           color: DateTime.now().toString().split(' ')[0] !=
-                  calendarState.focusedDay.toString().split(' ')[0]
+              calendarState.focusedDay.toString().split(' ')[0]
               ? Colors.grey.withOpacity(0.7)
               : Color(0xFFFC7C9A).withOpacity(0.7),
         ),
@@ -166,3 +164,4 @@ class TransactionCalenderPage extends ConsumerWidget {
     );
   }
 }
+

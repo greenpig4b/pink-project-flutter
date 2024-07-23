@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pinkpig_project_flutter/ui/main/transaction/daily/viewmodel/transaction_calender_viewmodel.dart';
 
-final calendarProvider = StateNotifierProvider<CalendarViewmodel, DateTime>((ref) {
-  return CalendarViewmodel();
-});
+import '../../result/viewmodel/calendar_view_model.dart';
 
 class CalendarWidget extends ConsumerWidget {
   @override
@@ -35,3 +32,4 @@ class CalendarWidget extends ConsumerWidget {
     );
   }
 }
+
