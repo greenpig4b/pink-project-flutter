@@ -25,13 +25,13 @@
 
 # 📽️ 시연영상
 
-![3조 시연영상](https://github.com/user-attachments/assets/412634b8-b70e-43a3-8731-176de7178dd6)
+)
 <br>
 
 # 📚 발표자료
 
 [3조 Final Project_PPT.pdf](https://github.com/user-attachments/files/16359421/Purple.and.Pink.Pastel.Simple.Modern.Payment.Mobile.App.Presentation.4.pdf)
-<br>
+<br>![3조 시연영상](https://github.com/user-attachments/assets/412634b8-b70e-43a3-8731-176de7178dd6)
 
 # ⏰ 프로젝트 기간
 
