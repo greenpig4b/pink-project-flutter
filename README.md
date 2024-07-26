@@ -11,6 +11,7 @@
 
 # 📈 프로젝트 목표
 
+
 - `Model을 ResponseEntity 응답`
 - `ResponseEntity ORM`
 - `JSON으로 변환`
@@ -24,7 +25,7 @@
 <br>
 
 # 📽️ 시연영상
-
+!3조 시연영상](https://github.com/user-attachments/assets/deb4666b-e1a9-4909-92cc-98cbda2df398)
 
 <br>
 
