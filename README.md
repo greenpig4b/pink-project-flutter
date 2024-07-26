@@ -126,9 +126,12 @@
   <td align=center>회원가입</td>
 </tr>
 <tr>
-  <td><img src="(![image](https://github.com/user-attachments/assets/9673dc6f-6877-46ee-9c86-71f6c2a69b45)
-"  width="256" height="455"/></td>
-  <td><img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/9fa098c2-8e61-4290-b81a-9bc447542a7d"  width="256" height="455"/></td>
+  <td>
+    <img src="https://github.com/user-attachments/assets/9673dc6f-6877-46ee-9c86-71f6c2a69b45" width="256" height="455"/></td>
+  <td>
+  <td>
+    <img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/9fa098c2-8e61-4290-b81a-9bc447542a7d"  width="256" height="455"/>
+  </td>
 </tr>
 <tr>
   <td align=center>로그인</td>
