@@ -26,12 +26,9 @@
 
 # 📽️ 시연영상
 [3조 시연영상]([https://github.com/user-attachments/assets/deb4666b-e1a9-4909-92cc-98cbda2df398](https://youtu.be/nsWSe0sj8Eo))
-![ppt2](https://github.com/user-attachments/assets/2c6d9273-3be0-4843-8c87-4ecdbf1996a0)
-
 
 <tr>
-  <td>
-     <img width="256" height="455" alt="Screenshot_10" src="(https://github.com/user-attachments/assets/e406f846-184b-4be2-9250-cb9c2838038b)">
+  <td>![ppt1](https://github.com/user-attachments/assets/13f0acdd-a080-4c08-8b4b-403800d8ea87)
   </td>
   <td>
     <img src="(https://github.com/user-attachments/assets/2c6d9273-3be0-4843-8c87-4ecdbf1996a0)" width="256" height="455"/>
