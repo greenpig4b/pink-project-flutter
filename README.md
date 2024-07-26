@@ -114,7 +114,7 @@
 
 # 🔐 ERD
 
-![image](https://github.com/donghunseol/yeogi_copy/blob/master/src/main/resources/static/images/erd.png?raw=true)
+![image](https://github.com/user-attachments/assets/3b130e5c-3dbd-466d-8aa7-f29ab2b31b4f)
 
 <br>
 
