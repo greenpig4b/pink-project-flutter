@@ -46,19 +46,19 @@
 |                                                        김지훈(팀장)                                                        |
 |:---------------------------------------------------------------------------------------------------------------------:|
 | <img src="https://avatars.githubusercontent.com/u/78337301?v=4" alt="profile" width="100" height="100"> | 
-|                                   [@donghunseol](https://github.com/donghunseol)                                    |
+|                                   [@greenpig4b](https://github.com/greenpig4b)                                    |
 
 ### Front-End
 
 |                                                   류재성                                                    |                                                   이서현                                                    |
 |:--------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:| 
-| <img src="https://avatars.githubusercontent.com/u/153602328?v=4" alt="profile" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/153582240?v=4" alt="profile" width="100" height="100"> | 
-|                                    [@vosw1](https://github.com/vosw1)                           |                              [@dongkipark1](https://github.com/dongkipark1)                              |
+| <img src="https://avatars.githubusercontent.com/u/153602328?v=4" alt="profile" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/153695703?v=4" alt="profile" width="100" height="100"> | 
+|                                    [@vosw1](https://github.com/vosw1)                           |                              [@lhyeonnit](https://(https://github.com/lhyeonnit)                              |
 
 |                                                   최윤정                                                    
 |:--------------------------------------------------------------------------------------------------------:| 
 | <img src="https://avatars.githubusercontent.com/u/153582401?v=4" alt="profile" width="100" height="100"> |
-|                                    [@vosw1](https://github.com/vosw1)                                    |
+|                                    [@yunchocopie](https://github.com/yunchocopie)                                    |
 
 ### Back-End
 
