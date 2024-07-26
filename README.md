@@ -57,7 +57,7 @@
 
 |                                                   최윤정                                                    
 |:--------------------------------------------------------------------------------------------------------:| 
-| <img src="https://avatars.githubusercontent.com/u/153582401?v=4" alt="profile" width="100" height="100"> |
+| <img src="https://avatars.githubusercontent.com/u/129649095?v=4" alt="profile" width="100" height="100"> |
 |                                    [@yunchocopie](https://github.com/yunchocopie)                                    |
 
 ### Back-End
