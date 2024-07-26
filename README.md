@@ -25,7 +25,9 @@
 <br>
 
 # 📽️ 시연영상
-!3조 시연영상]([https://github.com/user-attachments/assets/deb4666b-e1a9-4909-92cc-98cbda2df398](https://youtu.be/nsWSe0sj8Eo))
+[3조 시연영상]([https://github.com/user-attachments/assets/deb4666b-e1a9-4909-92cc-98cbda2df398](https://youtu.be/nsWSe0sj8Eo))
+https://kdit-upgrade-303.slack.com/files/U075728SWHG/F07EFTZ96V6/ppt1.gif?origin_team=T075K8BV1NV&origin_channel=C077TCCAKN0
+https://kdit-upgrade-303.slack.com/files/U075728SWHG/F07DT1E9EN7/ppt2.gif?origin_team=T075K8BV1NV&origin_channel=C077TCCAKN0
 <br>
 
 # 📚 발표자료
