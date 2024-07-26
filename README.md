@@ -126,9 +126,8 @@
   <td align=center>회원가입</td>
 </tr>
 <tr>
-  <td>
-    <img src="https://github.com/user-attachments/assets/4ac09aee-b67e-494c-93eb-d8dc75717d5c
-" width="256" height="455"/></td>
+  <td><img width="256" height="455" alt="Screenshot_10" src="https://github.com/user-attachments/assets/8d964647-daea-4d15-9dd3-3712c11c349b">
+</td>
   </td>
   <td>
     <img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/9fa098c2-8e61-4290-b81a-9bc447542a7d"  width="256" height="455"/>
