@@ -123,6 +123,8 @@
 <table style="border: 2px;">
 <tr>
   <td align=center>스플래시 화면</td>
+  ![image](https://github.com/user-attachments/assets/d26d0b13-3411-4d01-919a-943988a5b14b)
+
   <td align=center>회원가입</td>
 </tr>
 <tr>
