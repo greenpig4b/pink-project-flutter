@@ -26,13 +26,15 @@
 
 # 📽️ 시연영상
 [3조 시연영상]([https://github.com/user-attachments/assets/deb4666b-e1a9-4909-92cc-98cbda2df398](https://youtu.be/nsWSe0sj8Eo))
+![ppt2](https://github.com/user-attachments/assets/2c6d9273-3be0-4843-8c87-4ecdbf1996a0)
+
 
 <tr>
   <td>
-     <img width="256" height="455" alt="Screenshot_10" src="https://kdit-upgrade-303.slack.com/files/U075728SWHG/F07EFTZ96V6/ppt1.gif?origin_team=T075K8BV1NV&origin_channel=C077TCCAKN0">
+     <img width="256" height="455" alt="Screenshot_10" src="(https://github.com/user-attachments/assets/e406f846-184b-4be2-9250-cb9c2838038b)">
   </td>
   <td>
-    <img src="https://kdit-upgrade-303.slack.com/files/U075728SWHG/F07DT1E9EN7/ppt2.gif?origin_team=T075K8BV1NV&origin_channel=C077TCCAKN0" width="256" height="455"/>
+    <img src="(https://github.com/user-attachments/assets/2c6d9273-3be0-4843-8c87-4ecdbf1996a0)" width="256" height="455"/>
   </td>
 </tr>
 
