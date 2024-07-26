@@ -24,17 +24,36 @@
 
 <br>
 
-# 📽️ 시연영상
-[3조 시연영상]([https://github.com/user-attachments/assets/deb4666b-e1a9-4909-92cc-98cbda2df398](https://youtu.be/nsWSe0sj8Eo))
+# 📽️ 시나리오 GIF
 
+<table style="border: 2px;">
+<tr>
+  <td align=center>스플래시 화면</td>
+  <td align=center>로그인</td>
+  <td align=center>통계</td>
+</tr>
 <tr>
   <td>
-    <img src="(https://github.com/user-attachments/assets/13f0acdd-a080-4c08-8b4b-403800d8ea87)"  width="256" height="455"/>
+     <img width="256" height="455" alt="Screenshot_10" src="https://github.com/user-attachments/assets/8d964647-daea-4d15-9dd3-3712c11c349b">
   </td>
   <td>
-    <img src="(https://github.com/user-attachments/assets/2c6d9273-3be0-4843-8c87-4ecdbf1996a0)" width="256" height="455"/>
+    <img src="https://github.com/user-attachments/assets/b0e462e0-1be5-42df-b42c-ad5ca4062ea4"  width="256" height="455"/>
+  </td>
+  <td>
+   <img src="https://github.com/user-attachments/assets/00129e18-81b1-4451-b3ec-eab428691713"  width="256" height="455"/>
   </td>
 </tr>
+<tr>
+  <td align=center>결산</td>
+  <td align=center>일일기록</td>
+  <td align=center>캘린더</td>
+</tr>
+<tr>
+  <td><img src="https://github.com/user-attachments/assets/8269c09c-0a25-4d30-957f-20dcded299c2"  width="256" height="455"/></td>
+  <td><img src="https://github.com/user-attachments/assets/dc30c4b1-4237-4b7c-8893-ebfd2e4a0e57"  width="256" height="455"/></td>
+  <td><img src="https://github.com/user-attachments/assets/61770bf4-6fa7-4ee8-8c00-66b683521bf1"  width="256" height="455"/></td>
+</tr>
+</table>
 
 <br>
 
@@ -128,42 +147,3 @@
 
 <br>
 
-# 🎞️ 시나리오 GIF
-
-<table style="border: 2px;">
-<tr>
-  <td align=center>스플래시 화면</td>
-  <td align=center>회원가입</td>
-</tr>
-<tr>
-  <td>
-     <img width="256" height="455" alt="Screenshot_10" src="https://github.com/user-attachments/assets/8d964647-daea-4d15-9dd3-3712c11c349b">
-  </td>
-  <td>
-    <img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/9fa098c2-8e61-4290-b81a-9bc447542a7d"  width="256" height="455"/>
-  </td>
-</tr>
-<tr>
-  <td align=center>일일기록</td>
-  <td align=center>캘린더</td>
-</tr>
-<tr>
-  <td><img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/baf287d6-59f9-437e-be45-d51fd2e0c1c2"  width="256" height="455"/></td>
-  <td><img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/e51caa27-5f99-4811-bd60-a091b59e89f0"  width="256" height="455"/></td>
-</tr>
-<tr>
-  <td align=center>메모</td>
-  <td align=center>통계</td>
-</tr>
-<tr>
-  <td><img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/929550b6-2a5a-45f1-b535-c24cea2f1e75"  width="256" height="455"/></td>
-  <td><img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/34328614-db6a-4cf9-853a-5429f1742b55"  width="256" height="455"/></td>
-</tr>
-<tr>
-  <td align=center>결산</td>
-</tr>
-<tr>
-  <td><img src="https://github.com/donghunseol/yeogi_copy/assets/153582315/f74b1e79-a04e-44ac-87c6-b0b017873aa1"  width="256" height="455"/></td>
-</tr>
-
-</table>
